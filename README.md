@@ -1,70 +1,47 @@
-# Getting Started with Create React App
+# Overview
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+I wanted a front-end application that was separate from the Django
+backend API that sources GraphQL. The front-end guys on the team
+use React.js, so I figured I would cobble something together to
+pull some data and do a Mutation.
 
-## Available Scripts
+So this project is the front-end to the snippets_graphql backend.
 
-In the project directory, you can run:
+# Setup
 
-### `yarn start`
+To create the React project:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+`npx create-react-app snippets-front-end`
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+To start the webserver on port 3000
 
-### `yarn test`
+`npm start`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Apollo Client
 
-### `yarn build`
+## Loading the client
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+https://www.apollographql.com/docs/react/get-started/
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Load these two packages:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`npm install @apollo/client graphql`
 
-### `yarn eject`
+FireFox said to load all the things, and I did, but I don't think I've used it yet
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+https://addons.mozilla.org/en-US/firefox/addon/apollo-developer-tools/
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Using the client
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+I ended up putting this into a file called constants.js so that I could have one connection for multiple *pages*. To have multiple pages, I needed to add routes. See the Routes section below.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+# Routes
 
-## Learn More
+I got the my initial query to work and spit out data, but my real 
+goal was to get a form wired up to the backend via GraphQL. So I
+wanted to have multiple routes for different purposes that will call
+the Django backend.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+https://www.howtographql.com/react-apollo/3-mutations-creating-links/
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+`npm install react-router-dom`

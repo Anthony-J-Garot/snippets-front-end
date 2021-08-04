@@ -25,7 +25,7 @@ const Main = () => {
 		<Switch> {/* The Switch decides which component to show based on the current URL.*/}
 			<Route exact path='/' component={Home}></Route>
 			<Route exact path='/snippet' component={AllSnippets}></Route>
-			<Route exact path='/create_snippet' component={CreateSnippet}></Route>
+			<Route exact path='/snippet/create' component={CreateSnippet}></Route>
 
 			{/* This will capture an update URL, e.g. /snippets/1 */}
 			<Route path={`/snippet/:snippetId`}>

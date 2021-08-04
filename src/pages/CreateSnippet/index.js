@@ -40,7 +40,7 @@ const CreateSnippet = () => {
 
 	return (
 		<div>
-			<p>AllSnippets Breadcrumb</p>
+			<p>Create Snippet Breadcrumb</p>
 			<form onSubmit={(e) => {
 				e.preventDefault();
 				createSnippet();

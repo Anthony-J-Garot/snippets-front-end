@@ -1,9 +1,8 @@
 import {
-	ApolloProvider,
 	gql,
 	useQuery
 } from "@apollo/client";
-
+import './index.css';
 import * as Constants from '../../constants.js';
 
 /*
@@ -13,15 +12,13 @@ const AllSnippets = () => {
 	return (
 		<div>
 			<p>AllSnippets Breadcrumb</p>
-			<ApolloProvider client={Constants.client}>
-				<AllSnippetsQuery />
-			</ApolloProvider>
+			<AllSnippetsQuery />
 		</div>
 	);
 }
 
 // Defines the GraphQL client query to see all the things
-const ALL_SNIPPETS = gql`
+const ALL_SNIPPETS_QUERY = gql`
 query qryAllSnippets {
   allSnippets {
     id
@@ -41,7 +38,7 @@ query qryAllSnippets {
  */
 Constants.client
 	.query({
-		query: ALL_SNIPPETS
+		query: ALL_SNIPPETS_QUERY
 	})
 	.then(result => console.log(result));
 
@@ -51,13 +48,13 @@ Constants.client
  */
 function AllSnippetsQuery() {
 
-	const {loading, error, data} = useQuery(ALL_SNIPPETS);
+	const {loading, error, data} = useQuery(ALL_SNIPPETS_QUERY);
 
 	if (loading) return <p>Loading...</p>;
 	if (error) return <p>Error :(</p>;
 
 	return data.allSnippets.map(({id, title, body}) => (
-		<div key={title} className="snippet">
+		<div key={id} className="snippet">
 			<p>
 				{id} - {title}: {body}
 			</p>

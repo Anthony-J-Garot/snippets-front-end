@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import {BrowserRouter} from 'react-router-dom';
+import {ApolloProvider} from "@apollo/client";
+import * as Constants from './constants.js';
 
 //import reportWebVitals from './reportWebVitals';
 
@@ -10,7 +12,9 @@ import {BrowserRouter} from 'react-router-dom';
 // Wrap React App with an ApolloProvider.
 ReactDOM.render(
 	<BrowserRouter>
-		<App />
+		<ApolloProvider client={Constants.client}>
+			<App />
+		</ApolloProvider>
 	</BrowserRouter>,
 	document.getElementById('root')
 );

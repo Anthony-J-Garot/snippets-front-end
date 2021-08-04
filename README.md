@@ -1,47 +1,68 @@
 # Overview
 
-I wanted a front-end application that was separate from the Django
-backend API that sources GraphQL. The front-end guys on the team
-use React.js, so I figured I would cobble something together to
-pull some data and do a Mutation.
+This is a front-end application separate from the Django backend 
+API that sources GraphQL. The front-end guys on my team tend
+towards React.js, so I cobbled this App to be a proof of concept
+that an isolated front-end can do queries and mutations to the
+[snippets_graphql](https://github.com/Anthony-J-Garot/snippets_graphql) 
+backend that I wrote.
 
-So this project is the front-end to the snippets_graphql backend.
-
-# Setup
-
-To create the React project:
+This React.js App started as plain vanilla, i.e.
 
 `npx create-react-app snippets-front-end`
 
-To start the webserver on port 3000
+then I continued to add to it until it could do queries
+and mutations. I also added routing to allow for easy
+access to the features.
 
-`npm start`
+# Getting started
 
-# Apollo Client
-
-## Loading the client
-
-https://www.apollographql.com/docs/react/get-started/
-
-Load these two packages:
+After npm install, I loaded these packages.
 
 `npm install @apollo/client graphql`
+`npm install react-router-dom`
 
-FireFox said to load all the things, and I did, but I don't think I've used it yet
+Looks like these lines made it into package.json, so these
+should be loaded for you automatically. I mention it specifically
+because these are dependencies necessary to do GraphQL and
+routes.
 
-https://addons.mozilla.org/en-US/firefox/addon/apollo-developer-tools/
+`./runserver.sh` will get the server running on port 3000. You
+can change the port inside this file if you wish.
 
-## Using the client
+# Useful Links
 
-I ended up putting this into a file called constants.js so that I could have one connection for multiple *pages*. To have multiple pages, I needed to add routes. See the Routes section below.
-
-# Routes
-
-I got the my initial query to work and spit out data, but my real 
-goal was to get a form wired up to the backend via GraphQL. So I
-wanted to have multiple routes for different purposes that will call
-the Django backend.
-
+https://www.apollographql.com/docs/react/get-started/
+https://www.apollographql.com/docs/react/data/mutations/
 https://www.howtographql.com/react-apollo/3-mutations-creating-links/
 
-`npm install react-router-dom`
+# High Level Look at the App
+
+## Started With a Query
+
+I began by writing a query to pull all rows from the sqlite3
+db used by the backend. A query is the simplest form of GraphQL. 
+See AllSnippets/index.js for specifics.
+
+I put the Apollo client connection into a file called 
+constants.js so that I could have one connection for multiple 
+*pages*. To have multiple pages, I needed to add routes. See the 
+Routes section below.
+
+## Create Mutation
+
+This was the second proof of concept, which was a little more
+complex because of the creation of a form. I cobbled this 
+together from various examples on the Internet to my specific
+"snippets" design.
+
+## Routes
+
+After the query spit out data, I moved on to a mutation. However,
+I wanted to keep the All Snippets query. So I created multiple 
+routes for different purposes that call the Django backend.
+
+## Just a bit of formatting
+
+I added just enough CSS to make it not totally ugly. CSS is in
+separate files per [Stack Overflow](https://stackoverflow.com/questions/60464799/why-to-use-separate-css-files-for-components-in-react-js).

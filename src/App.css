@@ -3,7 +3,7 @@
 }
 
 .App-logo {
-    height: 30vmin;
+    height: 26vmin;
     pointer-events: none;
 }
 
@@ -15,12 +15,8 @@
 
 .App-header {
     background-color: #282c34;
-    min-height: 50vh;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
+    font-size: x-large;
     color: white;
 }
 
@@ -37,6 +33,30 @@
     }
 }
 
-div.snippet {
-    text-align: left;
+div.row {
+    display: flex;
+}
+
+div.column {
+}
+
+div.left {
+    flex: 20%;
+}
+
+div.right {
+    flex: 80%;
+    background-color: white;
+    padding-left: 10px;
+}
+
+div.navbar {
+    background-color: #3488bc;
+    display: flow-root;
+    height: 400px;
+}
+
+div.navbar a {
+    color: white;
+    font-size: large;
 }

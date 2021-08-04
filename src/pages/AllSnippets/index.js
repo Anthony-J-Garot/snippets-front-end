@@ -2,6 +2,9 @@ import {
 	gql,
 	useQuery
 } from "@apollo/client";
+import {
+	Link
+} from 'react-router-dom';
 import './index.css';
 import * as Constants from '../../constants.js';
 
@@ -17,13 +20,14 @@ const AllSnippets = () => {
 	);
 }
 
-// Defines the GraphQL client query to see all the things
+// Defines the GraphQL client query to see all the things.
 const ALL_SNIPPETS_QUERY = gql`
 query qryAllSnippets {
   allSnippets {
     id
     title
     body
+    bodyPreview
     created
     private
     owner
@@ -53,10 +57,10 @@ function AllSnippetsQuery() {
 	if (loading) return <p>Loading...</p>;
 	if (error) return <p>Error :(</p>;
 
-	return data.allSnippets.map(({id, title, body}) => (
+	return data.allSnippets.map(({id, title, bodyPreview}) => (
 		<div key={id} className="snippet">
 			<p>
-				{id} - {title}: {body}
+				<Link to={`/snippet/${id}`}>{id}</Link> - {title}: {bodyPreview}
 			</p>
 		</div>
 	));

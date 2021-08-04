@@ -52,18 +52,32 @@ Constants.client
  */
 function AllSnippetsQuery() {
 
-	const {loading, error, data} = useQuery(ALL_SNIPPETS_QUERY);
+	const {loading, error, data, refetch} = useQuery(ALL_SNIPPETS_QUERY);
 
 	if (loading) return <p>Loading...</p>;
-	if (error) return <p>Error :(</p>;
+	if (error) return <p>Error! ${error}</p>;
 
-	return data.allSnippets.map(({id, title, bodyPreview}) => (
+	const handleClick = () => {
+		// manually refetch
+		console.log("refetch button clicked");
+		refetch();
+	}
+
+	// This creates all the snippets as an object
+	let allTheThings = data.allSnippets.map(({id, title, bodyPreview}) => (
 		<div key={id} className="snippet">
 			<p>
 				<Link to={`/snippet/${id}`}>{id}</Link> - {title}: {bodyPreview}
 			</p>
 		</div>
 	));
+
+	return (
+		<div>
+			{allTheThings}
+			<button onClick={handleClick}>Refetch!</button>
+		</div>
+	);
 }
 
 export default AllSnippets;

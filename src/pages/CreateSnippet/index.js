@@ -4,6 +4,7 @@ import {
 	gql,
 	useMutation,
 } from "@apollo/client";
+import ALL_SNIPPETS_QUERY from '../AllSnippets/index.js'
 
 /*
  * Define this page component
@@ -26,7 +27,7 @@ const CreateSnippet = () => {
 				body: formState.body,
 				private: formState.private,
 			}
-		}
+		},
 	});
 
 	if (loading) return <p>Loading...</p>;

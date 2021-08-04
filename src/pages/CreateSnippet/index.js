@@ -28,10 +28,11 @@ const CreateSnippet = () => {
 				private: formState.private,
 			}
 		},
+		refetchQueries: [ALL_SNIPPETS_QUERY],	// This is wrapped in gql tab
 	});
 
 	if (loading) return <p>Loading...</p>;
-	if (error) return <p>Error :(</p>;
+	if (error) return <p>Error! ${error}</p>;
 
 	// After the mutation occurs, let's take a peek
 	if (data) {

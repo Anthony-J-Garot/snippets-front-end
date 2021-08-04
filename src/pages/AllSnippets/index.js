@@ -52,7 +52,12 @@ Constants.client
  */
 function AllSnippetsQuery() {
 
-	const {loading, error, data, refetch} = useQuery(ALL_SNIPPETS_QUERY);
+	const {loading, error, data, refetch} = useQuery(ALL_SNIPPETS_QUERY, {
+		// Necessary for refetchQueries to work after creating a new entry.
+		// I chose this because there may be changes to the DB from other places
+		// than this front-end App.
+		fetchPolicy: "cache-and-network"
+	});
 
 	if (loading) return <p>Loading...</p>;
 	if (error) return <p>Error! ${error}</p>;

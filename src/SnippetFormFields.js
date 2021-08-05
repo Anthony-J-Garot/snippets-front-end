@@ -25,11 +25,11 @@ const SnippetFormFields = (formState, setFormState) => {
 			<div>
 				<span>Private: </span>
 				<input className="mb2"
-					   value={formState.private}
+					   checked={formState.private}
 					   onChange={(e) =>
 						   setFormState({
 							   ...formState,
-							   private: e.target.value
+							   private: e.target.checked
 						   })
 					   }
 					   type="checkbox"

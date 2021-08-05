@@ -6,7 +6,7 @@ import {
 	Link
 } from 'react-router-dom';
 import './index.css';
-import * as Constants from '../../constants.js';
+//import * as Constants from '../../constants.js';
 
 /*
  * Define this page component
@@ -38,25 +38,32 @@ query qryAllSnippets {
 `
 
 /*
- * Defines the client to pull the GraphQL query results
+ * Sets up the Apollo Client to pull the GraphQL query results.
+ * This is the REST way. It's not needed when using useQuery.
  */
-Constants.client
-	.query({
-		query: ALL_SNIPPETS_QUERY
-	})
-	.then(result => console.log(result));
+// Constants.client
+// 	.query({
+// 		query: ALL_SNIPPETS_QUERY
+// 	})
+// 	.then(result => {
+// 		console.log("query result (ALL_SNIPPETS_QUERY):", result);
+// 	});
 
 /*
  * Defines a component that executes the GraphQL query with
  * the useQuery hook and returns the data in a formatted way.
  */
-function AllSnippetsQuery() {
+const AllSnippetsQuery = () => {
 
 	const {loading, error, data, refetch} = useQuery(ALL_SNIPPETS_QUERY, {
 		// Necessary for refetchQueries to work after creating a new entry.
 		// I chose this because there may be changes to the DB from other places
 		// than this front-end App.
-		fetchPolicy: "cache-and-network"
+		fetchPolicy: "cache-and-network",
+		onCompleted: () => {
+			console.log("onCompleted (ALL_SNIPPETS_QUERY) fired");
+			console.log("data is", data);
+		}
 	});
 
 	if (loading) return <p>Loading...</p>;

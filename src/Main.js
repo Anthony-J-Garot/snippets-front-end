@@ -2,35 +2,23 @@ import React from 'react';
 import {
 	Switch,
 	Route,
-	useRouteMatch,
 } from 'react-router-dom';
 // Pages
 import Home from './pages/Home';
 import AllSnippets from './pages/AllSnippets';
 import CreateSnippet from './pages/CreateSnippet';
-
-const UpdateSnippet = () => {
-	let match = useRouteMatch();
-	let snippetId = match.params['snippetId'];
-	//console.log(snippetId);
-
-	return (
-		<p>YYZ Placeholder {snippetId}</p>
-	)
-}
+import UpdateSnippet from './pages/UpdateSnippet';
 
 const Main = () => {
 
 	return (
 		<Switch> {/* The Switch decides which component to show based on the current URL.*/}
-			<Route exact path='/' component={Home}></Route>
-			<Route exact path='/snippet' component={AllSnippets}></Route>
-			<Route exact path='/snippet/create' component={CreateSnippet}></Route>
+			<Route exact path='/' component={Home} />
+			<Route exact path='/snippet' component={AllSnippets} />
+			<Route exact path='/snippet/create' component={CreateSnippet} />
 
 			{/* This will capture an update URL, e.g. /snippets/1 */}
-			<Route path={`/snippet/:snippetId`}>
-				<UpdateSnippet />
-			</Route>
+			<Route path='/snippet/:snippetId' component={UpdateSnippet} />
 		</Switch>
 	);
 }

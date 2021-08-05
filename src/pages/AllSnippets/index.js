@@ -49,14 +49,34 @@ query qryAllSnippets {
 // 		console.log("query result (ALL_SNIPPETS_QUERY):", result);
 // 	});
 
-const checkMark = (isPrivate) => {
+const checkMarkIcon = (isPrivate) => {
 	let check = process.env.PUBLIC_URL + '/check-mark-8-64.png';
-	console.log(check);
+	//console.log(check);
 	if (isPrivate) {
 		return (
-			<img src={check} width={24} />
+			<img src={check} width={24} alt="Is Private" />
 		);
 	}
+	return ("");
+}
+
+const deleteIcon = (id) => {
+	let icon = process.env.PUBLIC_URL + '/delete.svg';
+	return (
+		<img src={icon} width={24} alt="Delete item" />
+	);
+}
+
+const editIcon = (id) => {
+	let icon = process.env.PUBLIC_URL + '/pencil.svg';
+	return (
+		<img src={icon} width={24} alt="Edit item" />
+	);
+}
+
+// Actually perform delete
+const deleteSnippet = (id) => {
+	console.log("About to delete ", id);
 }
 
 /*
@@ -85,11 +105,31 @@ const AllSnippetsQuery = () => {
 		refetch();
 	}
 
+	let Headers = () => (
+		<div className="row">
+			<div className="col1 header">
+				Act
+			</div>
+			<div className="col2 header">
+				Title
+			</div>
+			<div className="col3 header">
+				Body Preview
+			</div>
+			<div className="col4 header">
+				Private
+			</div>
+		</div>
+	)
+
+	// 			<Link to={`/snippet/delete/${id}`}>{deleteIcon(id)}</Link>
 	// This creates all the snippets as an object
 	let allTheThings = data.allSnippets.map(({id, title, bodyPreview, isPrivate}) => (
 		<div key={id} className="row">
 			<div className="col1">
-				<Link to={`/snippet/${id}`}>{id}</Link>
+				<Link to={`/snippet/${id}`}>{editIcon(id)}</Link>
+				&nbsp;&nbsp;
+				<Link to="#" onClick={() => deleteSnippet(id)}>{deleteIcon(id)}</Link>
 			</div>
 			<div className="col2">
 				{title}
@@ -98,7 +138,7 @@ const AllSnippetsQuery = () => {
 				{bodyPreview}
 			</div>
 			<div className="col4">
-				{checkMark(isPrivate)}
+				{checkMarkIcon(isPrivate)}
 			</div>
 		</div>
 	));
@@ -106,6 +146,7 @@ const AllSnippetsQuery = () => {
 	return (
 		<div>
 			<div id="allTheThings">
+				<Headers />
 				{allTheThings}
 			</div>
 			<button onClick={handleClick}>Refetch!</button>

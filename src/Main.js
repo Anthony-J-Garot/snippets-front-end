@@ -17,7 +17,7 @@ const Main = () => {
 			<Route exact path='/snippet' component={AllSnippets} />
 			<Route exact path='/snippet/create' component={CreateSnippet} />
 
-			{/* This will capture an update URL, e.g. /snippets/1 */}
+			{/* The order of these two is important */}
 			<Route path='/snippet/:snippetId' component={UpdateSnippet} />
 		</Switch>
 	);

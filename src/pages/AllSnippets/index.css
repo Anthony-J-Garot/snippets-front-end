@@ -11,13 +11,19 @@ div#allTheThings div.row:last-child {
     border-bottom: 0;
 }
 
-div#allTheThings div.col1 {
-    width: 5%;
+div#allTheThings div.header {
+    font-weight: bold;
     padding: 3px;
 }
 
+div#allTheThings div.col1 {
+    width: 6%;
+    padding: 3px;
+    text-align: center;
+}
+
 div#allTheThings div.col2 {
-    width: 20%;
+    width: 19%;
     padding: 3px;
 }
 
@@ -29,4 +35,5 @@ div#allTheThings div.col3 {
 div#allTheThings div.col4 {
     width: 5%;
     padding: 3px;
+    text-align: center;
 }

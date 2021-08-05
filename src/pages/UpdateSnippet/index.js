@@ -7,6 +7,7 @@ import {
 } from "@apollo/client";
 import {useRouteMatch} from "react-router-dom";
 import ALL_SNIPPETS_QUERY from '../AllSnippets/index.js'
+import SnippetFormFields from '../../SnippetFormFields.js'
 
 /*
  * Define this page component.
@@ -73,43 +74,7 @@ const UpdateSnippet = () => {
 				e.preventDefault();
 				updateSnippet();
 			}}>
-				<div className="flex flex-column mt3">
-					<input className="mb2"
-						   value={formState.title}
-						   onChange={(e) =>
-							   setFormState({
-								   ...formState,
-								   title: e.target.value
-							   })
-						   }
-						   type="text"
-						   placeholder="A title for the snippet"
-					/>
-					<textarea value={formState.body}
-							  onChange={(e) =>
-								  setFormState({
-									  ...formState,
-									  body: e.target.value
-								  })
-							  }
-							  rows={8}
-							  placeholder="The body of the snippet"
-					/>
-					<div>
-						<span>Private: </span>
-						<input className="mb2"
-							   value={formState.private}
-							   onChange={(e) =>
-								   setFormState({
-									   ...formState,
-									   private: e.target.value
-								   })
-							   }
-							   type="checkbox"
-							   placeholder="The private of the snippet"
-						/>
-					</div>
-				</div>
+				{SnippetFormFields(formState, setFormState)}
 				<br />
 				<button type="submit">Update Snippet</button>
 			</form>

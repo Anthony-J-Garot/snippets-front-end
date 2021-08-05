@@ -29,7 +29,7 @@ query qryAllSnippets {
     body
     bodyPreview
     created
-    private
+    isPrivate: private
     owner
     __typename
   }
@@ -48,6 +48,16 @@ query qryAllSnippets {
 // 	.then(result => {
 // 		console.log("query result (ALL_SNIPPETS_QUERY):", result);
 // 	});
+
+const checkMark = (isPrivate) => {
+	let check = process.env.PUBLIC_URL + '/check-mark-8-64.png';
+	console.log(check);
+	if (isPrivate) {
+		return (
+			<img src={check} width={24} />
+		);
+	}
+}
 
 /*
  * Defines a component that executes the GraphQL query with
@@ -76,8 +86,7 @@ const AllSnippetsQuery = () => {
 	}
 
 	// This creates all the snippets as an object
-	// let allTheThings = data.allSnippets.map(({id, title, bodyPreview}) => (
-	let allTheThings = data.allSnippets.map(({id, title, bodyPreview}) => (
+	let allTheThings = data.allSnippets.map(({id, title, bodyPreview, isPrivate}) => (
 		<div key={id} className="row">
 			<div className="col1">
 				<Link to={`/snippet/${id}`}>{id}</Link>
@@ -87,6 +96,9 @@ const AllSnippetsQuery = () => {
 			</div>
 			<div className="col3">
 				{bodyPreview}
+			</div>
+			<div className="col4">
+				{checkMark(isPrivate)}
 			</div>
 		</div>
 	));

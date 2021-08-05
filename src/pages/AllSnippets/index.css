@@ -22,6 +22,11 @@ div#allTheThings div.col2 {
 }
 
 div#allTheThings div.col3 {
-    width: 75%;
+    width: 70%;
+    padding: 3px;
+}
+
+div#allTheThings div.col4 {
+    width: 5%;
     padding: 3px;
 }

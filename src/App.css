@@ -33,30 +33,27 @@
     }
 }
 
-div.row {
+div.App div.row {
     display: flex;
 }
 
-div.column {
-}
-
-div.left {
+div.App div.left {
     flex: 20%;
 }
 
-div.right {
+div.App div.right {
     flex: 80%;
     background-color: white;
     padding-left: 10px;
 }
 
-div.navbar {
+div.App div.navbar {
     background-color: #3488bc;
     display: flow-root;
     height: 400px;
 }
 
-div.navbar a {
+div.App div.navbar a {
     color: white;
     font-size: large;
 }

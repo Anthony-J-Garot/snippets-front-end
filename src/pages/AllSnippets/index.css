@@ -1,4 +1,27 @@
-div.snippet {
+div#allTheThings div.row {
+    display: flex;
     text-align: left;
+    background-color: #CFFFFF;
+    border-bottom: 1px solid #009999;
+}
+div#allTheThings div.row:last-child {
+    display: flex;
+    text-align: left;
+    background-color: #CFFFFF;
+    border-bottom: 0;
 }
 
+div#allTheThings div.col1 {
+    width: 5%;
+    padding: 3px;
+}
+
+div#allTheThings div.col2 {
+    width: 20%;
+    padding: 3px;
+}
+
+div#allTheThings div.col3 {
+    width: 75%;
+    padding: 3px;
+}

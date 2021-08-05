@@ -76,17 +76,26 @@ const AllSnippetsQuery = () => {
 	}
 
 	// This creates all the snippets as an object
+	// let allTheThings = data.allSnippets.map(({id, title, bodyPreview}) => (
 	let allTheThings = data.allSnippets.map(({id, title, bodyPreview}) => (
-		<div key={id} className="snippet">
-			<p>
-				<Link to={`/snippet/${id}`}>{id}</Link> - {title}: {bodyPreview}
-			</p>
+		<div key={id} className="row">
+			<div className="col1">
+				<Link to={`/snippet/${id}`}>{id}</Link>
+			</div>
+			<div className="col2">
+				{title}
+			</div>
+			<div className="col3">
+				{bodyPreview}
+			</div>
 		</div>
 	));
 
 	return (
 		<div>
-			{allTheThings}
+			<div id="allTheThings">
+				{allTheThings}
+			</div>
 			<button onClick={handleClick}>Refetch!</button>
 		</div>
 	);

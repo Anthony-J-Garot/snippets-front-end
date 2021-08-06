@@ -5,7 +5,7 @@ import {
 	useMutation,
 	useQuery,
 } from "@apollo/client";
-import {useRouteMatch} from "react-router-dom";
+import {useRouteMatch, Redirect, useHistory} from "react-router-dom";
 import ALL_SNIPPETS_QUERY from '../AllSnippets/index.js'
 import SnippetFormFields from '../../SnippetFormFields.js'
 
@@ -20,6 +20,7 @@ const UpdateSnippet = () => {
 	let match = useRouteMatch();
 	let snippetId = match.params['snippetId'];
 	//console.log("snippetId is ", snippetId);
+	let history = useHistory();
 
 	const {data} = useQuery(GET_SNIPPET_QUERY, {
 		fetchPolicy: "network-only", // if only grabbing one record, always get from DB
@@ -60,7 +61,9 @@ const UpdateSnippet = () => {
 		},
 		refetchQueries: [ALL_SNIPPETS_QUERY],	// This is wrapped in gql tab
 		onCompleted: (data) => {
-			console.log("onCompleted (updateSnippet)", data);
+			console.log("onCompleted (updateSnippet) ", data);
+			// Preferred way to redirect
+			history.push("/snippet");
 		},
 		onError: (error) => {
 			console.log("MUTATION Error: ", error);

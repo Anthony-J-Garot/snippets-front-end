@@ -1,5 +1,5 @@
 import {
-	gql,
+	gql, useMutation,
 	useQuery
 } from "@apollo/client";
 import {
@@ -34,6 +34,14 @@ query qryAllSnippets {
     __typename
   }
   __typename
+}
+`
+
+const DELETE_SNIPPET_MUTATION = gql`
+mutation mutDeleteSnippet($id: ID!) {
+  deleteSnippet(id: $id) {
+    ok
+  }
 }
 `
 
@@ -74,18 +82,13 @@ const editIcon = (id) => {
 	);
 }
 
-// Actually perform delete
-const deleteSnippet = (id) => {
-	console.log("About to delete ", id);
-}
-
 /*
  * Defines a component that executes the GraphQL query with
  * the useQuery hook and returns the data in a formatted way.
  */
 const AllSnippetsQuery = () => {
 
-	const {loading, error, data, refetch} = useQuery(ALL_SNIPPETS_QUERY, {
+	const {loading, data, refetch} = useQuery(ALL_SNIPPETS_QUERY, {
 		// Necessary for refetchQueries to work after creating a new entry.
 		// I chose this because there may be changes to the DB from other places
 		// than this front-end App.
@@ -93,11 +96,25 @@ const AllSnippetsQuery = () => {
 		onCompleted: () => {
 			console.log("onCompleted (ALL_SNIPPETS_QUERY) fired");
 			console.log("data is", data);
-		}
+		},
+		onError: (error) => {
+			console.log("QUERY Error: ", error);
+		},
+	});
+
+	// The useMutation hook passes the state into the mutation.
+	// The variables option must be passed in.
+	const [mutDeleteSnippet] = useMutation(DELETE_SNIPPET_MUTATION, {
+		refetchQueries: [ALL_SNIPPETS_QUERY],	// This is wrapped in gql tab
+		onCompleted: (data) => {
+			console.log("onCompleted (DeleteSnippet)", data);
+		},
+		onError: (error) => {
+			console.log("MUTATION Error: ", error);
+		},
 	});
 
 	if (loading) return <p>Loading...</p>;
-	if (error) return <p>Error! ${error}</p>;
 
 	const handleClick = () => {
 		// manually refetch
@@ -122,14 +139,14 @@ const AllSnippetsQuery = () => {
 		</div>
 	)
 
-	// 			<Link to={`/snippet/delete/${id}`}>{deleteIcon(id)}</Link>
+	// 	<Link to={`/snippet/delete/${id}`}>{deleteIcon(id)}</Link>
 	// This creates all the snippets as an object
 	let allTheThings = data.allSnippets.map(({id, title, bodyPreview, isPrivate}) => (
 		<div key={id} className="row">
 			<div className="col1">
 				<Link to={`/snippet/${id}`}>{editIcon(id)}</Link>
 				&nbsp;&nbsp;
-				<Link to="#" onClick={() => deleteSnippet(id)}>{deleteIcon(id)}</Link>
+				<Link to="#" onClick={() => mutDeleteSnippet({variables: {id:id}})}>{deleteIcon(id)}</Link>
 			</div>
 			<div className="col2">
 				{title}

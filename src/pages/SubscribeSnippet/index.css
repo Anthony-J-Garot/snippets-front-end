@@ -1,18 +1,40 @@
-/* https://www.npmjs.com/package/designkit-utilities */
 
-.flex {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+div#feed div.row {
+    display: flex;
+    text-align: left;
+    background-color: #CFFFFF;
+    border-bottom: 1px solid #009999;
+}
+div#feed div.row:last-child {
+    display: flex;
+    text-align: left;
+    background-color: #CFFFFF;
+    border-bottom: 0;
 }
 
-.flex-column {
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-
-  margin-left:5%;
-  margin-right:5%;
+div#feed div.header {
+    font-weight: bold;
+    padding: 3px;
 }
 
+div#feed div.col1 {
+    width: 10%;
+    padding: 3px;
+    text-align: center;
+}
+
+div#feed div.col2 {
+    width: 20%;
+    padding: 3px;
+}
+
+div#feed div.col3 {
+    width: 50%;
+    padding: 3px;
+}
+
+div#feed div.col4 {
+    width: 20%;
+    padding: 3px;
+    text-align: center;
+}

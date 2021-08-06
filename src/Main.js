@@ -1,14 +1,18 @@
-import React from 'react';
 import {
 	Switch,
 	Route,
 } from 'react-router-dom';
+
 // Pages
 import Home from './pages/Home';
 import AllSnippets from './pages/AllSnippets';
 import CreateSnippet from './pages/CreateSnippet';
 import UpdateSnippet from './pages/UpdateSnippet';
+import SubscribeSnippet from './pages/SubscribeSnippet';
 
+/*
+ * The Main component renders the "main" section from "pages."
+ */
 const Main = () => {
 
 	return (
@@ -17,8 +21,8 @@ const Main = () => {
 			<Route exact path='/snippet' component={AllSnippets} />
 			<Route exact path='/snippet/create' component={CreateSnippet} />
 
-			{/* The order of these two is important */}
-			<Route path='/snippet/:snippetId' component={UpdateSnippet} />
+			<Route exact path='/snippet/:snippetId(\d+)' component={UpdateSnippet} />
+			<Route path='/snippet/subscribe' component={SubscribeSnippet} />
 		</Switch>
 	);
 }

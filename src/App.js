@@ -1,32 +1,23 @@
-import logo from './logo.svg';
 import './App.css';
 import Main from './Main.js'
-import {Link} from "react-router-dom"
-
-function Navbar() {
-	return (
-		<div className="navbar">
-			<p><Link to="/">Home</Link></p>
-			<p><Link to="/snippet">All Snippets</Link></p>
-			<p><Link to="/snippet/create">Create Snippet</Link></p>
-		</div>
-	);
-}
+import Navbar from './Navbar.js'
 
 /*
- * This is the wrapper around the HTML for the page.
+ * App level component
  */
-function App() {
+const App = () => {
+	let logo = process.env.PUBLIC_URL + '/logo.svg';
+
 	return (
 		<div className="App">
 			<header className="App-header">
 				<div className="row">
 					<div className="column left">
-						<img src={logo} className="App-logo" alt="logo" />
+						<img src={logo} className="App-logo" alt="Spinning logo" />
 					</div>
 					<div className="column right">
 						<h2>Snippets Front-end App</h2>
-						<p>This React App communicates with a Django backend API via GraphQL.</p>
+						<p>A React App that uses Apollo Client and GraphQL to connect to Django backend API.</p>
 					</div>
 				</div>
 			</header>

@@ -5,7 +5,7 @@ import {
 	useMutation,
 	useQuery,
 } from "@apollo/client";
-import {useRouteMatch, Redirect, useHistory} from "react-router-dom";
+import {useRouteMatch, useHistory} from "react-router-dom";
 import ALL_SNIPPETS_QUERY from '../AllSnippets/index.js'
 import SnippetFormFields from '../../SnippetFormFields.js'
 
@@ -72,7 +72,7 @@ const UpdateSnippet = () => {
 
 	return (
 		<div>
-			<p>Update Snippet Breadcrumb {snippetId}</p>
+			<p className="App-page-title">Update Snippet {snippetId}</p>
 			<form onSubmit={(e) => {
 				e.preventDefault();
 				updateSnippet();

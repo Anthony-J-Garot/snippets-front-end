@@ -1,10 +1,5 @@
-import {
-	gql, useMutation,
-	useQuery
-} from "@apollo/client";
-import {
-	Link
-} from 'react-router-dom';
+import {gql, useMutation, useQuery} from "@apollo/client";
+import {Link} from 'react-router-dom';
 import './index.css';
 //import * as Constants from '../../constants.js';
 
@@ -14,7 +9,7 @@ import './index.css';
 const AllSnippets = () => {
 	return (
 		<div>
-			<p>AllSnippets Breadcrumb</p>
+			<p className="App-page-title">All Snippets List</p>
 			<AllSnippetsQuery />
 		</div>
 	);

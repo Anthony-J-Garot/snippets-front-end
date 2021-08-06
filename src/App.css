@@ -6,6 +6,11 @@
     pointer-events: none;
 }
 
+.App-page-title {
+    font-size: large;
+    font-weight: bold;
+}
+
 @media (prefers-reduced-motion: no-preference) {
     .App-logo {
         animation: App-logo-spin infinite 20s linear;

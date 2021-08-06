@@ -21,10 +21,10 @@ function App() {
 		<div className="App">
 			<header className="App-header">
 				<div className="row">
-					<div className="column">
+					<div className="column left">
 						<img src={logo} className="App-logo" alt="logo" />
 					</div>
-					<div className="column">
+					<div className="column right">
 						<h2>Snippets Front-end App</h2>
 						<p>This React App communicates with a Django backend API via GraphQL.</p>
 					</div>

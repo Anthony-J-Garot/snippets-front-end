@@ -3,7 +3,6 @@
 }
 
 .App-logo {
-    height: 26vmin;
     pointer-events: none;
 }
 
@@ -15,7 +14,6 @@
 
 .App-header {
     background-color: #282c34;
-    display: flex;
     font-size: x-large;
     color: white;
 }
@@ -43,7 +41,6 @@ div.App div.left {
 
 div.App div.right {
     flex: 80%;
-    background-color: white;
     padding-left: 10px;
 }
 

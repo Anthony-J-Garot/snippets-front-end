@@ -1,6 +1,6 @@
 import './index.css';
 import {gql, useSubscription,} from "@apollo/client";
-import * as Constants from '../../constants.js';
+import * as Constants from '../../ApolloClient.js';
 
 /*
  * Define this page component
@@ -25,7 +25,7 @@ const SubscribeSnippet = () => {
 	return (
 		<div>
 			<p className="App-page-title">Subscribe Snippet</p>
-			<p>{data}</p>
+			<p>{data && data.onSnippetNoGroup.sender}</p>
 		</div>
 	);
 }

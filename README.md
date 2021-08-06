@@ -38,18 +38,18 @@ https://www.howtographql.com/react-apollo/3-mutations-creating-links/
 
 # High Level Look at the App
 
-## Started With a Query
+## Began With a Query
 
 I began by writing a query to pull all rows from the sqlite3
 db used by the backend. A query is the simplest form of GraphQL. 
 See AllSnippets/index.js for specifics.
 
 I put the Apollo client connection into a file called 
-constants.js so that I could have one connection for multiple 
+ApolloClient.js so that I could have one connection for multiple 
 *pages*. To have multiple pages, I needed to add routes. See the 
 Routes section below.
 
-## Create Mutation
+## The Create Mutation was next
 
 This was the second proof of concept, which was a little more
 complex because of the creation of a form. I cobbled this 
@@ -66,3 +66,23 @@ routes for different purposes that call the Django backend.
 
 I added just enough CSS to make it not totally ugly. CSS is in
 separate files per [Stack Overflow](https://stackoverflow.com/questions/60464799/why-to-use-separate-css-files-for-components-in-react-js).
+
+## The Update Mutation was next
+
+There wasn't anything overly tricky about the update part of 
+useMutation. What was a little tricky was pre-populating the form
+with data first. The problem is that of the deconstruction forms
+of useQuery and useMutation clobbering each other. So with regards
+to data, error, and loading, we must consult MacLeod who would say,
+"There can be only one (each)."
+
+It turns out that data is only necessary from useQuery, and there
+are methods attached to the useMutation hook that can be used instead
+of the deconstructed loading and error. Well, there is for error . . .
+I think I just don't care about loading with regards to useMutation.
+
+So I got that sorted.
+
+## The Subscription
+
+This was a little tricky.

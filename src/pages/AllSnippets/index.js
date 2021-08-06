@@ -1,7 +1,6 @@
 import {gql, useMutation, useQuery} from "@apollo/client";
 import {Link} from 'react-router-dom';
 import './index.css';
-//import * as Constants from '../../constants.js';
 
 /*
  * Define this page component
@@ -141,7 +140,7 @@ const AllSnippetsQuery = () => {
 			<div className="col1">
 				<Link to={`/snippet/${id}`}>{editIcon(id)}</Link>
 				&nbsp;&nbsp;
-				<Link to="#" onClick={() => mutDeleteSnippet({variables: {id:id}})}>{deleteIcon(id)}</Link>
+				<Link to="#" onClick={() => mutDeleteSnippet({variables: {id: id}})}>{deleteIcon(id)}</Link>
 			</div>
 			<div className="col2">
 				{title}

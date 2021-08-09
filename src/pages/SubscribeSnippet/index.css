@@ -1,18 +1,17 @@
 
+div#feed li {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
 div#feed div.row {
     display: flex;
     text-align: left;
     background-color: #CFFFFF;
-    border-bottom: 1px solid #009999;
-}
-div#feed div.row:last-child {
-    display: flex;
-    text-align: left;
-    background-color: #CFFFFF;
-    border-bottom: 0;
 }
 
-div#feed div.header {
+div#feed div.sender {
     font-weight: bold;
     padding: 3px;
 }

@@ -2,35 +2,37 @@ import './index.css';
 import {gql, useSubscription, useApolloClient} from "@apollo/client";
 import {useState} from "react";
 
+const transactions = [];
+
+// Placeholder values as I figure out where these fields should go on the page.
+transactions.push({
+	sender: 'Books R Us',
+	snippet: {
+		id: '0',
+		title: 'Calahan\'s Crosstime Saloon',
+		body: 'Lighter fare. I read this in evenings that I was fatigued . . ',
+		private: false,
+		created: '2021-08-04T15:49:43.000000-07:00'
+	}
+});
+
 /*
  * Define this page component
  */
 const SubscribeSnippet = () => {
 
-	const transactions = [];
-
-	// Some placeholder values as I figure out where these fields should go on the page.
-	transactions.push({
-		sender: 'Books R Us',
-		snippet: {
-			id: '0',
-			title: 'Pippi Longstocking',
-			body: 'This was a really good book. It starts in  . . . ',
-			private: false,
-			created: '2021-08-04T15:49:43.000000-07:00'
-		}
-	});
-
 	// Set up useState with the initial value from above
-	const [state, setState] = useState(transactions);
+	const [state, setState] = useState({
+		transactions: transactions
+	});
 
 	const {loading, error} = useSubscription(SNIPPET_NOGROUP_SUBSCRIPTION, {
 		variables: {},
 		onSubscriptionData: (data) => {
-			console.log("SUBSCRIPTION: data is ", data);
+			console.log("SUBSCRIPTION: data sent is ", data);
 			transactions.push(data.subscriptionData.data.onSnippetNoGroup);
-			setState(transactions);
-			//console.log(transactions);
+			console.log("Transactions (" + (transactions.length) + ") ", transactions);
+			setState({transactions});
 		},
 		fetchPolicy: "network-only", // not really sure what a caching option means in the context of a subscription
 		client: useApolloClient(), // unneeded, but leaving as a placeholder to show that I could specify a different one
@@ -46,17 +48,20 @@ const SubscribeSnippet = () => {
 
 	return (
 		<div id="feed">
-			<Transaction items={state} />
+			<Transaction feedItems={state} />
 		</div>
 	)
 }
 
-const Transaction = ({items}) => {
-	console.log("Transactions ", items);
+const Transaction = ({feedItems}) => {
+	if (!feedItems) return (null);
+	const items = feedItems.transactions;		// shorthand
 
-	return items.map(item => (
-		<div>
-			<h2 key={item.snippet.id}>{item.sender}</h2>
+	console.log("Mapping Feed Transactions (" + (items.length) + ")", items);
+
+	const SubscriptionFeed = items.map((item, index) =>
+		<li key={index}>
+			<div className="sender">{item.sender}</div>
 			<div className="row">
 				<div className="col1">
 					{item.snippet.id}
@@ -71,8 +76,14 @@ const Transaction = ({items}) => {
 					{item.snippet.private}
 				</div>
 			</div>
-		</div>
-	));
+		</li>
+	);
+
+	return (
+		<ul>
+			{SubscriptionFeed}
+		</ul>
+	)
 }
 
 /*

@@ -27,7 +27,7 @@ const SubscribeSnippet = () => {
 	});
 
 	const {loading, error} = useSubscription(SNIPPET_NOGROUP_SUBSCRIPTION, {
-		variables: {},
+		variables: {}, // no inputs necessary for this particular subscription
 		onSubscriptionData: (data) => {
 			console.log("SUBSCRIPTION: data sent is ", data);
 			transactions.push(data.subscriptionData.data.onSnippetNoGroup);
@@ -36,6 +36,10 @@ const SubscribeSnippet = () => {
 		},
 		fetchPolicy: "network-only", // not really sure what a caching option means in the context of a subscription
 		client: useApolloClient(), // unneeded, but leaving as a placeholder to show that I could specify a different one
+		shouldResubscribe: true, // not sure what this does
+		context: () => {
+			console.log()
+		}
 	});
 
 	if (loading) {

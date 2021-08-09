@@ -48,6 +48,7 @@ const SubscribeSnippet = () => {
 
 	return (
 		<div id="feed">
+			<p className="App-page-title">Real-time Subscription Feed</p>
 			<Transaction feedItems={state} />
 		</div>
 	)

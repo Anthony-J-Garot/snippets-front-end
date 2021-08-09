@@ -8,7 +8,7 @@ div#feed li {
 div#feed div.row {
     display: flex;
     text-align: left;
-    background-color: #CFFFFF;
+    background-color: #DFFFDF;
 }
 
 div#feed div.sender {

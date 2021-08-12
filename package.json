@@ -51,8 +51,10 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "fastq": "^1.11.1",
     "jest-cucumber": "^3.0.1",
+    "prelude-ls": "^1.2.1",
     "prettier": "^2.3.2",
     "react-router-dom": "^5.2.0",
-    "typescript": "^4.3.5"
+    "typescript": "^4.3.5",
+    "yarn": "^1.22.11"
   }
 }

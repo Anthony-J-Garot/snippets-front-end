@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import {BrowserRouter} from 'react-router-dom';
-import {ApolloProvider} from "@apollo/client";
+import {ApolloProvider} from '@apollo/client';
 import client from './ApolloClient.js';
 
 //import reportWebVitals from './reportWebVitals';

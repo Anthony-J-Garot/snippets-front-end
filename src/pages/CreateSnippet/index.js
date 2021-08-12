@@ -1,16 +1,16 @@
-import React, {useState} from 'react';
+import React, {ReactElement, useState} from 'react';
 import './index.css';
 import {
   gql,
   useMutation,
-} from "@apollo/client";
+} from '@apollo/client';
 import ALL_SNIPPETS_QUERY from '../AllSnippets/index.js';
 import SnippetFormFields from '../../SnippetFormFields.js';
 
 /*
  * Define this page component
  */
-const CreateSnippet = () => {
+const CreateSnippet: React.FC<> = (): ReactElement<> => {
 
   // The data that’s typed into the form fields is held in the
   // component’s local state by way of the useState hook.

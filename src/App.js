@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ReactElement} from 'react';
 import './App.css';
 import Main from './Main.js';
 import Navbar from './Navbar.js';
@@ -6,7 +6,7 @@ import Navbar from './Navbar.js';
 /*
  * App level component
  */
-const App = () => {
+const App: React.FC<> = (): ReactElement<> => {
   let logo = process.env.PUBLIC_URL + '/logo.svg';
 
   return (

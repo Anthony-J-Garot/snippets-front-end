@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {ReactElement} from 'react';
 
-const Home = () => {
+const Home: React.FC<> = (): ReactElement<> => {
   return (
     <div>
       <p className="App-page-title">Home</p>

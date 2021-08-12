@@ -1,11 +1,11 @@
-import React, {useState} from "react";
+import React, {ReactElement, useState} from 'react';
 import './index.css';
 import {
   gql,
   useMutation,
   useQuery,
-} from "@apollo/client";
-import {useRouteMatch, useHistory} from "react-router-dom";
+} from '@apollo/client';
+import {useRouteMatch, useHistory} from 'react-router-dom';
 import ALL_SNIPPETS_QUERY from '../AllSnippets/index.js';
 import SnippetFormFields from '../../SnippetFormFields.js';
 
@@ -16,28 +16,27 @@ import SnippetFormFields from '../../SnippetFormFields.js';
  * name, i.e. data, loading, error. I followed the advice here:
  * https://stackoverflow.com/questions/62571120/apollo-hooks-usequery-and-usemutation-under-the-same-component
  */
-const UpdateSnippet = () => {
+const UpdateSnippet: React.FC<> = (): ReactElement<> => {
   let match = useRouteMatch();
   let snippetId = match.params['snippetId'];
-  //console.log("snippetId is ", snippetId);
   let history = useHistory();
 
   const {data} = useQuery(GET_SNIPPET_QUERY, {
-    fetchPolicy: "network-only", // if only grabbing one record, always get from DB
+    fetchPolicy: 'network-only', // if only grabbing one record, always get from DB
     //fetchPolicy: "cache-and-network",
     variables: {
       id: snippetId
     },
     onCompleted: () => {
-      console.log("onCompleted (GET_SNIPPET_QUERY)", data);
+      console.log('onCompleted (GET_SNIPPET_QUERY)', data);
       if (data) {
         setFormState(data.snippetById);
       } else {
-        console.log("No data???");
+        console.log('No data???');
       }
     },
     onError: (error) => {
-      console.log("QUERY Error: ", error);
+      console.log('QUERY Error: ', error);
     },
   });
 
@@ -61,12 +60,12 @@ const UpdateSnippet = () => {
     },
     refetchQueries: [ALL_SNIPPETS_QUERY],	// This is wrapped in gql tab
     onCompleted: (data) => {
-      console.log("onCompleted (updateSnippet) ", data);
+      console.log('onCompleted (updateSnippet) ', data);
       // Preferred way to redirect
-      history.push("/snippet");
+      history.push('/snippet');
     },
     onError: (error) => {
-      console.log("MUTATION Error: ", error);
+      console.log('MUTATION Error: ', error);
     },
   });
 

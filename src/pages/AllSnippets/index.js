@@ -1,12 +1,12 @@
-import React from 'react';
-import {gql, useMutation, useQuery} from "@apollo/client";
+import React, {ReactElement} from 'react';
+import {gql, useMutation, useQuery} from '@apollo/client';
 import {Link} from 'react-router-dom';
 import './index.css';
 
 /*
  * Define this page component
  */
-const AllSnippets = () => {
+const AllSnippets: React.FC<> = (): ReactElement<> => {
   return (
     <div>
       <p className="App-page-title">All Snippets List</p>
@@ -60,17 +60,17 @@ const checkMarkIcon = (isPrivate) => {
       <img src={check} width={24} alt="Is Private" />
     );
   }
-  return ("");
+  return ('');
 };
 
-const deleteIcon = (id) => {
+const deleteIcon = () => {
   let icon = process.env.PUBLIC_URL + '/delete.svg';
   return (
     <img src={icon} width={24} alt="Delete item" />
   );
 };
 
-const editIcon = (id) => {
+const editIcon = () => {
   let icon = process.env.PUBLIC_URL + '/pencil.svg';
   return (
     <img src={icon} width={24} alt="Edit item" />
@@ -87,13 +87,13 @@ const AllSnippetsQuery = () => {
     // Necessary for refetchQueries to work after creating a new entry.
     // I chose this because there may be changes to the DB from other places
     // than this front-end App.
-    fetchPolicy: "cache-and-network",
+    fetchPolicy: 'cache-and-network',
     onCompleted: () => {
-      console.log("onCompleted (ALL_SNIPPETS_QUERY) fired");
-      console.log("data is", data);
+      console.log('onCompleted (ALL_SNIPPETS_QUERY) fired');
+      console.log('data is', data);
     },
     onError: (error) => {
-      console.log("QUERY Error: ", error);
+      console.log('QUERY Error: ', error);
     },
   });
 
@@ -102,10 +102,10 @@ const AllSnippetsQuery = () => {
   const [mutDeleteSnippet] = useMutation(DELETE_SNIPPET_MUTATION, {
     refetchQueries: [ALL_SNIPPETS_QUERY],	// This is wrapped in gql tab
     onCompleted: (data) => {
-      console.log("onCompleted (DeleteSnippet)", data);
+      console.log('onCompleted (DeleteSnippet)', data);
     },
     onError: (error) => {
-      console.log("MUTATION Error: ", error);
+      console.log('MUTATION Error: ', error);
     },
   });
 
@@ -113,7 +113,7 @@ const AllSnippetsQuery = () => {
 
   const handleClick = () => {
     // manually refetch
-    console.log("refetch button clicked");
+    console.log('refetch button clicked');
     refetch();
   };
 
@@ -139,9 +139,9 @@ const AllSnippetsQuery = () => {
   let allTheThings = data.allSnippets.map(({id, title, bodyPreview, isPrivate}) => (
     <div key={id} className="row">
       <div className="col1">
-        <Link to={`/snippet/${id}`}>{editIcon(id)}</Link>
+        <Link to={`/snippet/${id}`}>{editIcon()}</Link>
         &nbsp;&nbsp;
-        <Link to="#" onClick={() => mutDeleteSnippet({variables: {id: id}})}>{deleteIcon(id)}</Link>
+        <Link to="#" onClick={() => mutDeleteSnippet({variables: {id: id}})}>{deleteIcon()}</Link>
       </div>
       <div className="col2">
         {title}

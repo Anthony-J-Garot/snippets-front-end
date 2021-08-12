@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {ReactElement} from 'react';
 
-const SnippetFormFields = (formState, setFormState) => {
+const SnippetFormFields: React.FC<> = (formState: unknown, setFormState: () => void ): ReactElement<> => {
+
   return (
     <div className="flex flex-column mt3">
       <input

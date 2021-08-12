@@ -1,5 +1,5 @@
-import {ApolloClient, InMemoryCache, split, HttpLink} from "@apollo/client";
-import {WebSocketLink} from "@apollo/client/link/ws";
+import {ApolloClient, InMemoryCache, split, HttpLink} from '@apollo/client';
+import {WebSocketLink} from '@apollo/client/link/ws';
 import {getMainDefinition} from '@apollo/client/utilities';
 
 // Describe our environment
@@ -25,11 +25,11 @@ const wsLink = new WebSocketLink({
       authToken: (() => {
         let authToken = localStorage.getItem('authToken');
         if (!authToken) {
-          console.log("Generating authToken");
+          console.log('Generating authToken');
           authToken = 'ABCDEFG';
           localStorage.setItem('authToken', authToken);
         } else {
-          console.log("Using existing authToken");
+          console.log('Using existing authToken');
         }
         return authToken;
       })()

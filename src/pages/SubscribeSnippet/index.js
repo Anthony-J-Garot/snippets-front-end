@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {ReactElement} from 'react';
 import './index.css';
-import {gql, useSubscription, useApolloClient} from "@apollo/client";
-import {useState} from "react";
+import {gql, useSubscription, useApolloClient} from '@apollo/client';
+import {useState} from 'react';
 
 const transactions = [];
 
@@ -20,7 +20,7 @@ transactions.push({
 /*
  * Define this page component
  */
-const SubscribeSnippet = () => {
+const SubscribeSnippet: React.FC<> = (): ReactElement<> => {
 
   // Set up useState with the initial value from above
   const [state, setState] = useState({
@@ -30,12 +30,12 @@ const SubscribeSnippet = () => {
   const {loading, error} = useSubscription(SNIPPET_NOGROUP_SUBSCRIPTION, {
     variables: {}, // no inputs necessary for this particular subscription
     onSubscriptionData: (data) => {
-      console.log("SUBSCRIPTION: data sent is ", data);
+      console.log('SUBSCRIPTION: data sent is ', data);
       transactions.push(data.subscriptionData.data.onSnippetNoGroup);
-      console.log("Transactions (" + (transactions.length) + ") ", transactions);
+      console.log('Transactions (' + (transactions.length) + ') ', transactions);
       setState({transactions});
     },
-    fetchPolicy: "network-only", // not really sure what a caching option means in the context of a subscription
+    fetchPolicy: 'network-only', // not really sure what a caching option means in the context of a subscription
     client: useApolloClient(), // unneeded, but leaving as a placeholder to show that I could specify a different one
     shouldResubscribe: true, // not sure what this does
     context: () => {
@@ -63,7 +63,7 @@ const Transaction = ({feedItems}) => {
   if (!feedItems) return (null);
   const items = feedItems.transactions;		// shorthand
 
-  console.log("Mapping Feed Transactions (" + (items.length) + ")", items);
+  console.log('Mapping Feed Transactions (' + (items.length) + ')', items);
 
   const SubscriptionFeed = items.map((item, index) =>
     <li key={index}>

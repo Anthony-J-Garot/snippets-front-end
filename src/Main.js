@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ReactElement} from 'react';
 import {
   Switch,
   Route,
@@ -14,8 +14,7 @@ import SubscribeSnippet from './pages/SubscribeSnippet';
 /*
  * The Main component renders the "main" section from "pages."
  */
-const Main = () => {
-
+const Main: React.FC<> = (): ReactElement<> => {
   return (
     <Switch> {/* The Switch decides which component to show based on the current URL.*/}
       <Route exact path='/' component={Home} />

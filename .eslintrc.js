@@ -48,12 +48,7 @@ module.exports = {
       'error',
       'unix'
     ],
-    'no-console': [
-      'warn',
-      {
-        'allow': ['warn', 'error']
-      }
-    ],
+    'no-console': 'off',
     '@typescript-eslint/no-unused-vars' : [
       'warn',
       {

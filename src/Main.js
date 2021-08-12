@@ -1,6 +1,7 @@
+import React from 'react';
 import {
-	Switch,
-	Route,
+  Switch,
+  Route,
 } from 'react-router-dom';
 
 // Pages
@@ -15,16 +16,16 @@ import SubscribeSnippet from './pages/SubscribeSnippet';
  */
 const Main = () => {
 
-	return (
-		<Switch> {/* The Switch decides which component to show based on the current URL.*/}
-			<Route exact path='/' component={Home} />
-			<Route exact path='/snippet' component={AllSnippets} />
-			<Route exact path='/snippet/create' component={CreateSnippet} />
+  return (
+    <Switch> {/* The Switch decides which component to show based on the current URL.*/}
+      <Route exact path='/' component={Home} />
+      <Route exact path='/snippet' component={AllSnippets} />
+      <Route exact path='/snippet/create' component={CreateSnippet} />
 
-			<Route exact path='/snippet/:snippetId(\d+)' component={UpdateSnippet} />
-			<Route path='/snippet/subscribe' component={SubscribeSnippet} />
-		</Switch>
-	);
-}
+      <Route exact path='/snippet/:snippetId(\d+)' component={UpdateSnippet} />
+      <Route path='/snippet/subscribe' component={SubscribeSnippet} />
+    </Switch>
+  );
+};
 
 export default Main;

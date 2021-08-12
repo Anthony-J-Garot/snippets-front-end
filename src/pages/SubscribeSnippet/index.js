@@ -1,3 +1,4 @@
+import React from 'react';
 import './index.css';
 import {gql, useSubscription, useApolloClient} from "@apollo/client";
 import {useState} from "react";
@@ -6,14 +7,14 @@ const transactions = [];
 
 // Placeholder values as I figure out where these fields should go on the page.
 transactions.push({
-	sender: 'Books R Us',
-	snippet: {
-		id: '0',
-		title: 'Calahan\'s Crosstime Saloon',
-		body: 'Lighter fare. I read this in evenings that I was fatigued . . ',
-		private: false,
-		created: '2021-08-04T15:49:43.000000-07:00'
-	}
+  sender: 'Books R Us',
+  snippet: {
+    id: '0',
+    title: 'Calahan\'s Crosstime Saloon',
+    body: 'Lighter fare. I read this in evenings that I was fatigued . . ',
+    private: false,
+    created: '2021-08-04T15:49:43.000000-07:00'
+  }
 });
 
 /*
@@ -21,75 +22,75 @@ transactions.push({
  */
 const SubscribeSnippet = () => {
 
-	// Set up useState with the initial value from above
-	const [state, setState] = useState({
-		transactions: transactions
-	});
+  // Set up useState with the initial value from above
+  const [state, setState] = useState({
+    transactions: transactions
+  });
 
-	const {loading, error} = useSubscription(SNIPPET_NOGROUP_SUBSCRIPTION, {
-		variables: {}, // no inputs necessary for this particular subscription
-		onSubscriptionData: (data) => {
-			console.log("SUBSCRIPTION: data sent is ", data);
-			transactions.push(data.subscriptionData.data.onSnippetNoGroup);
-			console.log("Transactions (" + (transactions.length) + ") ", transactions);
-			setState({transactions});
-		},
-		fetchPolicy: "network-only", // not really sure what a caching option means in the context of a subscription
-		client: useApolloClient(), // unneeded, but leaving as a placeholder to show that I could specify a different one
-		shouldResubscribe: true, // not sure what this does
-		context: () => {
-			console.log()
-		}
-	});
+  const {loading, error} = useSubscription(SNIPPET_NOGROUP_SUBSCRIPTION, {
+    variables: {}, // no inputs necessary for this particular subscription
+    onSubscriptionData: (data) => {
+      console.log("SUBSCRIPTION: data sent is ", data);
+      transactions.push(data.subscriptionData.data.onSnippetNoGroup);
+      console.log("Transactions (" + (transactions.length) + ") ", transactions);
+      setState({transactions});
+    },
+    fetchPolicy: "network-only", // not really sure what a caching option means in the context of a subscription
+    client: useApolloClient(), // unneeded, but leaving as a placeholder to show that I could specify a different one
+    shouldResubscribe: true, // not sure what this does
+    context: () => {
+      console.log();
+    }
+  });
 
-	if (loading) {
-		// console.log("loading");
-	}
+  if (loading) {
+    // console.log("loading");
+  }
 
-	if (error) {
-		console.log(error);
-	}
+  if (error) {
+    console.log(error);
+  }
 
-	return (
-		<div id="feed">
-			<p className="App-page-title">Real-time Subscription Feed</p>
-			<Transaction feedItems={state} />
-		</div>
-	)
-}
+  return (
+    <div id="feed">
+      <p className="App-page-title">Real-time Subscription Feed</p>
+      <Transaction feedItems={state} />
+    </div>
+  );
+};
 
 const Transaction = ({feedItems}) => {
-	if (!feedItems) return (null);
-	const items = feedItems.transactions;		// shorthand
+  if (!feedItems) return (null);
+  const items = feedItems.transactions;		// shorthand
 
-	console.log("Mapping Feed Transactions (" + (items.length) + ")", items);
+  console.log("Mapping Feed Transactions (" + (items.length) + ")", items);
 
-	const SubscriptionFeed = items.map((item, index) =>
-		<li key={index}>
-			<div className="sender">{item.sender}</div>
-			<div className="row">
-				<div className="col1">
-					{item.snippet.id}
-				</div>
-				<div className="col2">
-					{item.snippet.title}
-				</div>
-				<div className="col3">
-					{item.snippet.body}
-				</div>
-				<div className="col4">
-					{item.snippet.private}
-				</div>
-			</div>
-		</li>
-	);
+  const SubscriptionFeed = items.map((item, index) =>
+    <li key={index}>
+      <div className="sender">{item.sender}</div>
+      <div className="row">
+        <div className="col1">
+          {item.snippet.id}
+        </div>
+        <div className="col2">
+          {item.snippet.title}
+        </div>
+        <div className="col3">
+          {item.snippet.body}
+        </div>
+        <div className="col4">
+          {item.snippet.private}
+        </div>
+      </div>
+    </li>
+  );
 
-	return (
-		<ul>
-			{SubscriptionFeed}
-		</ul>
-	)
-}
+  return (
+    <ul>
+      {SubscriptionFeed}
+    </ul>
+  );
+};
 
 /*
  * The backend currently has two subscription possibilities:
@@ -111,6 +112,6 @@ subscription subNoGroup {
     ok
   }
 }
-`
+`;
 
 export default SubscribeSnippet;

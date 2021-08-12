@@ -4,4 +4,4 @@
 export PORT=3000
 
 # Start up `react-scripts start`
-npm start
+yarn start

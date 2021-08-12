@@ -11,12 +11,12 @@ import client from './ApolloClient.js';
 
 // Wrap React App with an ApolloProvider.
 ReactDOM.render(
-	<BrowserRouter>
-		<ApolloProvider client={client}>
-			<App />
-		</ApolloProvider>
-	</BrowserRouter>,
-	document.getElementById('root')
+  <BrowserRouter>
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
+  </BrowserRouter>,
+  document.getElementById('root')
 );
 
 

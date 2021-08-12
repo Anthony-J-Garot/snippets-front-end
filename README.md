@@ -17,24 +17,16 @@ access to the features.
 
 # Getting started
 
-After npm install, I loaded these packages.
+After ~~npm install~~ yarn install, I loaded these packages.
 
-`npm install @apollo/client graphql`
-`npm install react-router-dom`
+`yarn add @apollo/client graphql --dev`
+`yarn add react-router-dom --dev`
 
-Looks like these lines made it into package.json, so these
-should be loaded for you automatically. I mention it specifically
-because these are dependencies necessary to do GraphQL and
-routes.
+I'm pretty well convinced that yarn is better than npm, hands
+down. 
 
 `./runserver.sh` will get the server running on port 3000. You
 can change the port inside this file if you wish.
-
-# Useful Links
-
-https://www.apollographql.com/docs/react/get-started/
-https://www.apollographql.com/docs/react/data/mutations/
-https://www.howtographql.com/react-apollo/3-mutations-creating-links/
 
 # High Level Look at the App
 
@@ -65,7 +57,9 @@ routes for different purposes that call the Django backend.
 ## Just a bit of formatting
 
 I added just enough CSS to make it not totally ugly. CSS is in
-separate files per [Stack Overflow](https://stackoverflow.com/questions/60464799/why-to-use-separate-css-files-for-components-in-react-js).
+separate files per
+[Stack Overflow](https://stackoverflow.com/questions/60464799/why-to-use-separate-css-files-for-components-in-react-js).
+Making this App pretty was not a big concern.
 
 ## The Update Mutation was next
 
@@ -85,4 +79,14 @@ So I got that sorted.
 
 ## The Subscription
 
-This was a little tricky.
+This was a little tricky in React, but I got it to work. 
+
+So, now I have a React version within this repo and a 
+JavaScript native version in
+[the backend repo](https://github.com/Anthony-J-Garot/snippets_graphql).
+
+# Useful Links
+
+https://www.apollographql.com/docs/react/get-started/
+https://www.apollographql.com/docs/react/data/mutations/
+https://www.howtographql.com/react-apollo/3-mutations-creating-links/

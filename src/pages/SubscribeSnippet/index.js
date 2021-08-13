@@ -2,6 +2,7 @@ import React, {ReactElement} from 'react';
 import './index.css';
 import {gql, useSubscription, useApolloClient} from '@apollo/client';
 import {useState} from 'react';
+import noticesStore from '../../Observables/noticesStore.ts';
 
 const transactions = [];
 
@@ -48,7 +49,7 @@ const SubscribeSnippet: React.FC<> = (): ReactElement<> => {
   }
 
   if (error) {
-    console.log(error);
+    noticesStore.setNotice({notice: 'Error: ' + error});
   }
 
   return (

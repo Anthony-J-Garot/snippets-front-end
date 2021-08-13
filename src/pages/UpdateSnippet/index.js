@@ -8,6 +8,7 @@ import {
 import {useRouteMatch, useHistory} from 'react-router-dom';
 import ALL_SNIPPETS_QUERY from '../AllSnippets/index.js';
 import SnippetFormFields from '../../SnippetFormFields.js';
+import noticesStore from '../../Observables/noticesStore.ts';
 
 /*
  * Define this page component.
@@ -32,11 +33,12 @@ const UpdateSnippet: React.FC<> = (): ReactElement<> => {
       if (data) {
         setFormState(data.snippetById);
       } else {
-        console.log('No data???');
+        noticesStore.setNotice({notice: 'Error: no data??'});
       }
     },
     onError: (error) => {
       console.log('QUERY Error: ', error);
+      noticesStore.setNotice({notice: 'Error: ' + error});
     },
   });
 
@@ -63,9 +65,11 @@ const UpdateSnippet: React.FC<> = (): ReactElement<> => {
       console.log('onCompleted (updateSnippet) ', data);
       // Preferred way to redirect
       history.push('/snippet');
+      noticesStore.setNotice({notice: 'Your snippet has been updated'});
     },
     onError: (error) => {
       console.log('MUTATION Error: ', error);
+      noticesStore.setNotice({notice: 'Error: ' + error});
     },
   });
 

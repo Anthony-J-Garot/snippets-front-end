@@ -85,6 +85,13 @@ So, now I have a React version within this repo and a
 JavaScript native version in
 [the backend repo](https://github.com/Anthony-J-Garot/snippets_graphql).
 
+# Adding Gherkin
+
+I put the features and step-definitions into a directory called specs/
+based upon the layout in the jest-cucumber package examples.
+
+`yarn add jest-cucumber --dev`
+
 # Useful Links
 
 https://www.apollographql.com/docs/react/get-started/

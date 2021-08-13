@@ -6,6 +6,7 @@ import {
 } from '@apollo/client';
 import ALL_SNIPPETS_QUERY from '../AllSnippets/index.js';
 import SnippetFormFields from '../../SnippetFormFields.js';
+import noticesStore from '../../Observables/noticesStore.ts';
 
 /*
  * Define this page component
@@ -31,10 +32,12 @@ const CreateSnippet: React.FC<> = (): ReactElement<> => {
     },
     refetchQueries: [ALL_SNIPPETS_QUERY],	// This is wrapped in gql tab
     onCompleted: (data) => {
-      console.log('onCompleted (createSnippet)', data);
+      // console.log('onCompleted (createSnippet)', data);
+      noticesStore.setNotice({notice: 'Your snippet has been created'});
     },
     onError: (error) => {
       console.log('MUTATION Error: ', error);
+      noticesStore.setNotice({notice: 'Error: ' + error});
     },
   });
 

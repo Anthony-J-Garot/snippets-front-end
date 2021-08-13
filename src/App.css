@@ -23,6 +23,12 @@
     color: white;
 }
 
+.App-header .notice {
+    color: lightgoldenrodyellow;
+    font-weight: bolder;
+    background-color: #3488bc;
+}
+
 .App-link {
     color: #61dafb;
 }

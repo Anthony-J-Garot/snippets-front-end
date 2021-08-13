@@ -2,12 +2,13 @@ import React, {ReactElement} from 'react';
 import './App.css';
 import Main from './Main.js';
 import Navbar from './Navbar.js';
+import Notice from './Notice.js';
 
 /*
  * App level component
  */
 const App: React.FC<> = (): ReactElement<> => {
-  let logo = process.env.PUBLIC_URL + '/logo.svg';
+  const logo = process.env.PUBLIC_URL + '/logo.svg';
 
   return (
     <div className="App">
@@ -19,6 +20,7 @@ const App: React.FC<> = (): ReactElement<> => {
           <div className="column right">
             <h2>Snippets Front-end App</h2>
             <p>A React App that uses Apollo Client and GraphQL to connect to Django backend API.</p>
+            <Notice />
           </div>
         </div>
       </header>

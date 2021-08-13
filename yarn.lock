@@ -6822,7 +6822,7 @@ jest-config@^26.6.3:
 
 jest-cucumber@^3.0.1:
   version "3.0.1"
-  resolved "https://registry.npmjs.org/jest-cucumber/-/jest-cucumber-3.0.1.tgz"
+  resolved "https://registry.yarnpkg.com/jest-cucumber/-/jest-cucumber-3.0.1.tgz#1a1bf379cafbdf4e57c49e6f83ffab9a65b3a8fa"
   integrity sha512-S2EelgezfwWP10VCgUkSOiJYiTIM0yM82KxrwBOn68wMmlqU5jNSf7xDIBS0tGwoFnNwUTFp7LPFmEnfilSJrA==
   dependencies:
     "@types/glob" "^7.1.3"
@@ -9649,6 +9649,11 @@ react-app-polyfill@^2.0.0:
     regenerator-runtime "^0.13.7"
     whatwg-fetch "^3.4.1"
 
+react-app@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/react-app/-/react-app-1.1.2.tgz#ae608159bdbdb166bc5fcc9c0d97b2219365dc1f"
+  integrity sha1-rmCBWb29sWa8X8ycDZeyIZNl3B8=
+
 react-dev-utils@^11.0.3:
   version "11.0.4"
   resolved "https://registry.npmjs.org/react-dev-utils/-/react-dev-utils-11.0.4.tgz"
@@ -9805,7 +9810,7 @@ react-scripts@4.0.3:
 
 react@^17.0.2:
   version "17.0.2"
-  resolved "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
+  resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
   integrity sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==
   dependencies:
     loose-envify "^1.1.0"
@@ -10281,6 +10286,13 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   integrity sha1-6Eg5bwV9Ij8kOGkkYY4laUFh7Ec=
   dependencies:
     aproba "^1.1.1"
+
+rxjs@^7.3.0:
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.3.0.tgz#39fe4f3461dc1e50be1475b2b85a0a88c1e938c6"
+  integrity sha512-p2yuGIg9S1epc3vrjKf6iVb3RCaAYjYskkO+jHIaV0IjOPlJop4UnodOoFb2xeNwlguqLYvGw1b1McillYb5Gw==
+  dependencies:
+    tslib "~2.1.0"
 
 safe-buffer@5.1.2, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.1.2"
@@ -11423,6 +11435,11 @@ tslib@^2.0.3, tslib@^2.1.0, tslib@^2.3.0:
   version "2.3.0"
   resolved "https://registry.npmjs.org/tslib/-/tslib-2.3.0.tgz"
   integrity sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg==
+
+tslib@~2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.1.0.tgz#da60860f1c2ecaa5703ab7d39bc05b6bf988b97a"
+  integrity sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A==
 
 tsutils@^3.17.1:
   version "3.20.0"

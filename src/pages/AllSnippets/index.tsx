@@ -1,10 +1,10 @@
 import React, {ReactElement} from 'react';
-import {gql, useMutation, useQuery, InternalRefetchQueryDescriptor} from '@apollo/client';
+import {gql, useMutation, useQuery, InternalRefetchQueryDescriptor, DocumentNode} from '@apollo/client';
 import {Link} from 'react-router-dom';
 import './index.css';
 
 // Defines the GraphQL client query to see all the things.
-export const ALL_SNIPPETS_QUERY: InternalRefetchQueryDescriptor = gql`
+export const ALL_SNIPPETS_QUERY: DocumentNode = gql`
 query qryAllSnippets {
   allSnippets {
     id
@@ -135,24 +135,26 @@ const AllSnippets: React.FC = (): ReactElement => {
 
   // 	<Link to={`/snippet/delete/${id}`}>{deleteIcon(id)}</Link>
   // This creates all the snippets as an object
-  const allTheThings: ReactElement = data.allSnippets.map(({id, title, bodyPreview, isPrivate}: ISnippetMap) => (
-    <div key={id} className="row">
-      <div className="col1">
-        <Link to={`/snippet/${id}`}>{editIcon()}</Link>
-        &nbsp;&nbsp;
-        <Link to="#" onClick={() => mutDeleteSnippet({variables: {id: id}})}>{deleteIcon()}</Link>
+  const allTheThings: ReactElement = data.allSnippets.map(({id, title, bodyPreview, isPrivate}: ISnippetMap): ReactElement => {
+    return (
+      <div key={id} className="row">
+        <div className="col1">
+          <Link to={`/snippet/${id}`}>{editIcon()}</Link>
+          &nbsp;&nbsp;
+          <Link to="#" onClick={() => mutDeleteSnippet({variables: {id: id}})}>{deleteIcon()}</Link>
+        </div>
+        <div className="col2">
+          {title}
+        </div>
+        <div className="col3">
+          {bodyPreview}
+        </div>
+        <div className="col4">
+          {checkMarkIcon(isPrivate)}
+        </div>
       </div>
-      <div className="col2">
-        {title}
-      </div>
-      <div className="col3">
-        {bodyPreview}
-      </div>
-      <div className="col4">
-        {checkMarkIcon(isPrivate)}
-      </div>
-    </div>
-  ));
+    );
+  });
 
   return (
     <div>

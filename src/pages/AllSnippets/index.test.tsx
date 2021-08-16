@@ -1,21 +1,23 @@
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
-import {MockedProvider} from '@apollo/client/testing';
+import {MockedProvider, MockedResponse} from '@apollo/client/testing';
 import AllSnippets, {ALL_SNIPPETS_QUERY} from './index';
 
 /*
  * Each mock object defines a request field (indicating the shape and variables of the operation to
  * match against) and a result field (indicating the shape of the response to return for that operation).
  */
-const mocks = [
+const mocks: readonly MockedResponse<Record<string, any>>[] = [
   {
     request: {
       query: ALL_SNIPPETS_QUERY,
       variables: {},
     },
-    result: {
-      data:
-        {
+    result: () => {
+      // . . . arbitrary logic . . .
+
+      return {
+        data: {
           'allSnippets': [
             {
               'id': '1',
@@ -42,6 +44,7 @@ const mocks = [
               '__typename': 'SnippetType'
             }],
         },
+      };
     },
   },
 ];

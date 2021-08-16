@@ -6,8 +6,8 @@ import {
   useQuery,
 } from '@apollo/client';
 import {useRouteMatch, useHistory} from 'react-router-dom';
-import ALL_SNIPPETS_QUERY from '../AllSnippets/index.js';
-import SnippetFormFields from '../../SnippetFormFields.js';
+import ALL_SNIPPETS_QUERY from '../AllSnippets/index';
+import SnippetFormFields from '../../SnippetFormFields';
 import noticesStore from '../../Observables/noticesStore.ts';
 
 /*
@@ -17,7 +17,7 @@ import noticesStore from '../../Observables/noticesStore.ts';
  * name, i.e. data, loading, error. I followed the advice here:
  * https://stackoverflow.com/questions/62571120/apollo-hooks-usequery-and-usemutation-under-the-same-component
  */
-const UpdateSnippet: React.FC<> = (): ReactElement<> => {
+const UpdateSnippet: React.FC = (): ReactElement => {
   let match = useRouteMatch();
   let snippetId = match.params['snippetId'];
   let history = useHistory();

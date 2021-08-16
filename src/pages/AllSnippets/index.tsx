@@ -1,22 +1,10 @@
 import React, {ReactElement} from 'react';
-import {gql, useMutation, useQuery} from '@apollo/client';
+import {gql, useMutation, useQuery, InternalRefetchQueryDescriptor} from '@apollo/client';
 import {Link} from 'react-router-dom';
 import './index.css';
 
-/*
- * Define this page component
- */
-const AllSnippets: React.FC<> = (): ReactElement<> => {
-  return (
-    <div>
-      <p className="App-page-title">All Snippets List</p>
-      <AllSnippetsQuery />
-    </div>
-  );
-};
-
 // Defines the GraphQL client query to see all the things.
-const ALL_SNIPPETS_QUERY = gql`
+export const ALL_SNIPPETS_QUERY: InternalRefetchQueryDescriptor = gql`
 query qryAllSnippets {
   allSnippets {
     id
@@ -52,8 +40,8 @@ mutation mutDeleteSnippet($id: ID!) {
 // 		console.log("query result (ALL_SNIPPETS_QUERY):", result);
 // 	});
 
-const checkMarkIcon = (isPrivate) => {
-  let check = process.env.PUBLIC_URL + '/check-mark-8-64.png';
+const checkMarkIcon = (isPrivate: boolean) => {
+  const check: string = process.env.PUBLIC_URL + '/check-mark-8-64.png';
   //console.log(check);
   if (isPrivate) {
     return (
@@ -64,14 +52,14 @@ const checkMarkIcon = (isPrivate) => {
 };
 
 const deleteIcon = () => {
-  let icon = process.env.PUBLIC_URL + '/delete.svg';
+  const icon: string = process.env.PUBLIC_URL + '/delete.svg';
   return (
     <img src={icon} width={24} alt="Delete item" />
   );
 };
 
 const editIcon = () => {
-  let icon = process.env.PUBLIC_URL + '/pencil.svg';
+  const icon: string = process.env.PUBLIC_URL + '/pencil.svg';
   return (
     <img src={icon} width={24} alt="Edit item" />
   );
@@ -81,7 +69,7 @@ const editIcon = () => {
  * Defines a component that executes the GraphQL query with
  * the useQuery hook and returns the data in a formatted way.
  */
-const AllSnippetsQuery = () => {
+const AllSnippets: React.FC = (): ReactElement => {
 
   const {loading, data, refetch} = useQuery(ALL_SNIPPETS_QUERY, {
     // Necessary for refetchQueries to work after creating a new entry.
@@ -109,7 +97,11 @@ const AllSnippetsQuery = () => {
     },
   });
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return (
+    <div>
+      <p>Loading...</p>
+    </div>
+  );
 
   const handleClick = () => {
     // manually refetch
@@ -117,7 +109,7 @@ const AllSnippetsQuery = () => {
     refetch();
   };
 
-  let Headers = () => (
+  const Headers = () => (
     <div className="row">
       <div className="col1 header">
         Act
@@ -134,9 +126,16 @@ const AllSnippetsQuery = () => {
     </div>
   );
 
+  interface ISnippetMap {
+    id: string,
+    title: string,
+    bodyPreview: string,
+    isPrivate: boolean
+  }
+
   // 	<Link to={`/snippet/delete/${id}`}>{deleteIcon(id)}</Link>
   // This creates all the snippets as an object
-  let allTheThings = data.allSnippets.map(({id, title, bodyPreview, isPrivate}) => (
+  const allTheThings: ReactElement = data.allSnippets.map(({id, title, bodyPreview, isPrivate}: ISnippetMap) => (
     <div key={id} className="row">
       <div className="col1">
         <Link to={`/snippet/${id}`}>{editIcon()}</Link>
@@ -157,6 +156,7 @@ const AllSnippetsQuery = () => {
 
   return (
     <div>
+      <p className="App-page-title">All Snippets List</p>
       <div id="allTheThings">
         <Headers />
         {allTheThings}

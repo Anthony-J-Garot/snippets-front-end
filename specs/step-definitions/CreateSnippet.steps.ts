@@ -1,5 +1,5 @@
 import {loadFeature, defineFeature} from 'jest-cucumber';
-import CreateSnippet from '../../src/pages/CreateSnippet/index.js';
+import CreateSnippet from '../../src/pages/CreateSnippet/index';
 import {noop} from '../../src/utils.js';
 
 const feature = loadFeature('../features/CreateSnippet.feature');

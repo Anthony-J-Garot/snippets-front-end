@@ -4,22 +4,24 @@ import {
   gql,
   useMutation,
 } from '@apollo/client';
-import ALL_SNIPPETS_QUERY from '../AllSnippets/index.js';
-import SnippetFormFields from '../../SnippetFormFields.js';
-import noticesStore from '../../Observables/noticesStore.ts';
+import ALL_SNIPPETS_QUERY from '../AllSnippets/index';
+import SnippetFormFields, {IFormState} from '../../SnippetFormFields';
+import noticesStore from '../../Observables/noticesStore';
+
+const initialState: IFormState = {
+  title: '',
+  body: '',
+  private: true
+};
 
 /*
  * Define this page component
  */
-const CreateSnippet: React.FC<> = (): ReactElement<> => {
+const CreateSnippet: React.FC = (): ReactElement => {
 
   // The data that’s typed into the form fields is held in the
   // component’s local state by way of the useState hook.
-  const [formState, setFormState] = useState({
-    title: '',
-    body: '',
-    private: true
-  });
+  const [formState, setFormState] = useState(initialState);
 
   // The useMutation hook passes the state into the mutation
   const [createSnippet] = useMutation(CREATE_SNIPPET_MUTATION, {
@@ -32,7 +34,7 @@ const CreateSnippet: React.FC<> = (): ReactElement<> => {
     },
     refetchQueries: [ALL_SNIPPETS_QUERY],	// This is wrapped in gql tab
     onCompleted: (data) => {
-      // console.log('onCompleted (createSnippet)', data);
+      console.log('onCompleted (createSnippet)', data);
       noticesStore.setNotice({notice: 'Your snippet has been created'});
     },
     onError: (error) => {

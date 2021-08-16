@@ -34,7 +34,7 @@ can change the port inside this file if you wish.
 
 I began by writing a query to pull all rows from the sqlite3
 db used by the backend. A query is the simplest form of GraphQL. 
-See AllSnippets/index.js for specifics.
+See AllSnippets/index.tsx for specifics.
 
 I put the Apollo client connection into a file called 
 ApolloClient.js so that I could have one connection for multiple 

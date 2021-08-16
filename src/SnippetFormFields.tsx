@@ -1,6 +1,12 @@
 import React, {ReactElement} from 'react';
 
-const SnippetFormFields: React.FC<> = (formState: unknown, setFormState: () => void ): ReactElement<> => {
+export interface IFormState {
+  title: string,
+  body: string,
+  private: boolean
+}
+
+const SnippetFormFields = (formState: IFormState, setFormState: (arg0: IFormState) => void): ReactElement => {
 
   return (
     <div className="flex flex-column mt3">

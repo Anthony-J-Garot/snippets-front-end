@@ -7,7 +7,7 @@ import Notice from './Notice.js';
 /*
  * App level component
  */
-const App: React.FC<> = (): ReactElement<> => {
+const App: React.FC = (): ReactElement => {
   const logo = process.env.PUBLIC_URL + '/logo.svg';
 
   return (

@@ -21,7 +21,7 @@ transactions.push({
 /*
  * Define this page component
  */
-const SubscribeSnippet: React.FC<> = (): ReactElement<> => {
+const SubscribeSnippet: React.FC = (): ReactElement => {
 
   // Set up useState with the initial value from above
   const [state, setState] = useState({

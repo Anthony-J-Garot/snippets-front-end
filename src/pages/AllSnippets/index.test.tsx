@@ -90,15 +90,19 @@ it('renders without error', () => {
  */
 it('should render rows', async () => {
 
-  const component = TestRenderer.create(
-    <BrowserRouter>
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <AllSnippets />
-      </MockedProvider>,
-    </BrowserRouter>
-  );
+  let component = {};
+  await TestRenderer.act(async () => {
+    component = await TestRenderer.create(
+      <BrowserRouter>
+        <MockedProvider mocks={mocks} addTypename={false}>
+          <AllSnippets />
+        </MockedProvider>,
+      </BrowserRouter>
+    );
 
-  await new Promise(resolve => setTimeout(resolve, 200 + (Math.random() * 300)));
+    await new Promise(resolve => setTimeout(resolve, 200 + (Math.random() * 300)));
+  });
+
 
   // You can convert to JSON first then drill down from there.
   // console.log(component.toJSON()[0].children[1].children[1].children[1]);

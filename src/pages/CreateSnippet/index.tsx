@@ -4,7 +4,7 @@ import {
   gql,
   useMutation,
 } from '@apollo/client';
-import ALL_SNIPPETS_QUERY from '../AllSnippets/index';
+import {ALL_SNIPPETS_QUERY} from '../AllSnippets';
 import SnippetFormFields, {IFormState} from '../../SnippetFormFields';
 import noticesStore from '../../Observables/noticesStore';
 
@@ -74,7 +74,8 @@ const CreateSnippet: React.FC = (): ReactElement => {
 // }
 // `
 
-const CREATE_SNIPPET_MUTATION = gql`
+// Export for the unit test
+export const CREATE_SNIPPET_MUTATION = gql`
 mutation mutCreateSnippet($input: FormCreateSnippetMutationInput!) {
   createFormSnippet(input: $input) {
     snippet {

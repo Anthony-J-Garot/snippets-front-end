@@ -1,5 +1,5 @@
 import React, {ReactElement} from 'react';
-import {gql, useMutation, useQuery, InternalRefetchQueryDescriptor, DocumentNode} from '@apollo/client';
+import {gql, useMutation, useQuery, DocumentNode} from '@apollo/client';
 import {Link} from 'react-router-dom';
 import './index.css';
 
@@ -99,7 +99,7 @@ const AllSnippets: React.FC = (): ReactElement => {
 
   if (loading) return (
     <div>
-      <p>Loading...</p>
+      <p className='loading'>Loading...</p>
     </div>
   );
 

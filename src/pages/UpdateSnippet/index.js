@@ -6,7 +6,7 @@ import {
   useQuery,
 } from '@apollo/client';
 import {useRouteMatch, useHistory} from 'react-router-dom';
-import ALL_SNIPPETS_QUERY from '../AllSnippets/index';
+import {ALL_SNIPPETS_QUERY} from '../AllSnippets/index';
 import SnippetFormFields from '../../SnippetFormFields';
 import noticesStore from '../../Observables/noticesStore.ts';
 
@@ -60,7 +60,15 @@ const UpdateSnippet: React.FC = (): ReactElement => {
         private: formState.private,
       }
     },
-    refetchQueries: [ALL_SNIPPETS_QUERY],	// This is wrapped in gql tab
+    // Note that is is an array. You can specify multiple queries to refetch after the mutation occurs.
+    // Note: refetchQueries will only work with strings if the component that defined the original query
+    // is not unmounted. On the contrary, it will always work when using the
+    // { query... , variables: ... } style.
+    // https://github.com/apollographql/apollo-client/issues/5419#issuecomment-598065442
+    refetchQueries: [{
+      query: ALL_SNIPPETS_QUERY,
+      variables: {}
+    }],
     onCompleted: (data) => {
       console.log('onCompleted (updateSnippet) ', data);
       // Preferred way to redirect

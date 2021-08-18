@@ -32,7 +32,15 @@ const CreateSnippet: React.FC = (): ReactElement => {
         private: formState.private,
       }
     },
-    refetchQueries: [ALL_SNIPPETS_QUERY],	// This is wrapped in gql tab
+    // Note that is is an array. You can specify multiple queries to refetch after the mutation occurs.
+    // Note: refetchQueries will only work with strings if the component that defined the original query
+    // is not unmounted. On the contrary, it will always work when using the
+    // { query... , variables: ... } style.
+    // https://github.com/apollographql/apollo-client/issues/5419#issuecomment-598065442
+    refetchQueries: [{
+      query: ALL_SNIPPETS_QUERY,
+      variables: {}
+    }],
     onCompleted: (data) => {
       console.log('onCompleted (createSnippet)', data);
       noticesStore.setNotice({notice: 'Your snippet has been created'});

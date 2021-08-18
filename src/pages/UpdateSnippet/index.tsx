@@ -6,9 +6,9 @@ import {
   useQuery,
 } from '@apollo/client';
 import {useRouteMatch, useHistory} from 'react-router-dom';
-import {ALL_SNIPPETS_QUERY} from '../AllSnippets/index';
+import {ALL_SNIPPETS_QUERY} from '../AllSnippets';
 import SnippetFormFields from '../../SnippetFormFields';
-import noticesStore from '../../Observables/noticesStore.ts';
+import noticesStore from '../../Observables/noticesStore';
 
 /*
  * Define this page component.
@@ -18,9 +18,9 @@ import noticesStore from '../../Observables/noticesStore.ts';
  * https://stackoverflow.com/questions/62571120/apollo-hooks-usequery-and-usemutation-under-the-same-component
  */
 const UpdateSnippet: React.FC = (): ReactElement => {
-  let match = useRouteMatch();
-  let snippetId = match.params['snippetId'];
-  let history = useHistory();
+  const {params} = useRouteMatch();
+  const snippetId: string = params.snippetId;
+  const history = useHistory();
 
   const {data} = useQuery(GET_SNIPPET_QUERY, {
     fetchPolicy: 'network-only', // if only grabbing one record, always get from DB
@@ -96,7 +96,7 @@ const UpdateSnippet: React.FC = (): ReactElement => {
   );
 };
 
-const GET_SNIPPET_QUERY = gql`
+export const GET_SNIPPET_QUERY = gql`
 query snippetById($id: String!) {
   snippetById(id: $id) {
     id
@@ -110,7 +110,7 @@ query snippetById($id: String!) {
 }
 `;
 
-const UPDATE_SNIPPET_MUTATION = gql`
+export const UPDATE_SNIPPET_MUTATION = gql`
 mutation updateSnippet($id: ID!, $input: SnippetInput!) {
   updateSnippet(id: $id, input: $input) {
     snippet {

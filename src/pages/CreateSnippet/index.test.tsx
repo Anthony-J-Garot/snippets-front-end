@@ -137,7 +137,7 @@ it('renders without error', () => {
   expect(submitButton.props.children).toBe('Create Snippet');
 });
 
-it('should create shippet', async () => {
+it('should create snippet', async () => {
   const component = TestRenderer.create(
     <BrowserRouter>
       <MockedProvider mocks={mocks} addTypename={false}>

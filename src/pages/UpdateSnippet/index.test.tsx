@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropsWithChildren} from 'react';
 import TestRenderer from 'react-test-renderer';
 import {MockedProvider, MockedResponse} from '@apollo/client/testing';
 import UpdateSnippet, {GET_SNIPPET_QUERY, UPDATE_SNIPPET_MUTATION} from './index';
@@ -13,15 +13,27 @@ import {ALL_SNIPPETS_QUERY} from '../AllSnippets';
  * $ yarn test src/pages/UpdateSnippet/
  */
 
-export const newDataGetSnippetQuery = () => {
+// Define an arbitrary snippetId that will be used for all mock data for the update
+const updateProps: PropsWithChildren<{ snippetId: string }> = {snippetId: '818'};
+
+const mockUpdateInputVariables = {
+  'id': updateProps.snippetId,
+  'input': {
+    'title': 'Godzilla',
+    'body': 'With a purposeful grimace and a terrible sound\nHe pulls the spitting high tension wires down',
+    'private': false
+  }
+};
+
+export const newDataGetSnippetQueryForUpdate = () => {
   return {
     'data': {
       'snippetById': {
-        'id': '3',
-        'title': 'Blog Entry #3',
-        'body': 'Chick Corea on the keyboards',
-        'private': false,
-        'owner': 'admin',
+        'id': mockUpdateInputVariables.id,
+        'title': mockUpdateInputVariables.input.title,
+        'body': mockUpdateInputVariables.input.body,
+        'private': mockUpdateInputVariables.input.private,
+        'owner': 'john.smith',
         'created': '2021-07-16T18:36:50.206000+00:00',
         '__typename': 'SnippetType'
       }
@@ -29,14 +41,15 @@ export const newDataGetSnippetQuery = () => {
   };
 };
 
-export const newDataUpdateSnippet = () => {
+export const newDataUpdateSnippet = (snippetId: string) => {
   return {
     'data': {
-      'updateFormSnippet': {
+      'updateSnippet': {
         'snippet': {
-          'id': '12',
+          'id': snippetId,
           'title': 'Rodan',
           'body': 'This does not actually have to match the inputs above.',
+          'bodyPreview': 'This does not actually have to match the inputs above.',
           'private': true,
           'owner': 'admin'
         },
@@ -55,7 +68,7 @@ export const newDataAllSnippets = () => {
           'title': 'Media Item #1',
           'body': 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
           'bodyPreview': 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX',
-          'updated': '2018-06-13T08:02:21.517000+00:00',
+          'created': '2018-06-13T08:02:21.517000+00:00',
           'isPrivate': true,
           'owner': 'john.smith',
           '__typename': 'SnippetType'
@@ -65,7 +78,7 @@ export const newDataAllSnippets = () => {
           'title': 'Chick Corea',
           'body': 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\n\nThis shows a really long body. The body_preview or bodyPreview should truncate at a set # of chars.',
           'bodyPreview': 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX',
-          'updated': '2012-04-23T18:25:43.511000+00:00',
+          'created': '2012-04-23T18:25:43.511000+00:00',
           'isPrivate': true,
           'owner': 'admin',
           '__typename': 'SnippetType'
@@ -75,7 +88,7 @@ export const newDataAllSnippets = () => {
           'title': 'Blog Entry #3',
           'body': 'Chick Corea on the keyboards',
           'bodyPreview': 'Chick Corea on the keyboards',
-          'updated': '2021-07-16T18:36:50.206000+00:00',
+          'created': '2021-07-16T18:36:50.206000+00:00',
           'isPrivate': false,
           'owner': 'admin',
           '__typename': 'SnippetType'
@@ -94,14 +107,14 @@ const mocks: readonly MockedResponse[] = [
   {
     request: {
       query: GET_SNIPPET_QUERY,
-      variables: {'id': '3'},
+      variables: {'id': updateProps.snippetId},
     },
     // newData totally overrides result
     newData: () => {
       // . . . arbitrary logic . . .
       console.log('mock newData 0: fired');
 
-      return newDataGetSnippetQuery();
+      return newDataGetSnippetQueryForUpdate();
     },
   },
 
@@ -109,14 +122,7 @@ const mocks: readonly MockedResponse[] = [
   {
     request: {
       query: UPDATE_SNIPPET_MUTATION,
-      variables: {
-        'input': {
-          'id': '3',
-          'title': 'Godzilla',
-          'body': 'With a purposeful grimace and a terrible sound\nHe pulls the spitting high tension wires down',
-          'private': false
-        }
-      },
+      variables: mockUpdateInputVariables,
     },
     // newData totally overrides result
     newData: () => {
@@ -124,7 +130,7 @@ const mocks: readonly MockedResponse[] = [
       console.log('mock newData 1: fired');
 
       updateMutationCalled = true;
-      return newDataUpdateSnippet();
+      return newDataUpdateSnippet(updateProps.snippetId);
     },
   },
 
@@ -148,82 +154,83 @@ const mocks: readonly MockedResponse[] = [
 /*
  * Need <BrowseRouter> because of embedded <Link>s.
  */
-it('renders without error', () => {
-  const component = TestRenderer.create(
-    <BrowserRouter>
-      <MockedProvider addTypename={false}>
-        <UpdateSnippet />
-      </MockedProvider>,
-    </BrowserRouter>
-  );
-
-  // The "test instance"
-  const instance = component.root;
-
-  // Make sure the component rendered
-  const updateSnippet = instance.findByType(UpdateSnippet);
-  expect(updateSnippet).toBeDefined();
-
-  // Find the submit button (There can be only one)
-  const submitButton = instance.findByType('button');
-  expect(submitButton).toBeDefined();
-  expect(submitButton.props.children).toBe('Update Snippet');
-});
-
-// it('should update snippet', async () => {
+// it('renders without error', () => {
 //   const component = TestRenderer.create(
 //     <BrowserRouter>
-//       <MockedProvider mocks={mocks} addTypename={false}>
-//         <UpdateSnippet />
+//       <MockedProvider addTypename={false}>
+//         <UpdateSnippet {...updateProps} />
 //       </MockedProvider>,
 //     </BrowserRouter>
 //   );
 //
+//
 //   // The "test instance"
 //   const instance = component.root;
 //
-//   // Find the form fields
-//   const title = instance.findByProps({type: 'text', id: 'title'});
-//   const body = instance.findByProps({id: 'body'});
-//   const isPrivate = instance.findByProps({type: 'checkbox', id: 'private'});
+//   // Make sure the component rendered
+//   const updateSnippet = instance.findByType(UpdateSnippet);
+//   expect(updateSnippet).toBeDefined();
 //
-//   // Update the values to something I can track later.
-//   // Updates should fire off the setFormState event.
-//   // I must specify each FormEvent object that is expected
-//   // in SnippetFormFields.tsx, e.g. e.target.value
-//   const expectedTitle = 'Godzilla';
-//   const expectedBody = '' +
-//     'With a purposeful grimace and a terrible sound\n' +
-//     'He pulls the spitting high tension wires down';
-//   const expectedIsPrivate = false;
-//   await TestRenderer.act(async () => {
-//     title.props.onChange({target: {value: expectedTitle}});
-//   });
-//   await TestRenderer.act(async () => {
-//     body.props.onChange({target: {value: expectedBody}});
-//   });
-//   await TestRenderer.act(async () => {
-//     isPrivate.props.onChange({target: {checked: expectedIsPrivate}});  // Note: checked instead of value
-//   });
-//
-//   expect(title.props.value).toBe(expectedTitle);
-//   expect(body.props.value).toBe(expectedBody);
-//   expect(isPrivate.props.checked).toBe(expectedIsPrivate);
-//
-//   // Find the form (There can be only one)
-//   const form = instance.findByType('form');
-//   expect(form).toBeDefined();
-//   //console.log('form.props.onSubmit', form.props.onSubmit);
-//
-//   await TestRenderer.act(async () => {
-//     form.props.onSubmit({
-//       preventDefault: () => false
-//     });
-//
-//     await new Promise(resolve => setTimeout(resolve, 200 + (Math.random() * 300)));
-//   });
-//
-//   // How did we do?
-//   expect(updateMutationCalled).toBe(true);
-//   expect(refetchCalled).toBe(true);
-//});
+//   // Find the submit button (There can be only one)
+//   const submitButton = instance.findByType('button');
+//   expect(submitButton).toBeDefined();
+//   expect(submitButton.props.children).toBe('Update Snippet');
+// });
+
+it('should update snippet', async () => {
+  const component = TestRenderer.create(
+    <BrowserRouter>
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <UpdateSnippet {...updateProps} />
+      </MockedProvider>,
+    </BrowserRouter>
+  );
+
+
+  // The "test instance"
+  const instance = component.root;
+
+  // Find the form fields
+  const title = instance.findByProps({type: 'text', id: 'title'});
+  const body = instance.findByProps({id: 'body'});
+  const isPrivate = instance.findByProps({type: 'checkbox', id: 'private'});
+
+  // Update the values to something I can track later.
+  // Updates should fire off the setFormState event.
+  // I must specify each FormEvent object that is expected
+  // in SnippetFormFields.tsx, e.g. e.target.value
+  const expectedTitle = mockUpdateInputVariables.input.title;
+  const expectedBody = mockUpdateInputVariables.input.body;
+  const expectedIsPrivate = mockUpdateInputVariables.input.private;
+
+  await TestRenderer.act(async () => {
+    title.props.onChange({target: {value: expectedTitle}});
+  });
+  await TestRenderer.act(async () => {
+    body.props.onChange({target: {value: expectedBody}});
+  });
+  await TestRenderer.act(async () => {
+    isPrivate.props.onChange({target: {checked: expectedIsPrivate}});  // Note: checked instead of value
+  });
+
+  // Find the form (There can be only one)
+  const form = instance.findByType('form');
+  expect(form).toBeDefined();
+  //console.log('form.props.onSubmit', form.props.onSubmit);
+
+  await TestRenderer.act(async () => {
+    form.props.onSubmit({
+      preventDefault: () => false
+    });
+
+    await new Promise(resolve => setTimeout(resolve, 200 + (Math.random() * 300)));
+  });
+
+  expect(title.props.value).toBe(expectedTitle);
+  expect(body.props.value).toBe(expectedBody);
+  expect(isPrivate.props.checked).toBe(expectedIsPrivate);
+
+  // How did we do?
+  expect(updateMutationCalled).toBe(true);
+  expect(refetchCalled).toBe(true);
+});

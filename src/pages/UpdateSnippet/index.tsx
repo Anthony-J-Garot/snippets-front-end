@@ -1,11 +1,11 @@
-import React, {ReactElement, useState} from 'react';
+import React, {PropsWithChildren, ReactElement, useState} from 'react';
 import './index.css';
 import {
   gql,
   useMutation,
   useQuery,
 } from '@apollo/client';
-import {useRouteMatch, useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import {ALL_SNIPPETS_QUERY} from '../AllSnippets';
 import SnippetFormFields from '../../SnippetFormFields';
 import noticesStore from '../../Observables/noticesStore';
@@ -17,10 +17,30 @@ import noticesStore from '../../Observables/noticesStore';
  * name, i.e. data, loading, error. I followed the advice here:
  * https://stackoverflow.com/questions/62571120/apollo-hooks-usequery-and-usemutation-under-the-same-component
  */
-const UpdateSnippet: React.FC = (): ReactElement => {
-  const {params} = useRouteMatch();
-  const snippetId: string = params.snippetId;
+const UpdateSnippet: React.FC<{ snippetId: string }> = (UpdateProps: PropsWithChildren<{ snippetId: string }>): ReactElement => {
+
+  // console.log('UpdateProps', UpdateProps);
+
   const history = useHistory();
+
+  let snippetId = '';   // initialize to nonsensical value
+  if ('match' in UpdateProps) {
+    //console.log('Found match');
+    snippetId = UpdateProps.match.params.snippetId;
+  } else if ('snippetId' in UpdateProps) {
+    //console.log('Found snippetId');
+    snippetId = UpdateProps.snippetId;
+  } else {
+    console.error('Fundamental flaw: Couldn\'t find snippetId');
+    return (
+      <div>Fundamentally flawed code</div>
+    );
+  }
+  // console.log('ENTERED . . . id is: ', snippetId);
+
+  // We need the id of the snippet to display to the user and update later.
+  // Where does it come from? The Router in normal use, passes through the props
+  // With unit tests I might pass it through the parameters.
 
   const {data} = useQuery(GET_SNIPPET_QUERY, {
     fetchPolicy: 'network-only', // if only grabbing one record, always get from DB

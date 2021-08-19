@@ -14,12 +14,13 @@ const SnippetFormFields = (formState: IFormState, setFormState: (arg0: IFormStat
         id='title'
         className='mb2'
         value={formState.title}
-        onChange={(e) =>
+        onChange={(e) => {
+          // console.log('Inside onChange event', e);
           setFormState({
             ...formState,
             title: e.target.value
-          })
-        }
+          });
+        }}
         type='text'
         placeholder='A title for the snippet'
       />

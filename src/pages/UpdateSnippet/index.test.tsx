@@ -41,12 +41,12 @@ export const newDataGetSnippetQueryForUpdate = () => (
   } as const
 );
 
-export const newDataUpdateSnippet = (snippetId: string) => (
+export const newDataUpdateSnippet = () => (
   {
     'data': {
       'updateSnippet': {
         'snippet': {
-          'id': snippetId,
+          'id': updateProps.snippetId,
           'title': 'Rodan',
           'body': 'This does not actually have to match the inputs above.',
           'bodyPreview': 'This does not actually have to match the inputs above.',
@@ -130,7 +130,7 @@ const mocks: readonly MockedResponse[] = [
       console.log('mock newData 1: fired');
 
       updateMutationCalled = true;
-      return newDataUpdateSnippet(updateProps.snippetId);
+      return newDataUpdateSnippet();
     },
   },
 
@@ -154,29 +154,6 @@ const mocks: readonly MockedResponse[] = [
 /*
  * Need <BrowseRouter> because of embedded <Link>s.
  */
-// it('renders without error', () => {
-//   const component = TestRenderer.create(
-//     <BrowserRouter>
-//       <MockedProvider addTypename={false}>
-//         <UpdateSnippet {...updateProps} />
-//       </MockedProvider>,
-//     </BrowserRouter>
-//   );
-//
-//
-//   // The "test instance"
-//   const instance = component.root;
-//
-//   // Make sure the component rendered
-//   const updateSnippet = instance.findByType(UpdateSnippet);
-//   expect(updateSnippet).toBeDefined();
-//
-//   // Find the submit button (There can be only one)
-//   const submitButton = instance.findByType('button');
-//   expect(submitButton).toBeDefined();
-//   expect(submitButton.props.children).toBe('Update Snippet');
-// });
-
 it('should update snippet', async () => {
   const component = TestRenderer.create(
     <BrowserRouter>

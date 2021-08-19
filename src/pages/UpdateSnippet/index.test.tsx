@@ -1,9 +1,16 @@
-import React, {PropsWithChildren} from 'react';
+import React from 'react';
 import TestRenderer from 'react-test-renderer';
 import {MockedProvider, MockedResponse} from '@apollo/client/testing';
 import UpdateSnippet, {GET_SNIPPET_QUERY, UPDATE_SNIPPET_MUTATION} from './index';
 import {BrowserRouter} from 'react-router-dom';
 import {ALL_SNIPPETS_QUERY} from '../AllSnippets';
+import {newDataAllSnippets} from '../AllSnippets/mockFixtures';
+import {
+  mockUpdateInputVariables,
+  newDataGetSnippetQueryForUpdate,
+  newDataUpdateSnippet,
+  updateProps
+} from './mockFixtures';
 
 /*
  * For standard (non Gherkin) unit tests, the jest framework works well enough.
@@ -13,91 +20,6 @@ import {ALL_SNIPPETS_QUERY} from '../AllSnippets';
  * $ yarn test src/pages/UpdateSnippet/
  */
 
-// Define an arbitrary snippetId that will be used for all mock data for the update
-const updateProps: PropsWithChildren<{ snippetId: string }> = {snippetId: '818'};
-
-const mockUpdateInputVariables = {
-  'id': updateProps.snippetId,
-  'input': {
-    'title': 'Godzilla',
-    'body': 'With a purposeful grimace and a terrible sound\nHe pulls the spitting high tension wires down',
-    'private': false
-  }
-};
-
-export const newDataGetSnippetQueryForUpdate = () => (
-  {
-    'data': {
-      'snippetById': {
-        'id': mockUpdateInputVariables.id,
-        'title': mockUpdateInputVariables.input.title,
-        'body': mockUpdateInputVariables.input.body,
-        'private': mockUpdateInputVariables.input.private,
-        'owner': 'john.smith',
-        'created': '2021-07-16T18:36:50.206000+00:00',
-        '__typename': 'SnippetType'
-      }
-    }
-  } as const
-);
-
-export const newDataUpdateSnippet = () => (
-  {
-    'data': {
-      'updateSnippet': {
-        'snippet': {
-          'id': updateProps.snippetId,
-          'title': 'Rodan',
-          'body': 'This does not actually have to match the inputs above.',
-          'bodyPreview': 'This does not actually have to match the inputs above.',
-          'private': true,
-          'owner': 'admin'
-        },
-        'ok': true
-      }
-    }
-  } as const
-);
-
-export const newDataAllSnippets = () => (
-  {
-    'data': {
-      'allSnippets': [
-        {
-          'id': '1',
-          'title': 'Media Item #1',
-          'body': 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
-          'bodyPreview': 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX',
-          'created': '2018-06-13T08:02:21.517000+00:00',
-          'isPrivate': true,
-          'owner': 'john.smith',
-          '__typename': 'SnippetType'
-        },
-        {
-          'id': '2',
-          'title': 'Chick Corea',
-          'body': 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\n\nThis shows a really long body. The body_preview or bodyPreview should truncate at a set # of chars.',
-          'bodyPreview': 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX',
-          'created': '2012-04-23T18:25:43.511000+00:00',
-          'isPrivate': true,
-          'owner': 'admin',
-          '__typename': 'SnippetType'
-        },
-        {
-          'id': '3',
-          'title': 'Blog Entry #3',
-          'body': 'Chick Corea on the keyboards',
-          'bodyPreview': 'Chick Corea on the keyboards',
-          'created': '2021-07-16T18:36:50.206000+00:00',
-          'isPrivate': false,
-          'owner': 'admin',
-          '__typename': 'SnippetType'
-        },
-      ],
-      '__typename': 'Query'
-    }
-  } as const
-);
 
 let updateMutationCalled = false;
 let refetchCalled = false;
@@ -162,7 +84,6 @@ it('should update snippet', async () => {
       </MockedProvider>,
     </BrowserRouter>
   );
-
 
   // The "test instance"
   const instance = component.root;

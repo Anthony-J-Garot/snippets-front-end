@@ -4,6 +4,8 @@ import {MockedProvider, MockedResponse} from '@apollo/client/testing';
 import CreateSnippet, {CREATE_SNIPPET_MUTATION} from './index';
 import {BrowserRouter} from 'react-router-dom';
 import {ALL_SNIPPETS_QUERY} from '../AllSnippets';
+import {mockCreateInputVariables, newDataCreateSnippet} from './mockFixtures';
+import {newDataAllSnippets} from '../AllSnippets/mockFixtures';
 
 /*
  * For standard (non Gherkin) unit tests, the jest framework works well enough.
@@ -13,62 +15,6 @@ import {ALL_SNIPPETS_QUERY} from '../AllSnippets';
  * $ yarn test src/pages/CreateSnippet/
  */
 
-export const newDataCreateSnippet = () => {
-  return {
-    'data': {
-      'createFormSnippet': {
-        'snippet': {
-          'id': '12',
-          'title': 'Rodan',
-          'body': 'This does not actually have to match the inputs above.',
-          'private': true,
-          'owner': 'admin'
-        },
-        'ok': true
-      }
-    }
-  };
-};
-
-export const newDataAllSnippets = () => {
-  return {
-    'data': {
-      'allSnippets': [
-        {
-          'id': '1',
-          'title': 'Media Item #1',
-          'body': 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
-          'bodyPreview': 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX',
-          'created': '2018-06-13T08:02:21.517000+00:00',
-          'isPrivate': true,
-          'owner': 'john.smith',
-          '__typename': 'SnippetType'
-        },
-        {
-          'id': '2',
-          'title': 'Chick Corea',
-          'body': 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\n\nThis shows a really long body. The body_preview or bodyPreview should truncate at a set # of chars.',
-          'bodyPreview': 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX',
-          'created': '2012-04-23T18:25:43.511000+00:00',
-          'isPrivate': true,
-          'owner': 'admin',
-          '__typename': 'SnippetType'
-        },
-        {
-          'id': '3',
-          'title': 'Blog Entry #3',
-          'body': 'Chick Corea on the keyboards',
-          'bodyPreview': 'Chick Corea on the keyboards',
-          'created': '2021-07-16T18:36:50.206000+00:00',
-          'isPrivate': false,
-          'owner': 'admin',
-          '__typename': 'SnippetType'
-        },
-      ],
-      '__typename': 'Query'
-    }
-  };
-};
 
 let createMutationCalled = false;
 let refetchCalled = false;
@@ -77,15 +23,9 @@ const mocks: readonly MockedResponse[] = [
   {
     request: {
       query: CREATE_SNIPPET_MUTATION,
-      variables: {
-        'input': {
-          'title': 'Godzilla',
-          'body': 'With a purposeful grimace and a terrible sound\nHe pulls the spitting high tension wires down',
-          'private': false
-        }
-      },
+      variables: mockCreateInputVariables,
     },
-    // newData totally overrides result
+    // newData: totally overrides result:
     newData: () => {
       // . . . arbitrary logic . . .
       console.log('mock newData 0: fired');

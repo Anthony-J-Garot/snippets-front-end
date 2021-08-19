@@ -3,6 +3,7 @@ import TestRenderer from 'react-test-renderer';
 import {MockedProvider, MockedResponse} from '@apollo/client/testing';
 import AllSnippets, {ALL_SNIPPETS_QUERY} from './index';
 import {BrowserRouter} from 'react-router-dom';
+import {newDataAllSnippets} from './mockFixtures';
 
 /*
  * For standard (non Gherkin) unit tests, the jest framework works well enough.
@@ -22,51 +23,11 @@ const mocks: readonly MockedResponse[] = [
       query: ALL_SNIPPETS_QUERY,
       variables: {},
     },
-    result: () => {
+    newData: () => {
       // . . . arbitrary logic . . .
-      // console.log('Result fired');
+      console.log('Result fired');
 
-      /*
-       * Note that I needed to switch the "private" field to the alias name, "isPrivate,"
-       * in the data.
-       */
-      return {
-        'data': {
-          'allSnippets': [
-            {
-              'id': '1',
-              'title': 'Media Item #1',
-              'body': 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
-              'bodyPreview': 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX',
-              'created': '2018-06-13T08:02:21.517000+00:00',
-              'isPrivate': true,
-              'owner': 'john.smith',
-              '__typename': 'SnippetType'
-            },
-            {
-              'id': '2',
-              'title': 'Chick Corea',
-              'body': 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\n\nThis shows a really long body. The body_preview or bodyPreview should truncate at a set # of chars.',
-              'bodyPreview': 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX',
-              'created': '2012-04-23T18:25:43.511000+00:00',
-              'isPrivate': true,
-              'owner': 'admin',
-              '__typename': 'SnippetType'
-            },
-            {
-              'id': '3',
-              'title': 'Blog Entry #3',
-              'body': 'Chick Corea on the keyboards',
-              'bodyPreview': 'Chick Corea on the keyboards',
-              'created': '2021-07-16T18:36:50.206000+00:00',
-              'isPrivate': false,
-              'owner': 'admin',
-              '__typename': 'SnippetType'
-            },
-          ],
-          '__typename': 'Query'
-        }
-      };
+      return newDataAllSnippets();
     },
   },
 ];

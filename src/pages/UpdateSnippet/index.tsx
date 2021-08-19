@@ -10,6 +10,11 @@ import {ALL_SNIPPETS_QUERY} from '../AllSnippets';
 import SnippetFormFields from '../../SnippetFormFields';
 import noticesStore from '../../Observables/noticesStore';
 
+interface IUpdateProps {
+  snippetId: string,
+  match?: any
+}
+
 /*
  * Define this page component.
  * Note that I blend the useQuery and useMutation hooks in the same component.
@@ -17,7 +22,7 @@ import noticesStore from '../../Observables/noticesStore';
  * name, i.e. data, loading, error. I followed the advice here:
  * https://stackoverflow.com/questions/62571120/apollo-hooks-usequery-and-usemutation-under-the-same-component
  */
-const UpdateSnippet: React.FC<{ snippetId: string }> = (UpdateProps: PropsWithChildren<{ snippetId: string }>): ReactElement => {
+const UpdateSnippet: React.FC<IUpdateProps> = (UpdateProps: PropsWithChildren<IUpdateProps>): ReactElement => {
 
   // console.log('UpdateProps', UpdateProps);
 

@@ -25,8 +25,8 @@ const mockUpdateInputVariables = {
   }
 };
 
-export const newDataGetSnippetQueryForUpdate = () => {
-  return {
+export const newDataGetSnippetQueryForUpdate = () => (
+  {
     'data': {
       'snippetById': {
         'id': mockUpdateInputVariables.id,
@@ -38,11 +38,11 @@ export const newDataGetSnippetQueryForUpdate = () => {
         '__typename': 'SnippetType'
       }
     }
-  };
-};
+  } as const
+);
 
-export const newDataUpdateSnippet = (snippetId: string) => {
-  return {
+export const newDataUpdateSnippet = (snippetId: string) => (
+  {
     'data': {
       'updateSnippet': {
         'snippet': {
@@ -56,11 +56,11 @@ export const newDataUpdateSnippet = (snippetId: string) => {
         'ok': true
       }
     }
-  };
-};
+  } as const
+);
 
-export const newDataAllSnippets = () => {
-  return {
+export const newDataAllSnippets = () => (
+  {
     'data': {
       'allSnippets': [
         {
@@ -96,8 +96,8 @@ export const newDataAllSnippets = () => {
       ],
       '__typename': 'Query'
     }
-  };
-};
+  } as const
+);
 
 let updateMutationCalled = false;
 let refetchCalled = false;

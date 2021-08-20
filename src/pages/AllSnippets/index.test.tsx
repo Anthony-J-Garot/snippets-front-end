@@ -1,5 +1,5 @@
 import React from 'react';
-import TestRenderer from 'react-test-renderer';
+import TestRenderer, {ReactTestInstance} from 'react-test-renderer';
 import {MockedProvider, MockedResponse} from '@apollo/client/testing';
 import AllSnippets, {ALL_SNIPPETS_QUERY} from './index';
 import {BrowserRouter} from 'react-router-dom';
@@ -10,7 +10,7 @@ import {newDataAllSnippets} from './mockFixtures';
  * https://jestjs.io/docs/expect
  *
  * To run just the tests in this file:
- * $ yarn test src/pages/AllSnippets/
+ * $ yarn test src/pages/AllSnippets/index.test.tsx
  */
 
 /*
@@ -25,7 +25,7 @@ const mocks: readonly MockedResponse[] = [
     },
     newData: () => {
       // . . . arbitrary logic . . .
-      console.log('Result fired');
+      console.log('newData 0 fired');
 
       return newDataAllSnippets();
     },
@@ -41,7 +41,10 @@ it('renders without error', () => {
     </BrowserRouter>
   );
 
-  const loading = component.root.findAllByProps({className: 'loading'});
+  // The "test instance"
+  const instance = (component as { root: ReactTestInstance }).root;
+
+  const loading = instance.findAllByProps({className: 'loading'});
   // console.log(loading[0].children) ;
   expect(loading[0].children).toContain('Loading...');
 });
@@ -65,13 +68,16 @@ it('should render rows', async () => {
   });
 
 
+  // The "test instance"
+  const instance = (component as { root: ReactTestInstance }).root;
+
   // You can convert to JSON first then drill down from there.
   // console.log(component.toJSON()[0].children[1].children[1].children[1]);
 
   // When using findByProps or findAllByProps, be sure to use the React name,
   // not the HTML name. So use className instead of class, even though in the
   // DOM it's class.
-  const titles = component.root.findAllByProps({className: 'col2'});
+  const titles = instance.findAllByProps({className: 'col2'});
   const title_2 = titles[1].children;
   // console.log('title_2', title_2);
 

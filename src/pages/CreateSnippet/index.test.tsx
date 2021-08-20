@@ -1,5 +1,5 @@
 import React from 'react';
-import TestRenderer from 'react-test-renderer';
+import TestRenderer, {ReactTestInstance} from 'react-test-renderer';
 import {MockedProvider, MockedResponse} from '@apollo/client/testing';
 import CreateSnippet, {CREATE_SNIPPET_MUTATION} from './index';
 import {BrowserRouter} from 'react-router-dom';
@@ -65,7 +65,7 @@ it('renders without error', () => {
   );
 
   // The "test instance"
-  const instance = component.root;
+  const instance = (component as {root:ReactTestInstance}).root;
 
   // Make sure the component rendered
   const createSnippet = instance.findByType(CreateSnippet);
@@ -87,7 +87,7 @@ it('should create snippet', async () => {
   );
 
   // The "test instance"
-  const instance = component.root;
+  const instance = (component as {root:ReactTestInstance}).root;
 
   // Find the form fields
   const title = instance.findByProps({type: 'text', id: 'title'});

@@ -43,3 +43,13 @@ export const newDataAllSnippets = () => (
     }
   } as const
 );
+
+export const newDataDeleteSnippet = () => (
+  {
+    'data': {
+      'deleteSnippet': {
+        'ok': true
+      }
+    }
+  } as const
+);

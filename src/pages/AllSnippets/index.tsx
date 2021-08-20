@@ -20,7 +20,7 @@ query qryAllSnippets {
 }
 `;
 
-const DELETE_SNIPPET_MUTATION = gql`
+export const DELETE_SNIPPET_MUTATION = gql`
 mutation mutDeleteSnippet($id: ID!) {
   deleteSnippet(id: $id) {
     ok
@@ -72,9 +72,7 @@ const editIcon = () => {
 const AllSnippets: React.FC = (): ReactElement => {
 
   const {loading, data, refetch} = useQuery(ALL_SNIPPETS_QUERY, {
-    // Necessary for refetchQueries to work after creating a new entry.
-    // I chose this because there may be changes to the DB from other places
-    // than this front-end App.
+    // fetchPolicy is necessary for refetchQueries to work after creating a new entry.
     fetchPolicy: 'cache-and-network',
     onCompleted: () => {
       console.log('onCompleted (ALL_SNIPPETS_QUERY) fired');
@@ -155,7 +153,7 @@ const AllSnippets: React.FC = (): ReactElement => {
         <div className="col1">
           <Link to={`/snippet/${id}`}>{editIcon()}</Link>
           &nbsp;&nbsp;
-          <Link to="#" onClick={() => mutDeleteSnippet({variables: {id: id}})}>{deleteIcon()}</Link>
+          <Link to="#" className='deleteIcon' id={`delete_${id}`} onClick={() => mutDeleteSnippet({variables: {id: id}})}>{deleteIcon()}</Link>
         </div>
         <div className="col2">
           {title}

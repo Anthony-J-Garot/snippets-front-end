@@ -1,5 +1,5 @@
 import React from 'react';
-import TestRenderer from 'react-test-renderer';
+import TestRenderer, {ReactTestInstance} from 'react-test-renderer';
 import {MockedProvider, MockedResponse} from '@apollo/client/testing';
 import UpdateSnippet, {GET_SNIPPET_QUERY, UPDATE_SNIPPET_MUTATION} from './index';
 import {BrowserRouter} from 'react-router-dom';
@@ -86,7 +86,7 @@ it('should update snippet', async () => {
   );
 
   // The "test instance"
-  const instance = component.root;
+  const instance = (component as {root:ReactTestInstance}).root;
 
   // Find the form fields
   const title = instance.findByProps({type: 'text', id: 'title'});

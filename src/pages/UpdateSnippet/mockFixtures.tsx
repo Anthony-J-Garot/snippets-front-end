@@ -1,7 +1,8 @@
-import {PropsWithChildren} from 'react';
+import {IUpdateProps} from './index';
 
 // Define an arbitrary snippetId that will be used for all mock data for the update
-export const updateProps: PropsWithChildren<{ snippetId: string }> = {snippetId: '818'};
+export const updateProps: IUpdateProps = {} as IUpdateProps;
+updateProps.snippetId = '818';
 
 export const mockUpdateInputVariables = {
   'id': updateProps.snippetId,

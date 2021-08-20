@@ -1,18 +1,14 @@
-import React, {PropsWithChildren, ReactElement, useState} from 'react';
+import React, {ReactElement, useState} from 'react';
 import './index.css';
-import {
-  gql,
-  useMutation,
-  useQuery,
-} from '@apollo/client';
+import {gql, useMutation, useQuery} from '@apollo/client';
 import {useHistory} from 'react-router-dom';
 import {ALL_SNIPPETS_QUERY} from '../AllSnippets';
 import SnippetFormFields from '../../SnippetFormFields';
 import noticesStore from '../../Observables/noticesStore';
+import {RouteComponentProps} from 'react-router-dom';
 
-interface IUpdateProps {
+export interface IUpdateProps extends RouteComponentProps {
   snippetId: string,
-  match?: any
 }
 
 /*
@@ -22,7 +18,7 @@ interface IUpdateProps {
  * name, i.e. data, loading, error. I followed the advice here:
  * https://stackoverflow.com/questions/62571120/apollo-hooks-usequery-and-usemutation-under-the-same-component
  */
-const UpdateSnippet: React.FC<IUpdateProps> = (UpdateProps: PropsWithChildren<IUpdateProps>): ReactElement => {
+const UpdateSnippet: React.FC<IUpdateProps> = (UpdateProps :IUpdateProps): ReactElement => {
 
   // console.log('UpdateProps', UpdateProps);
 
@@ -31,7 +27,7 @@ const UpdateSnippet: React.FC<IUpdateProps> = (UpdateProps: PropsWithChildren<IU
   let snippetId = '';   // initialize to nonsensical value
   if ('match' in UpdateProps) {
     //console.log('Found match');
-    snippetId = UpdateProps.match.params.snippetId;
+    snippetId = (UpdateProps.match.params as {snippetId:string}).snippetId;
   } else if ('snippetId' in UpdateProps) {
     //console.log('Found snippetId');
     snippetId = UpdateProps.snippetId;
@@ -111,7 +107,7 @@ const UpdateSnippet: React.FC<IUpdateProps> = (UpdateProps: PropsWithChildren<IU
       <p className="App-page-title">Update Snippet {snippetId}</p>
       <form onSubmit={(e) => {
         e.preventDefault();
-        updateSnippet();
+        updateSnippet().then(() => {console.log('promise handled');});
       }}>
         {SnippetFormFields(formState, setFormState)}
         <br />

@@ -1,5 +1,5 @@
 import React, {ReactElement, useState, useEffect} from 'react';
-import noticesStore from './Observables/noticesStore.ts';
+import noticesStore from './Observables/noticesStore';
 
 // This only flashes onscreen for a moment.
 // Having it blank means it doesn't show at all.

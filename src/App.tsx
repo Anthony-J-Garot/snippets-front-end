@@ -1,8 +1,8 @@
 import React, {ReactElement} from 'react';
 import './App.css';
-import Main from './Main.js';
-import Navbar from './Navbar.js';
-import Notice from './Notice.js';
+import Main from './Main';
+import Navbar from './Navbar';
+import Notice from './Notice';
 
 /*
  * App level component

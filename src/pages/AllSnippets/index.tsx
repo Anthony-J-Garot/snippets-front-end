@@ -114,7 +114,9 @@ const AllSnippets: React.FC = (): ReactElement => {
   const handleClick = () => {
     // manually refetch
     console.log('refetch button clicked');
-    refetch();
+    refetch().then(() => {
+      console.log('Refetch finished');
+    });
   };
 
   const Headers = () => (
@@ -135,10 +137,14 @@ const AllSnippets: React.FC = (): ReactElement => {
   );
 
   interface ISnippetMap {
-    id: string,
-    title: string,
+    __typename: string,
+    body: string,
     bodyPreview: string,
-    isPrivate: boolean
+    created: string,
+    id: string,
+    isPrivate: boolean,
+    owner: string,
+    title: string,
   }
 
   // 	<Link to={`/snippet/delete/${id}`}>{deleteIcon(id)}</Link>

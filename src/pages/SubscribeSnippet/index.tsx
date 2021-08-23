@@ -5,6 +5,7 @@ import {useState} from 'react';
 import noticesStore from '../../Observables/noticesStore';
 
 interface IFeedItem {
+  ok: boolean,
   sender: string,
   snippet: {
     id: string,
@@ -15,15 +16,21 @@ interface IFeedItem {
   }
 }
 
+// Do not create an instance of this. It will make you unhappy.
+interface ISubscriptionProps {
+  transactions: IFeedItem[]
+}
+
 const transactions: IFeedItem[] = [];
 
-// Placeholder values as I figure out where these fields should go on the page.
+// Just a simple seed value
 const placeholder: IFeedItem = {
+  ok: true,
   sender: 'Books R Us',
   snippet: {
     id: '0',    // placeholder can have a 0 id
     title: 'Calahan\'s Crosstime Saloon',
-    body: 'Lighter fare. I read this in evenings that I was fatigued . . ',
+    body: 'Lighter fare. Enjoyable read.',
     private: false,
     created: '2021-08-04T15:49:43.000000-07:00'
   }
@@ -46,18 +53,17 @@ const SubscribeSnippet: React.FC = (): ReactElement => {
       console.log('SUBSCRIPTION: data sent is ', data);
       transactions.push(data.subscriptionData.data.onSnippetNoGroup);
       console.log('Transactions (' + (transactions.length) + ') ', transactions);
+
+      // Send the transactions array inside an anonymous object
       setState({transactions});
     },
     fetchPolicy: 'network-only', // not really sure what a caching option means in the context of a subscription
     client: useApolloClient(), // unneeded, but leaving as a placeholder to show that I could specify a different one
     shouldResubscribe: true, // not sure what this does
-    context: () => {
-      console.log();
-    }
   });
 
   if (loading) {
-    // console.log("loading");
+    console.log('loading');
   }
 
   if (error) {
@@ -72,16 +78,11 @@ const SubscribeSnippet: React.FC = (): ReactElement => {
   );
 };
 
-const Transaction = (feedItems:IFeedItem[]) => {
-//const Transaction = (feedItems) => {
-  console.log(feedItems);
+const Transaction:React.FC<ISubscriptionProps> = (SubscriptionProps:ISubscriptionProps): ReactElement => {
 
-  // Nothing to see here; move along . . .
-  if (!feedItems) return null;
+  const items = SubscriptionProps.transactions;		// shorthand
 
-  const items = feedItems.transactions;		// shorthand
-
-  console.log('Mapping Feed Transactions (' + (items.length) + ')', items);
+  // console.log('Mapping Feed Transactions (' + (items.length) + ')', items);
 
   const SubscriptionFeed = items.map((item:IFeedItem, index:number) => {
 

@@ -14,6 +14,7 @@ interface IFeedItem {
     private: boolean,
     created: string
   }
+  transType: string
 }
 
 // Do not create an instance of this. It will make you unhappy.
@@ -33,7 +34,8 @@ const placeholder: IFeedItem = {
     body: 'Lighter fare. Enjoyable read.',
     private: false,
     created: '2021-08-04T15:49:43.000000-07:00'
-  }
+  },
+  transType: ''
 };
 transactions.push(placeholder);
 
@@ -78,13 +80,13 @@ const SubscribeSnippet: React.FC = (): ReactElement => {
   );
 };
 
-const Transaction:React.FC<ISubscriptionProps> = (SubscriptionProps:ISubscriptionProps): ReactElement => {
+const Transaction: React.FC<ISubscriptionProps> = (SubscriptionProps: ISubscriptionProps): ReactElement => {
 
   const items = SubscriptionProps.transactions;		// shorthand
 
   // console.log('Mapping Feed Transactions (' + (items.length) + ')', items);
 
-  const SubscriptionFeed = items.map((item:IFeedItem, index:number) => {
+  const SubscriptionFeed = items.map((item: IFeedItem, index: number) => {
 
     if (item.snippet !== null) {
       return (
@@ -92,7 +94,7 @@ const Transaction:React.FC<ISubscriptionProps> = (SubscriptionProps:ISubscriptio
           <div className="sender">{item.sender}</div>
           <div className="row">
             <div className="col1">
-              {item.snippet.id}
+              {item.snippet.id}&nbsp;{item.transType}
             </div>
             <div className="col2">
               {item.snippet.title}
@@ -102,22 +104,6 @@ const Transaction:React.FC<ISubscriptionProps> = (SubscriptionProps:ISubscriptio
             </div>
             <div className="col4">
               {item.snippet.private}
-            </div>
-          </div>
-        </li>
-      );
-    } else {
-      return (
-        <li key={index}>
-          <div className="sender">{item.sender}</div>
-          <div className="row">
-            <div className="col1">
-            </div>
-            <div className="col2">
-            </div>
-            <div className="col3">
-            </div>
-            <div className="col4">
             </div>
           </div>
         </li>
@@ -149,6 +135,7 @@ subscription subNoGroup {
       created
       body
     }
+    transType
     ok
   }
 }

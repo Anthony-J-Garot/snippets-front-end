@@ -3,25 +3,26 @@ Feature: Display Snippets
   Specification brief: This specification will ensure that Snippets render. This may
   be only a specified snippet or all snippets.
 
-  Remember: try to make your specifications as concrete as possible.
+  Remember: Try to make your specifications as concrete as possible, and
+  don't write about buttons, forms, links, and input fields when possible.
 
   Scenario: Display All Public Snippets To Anonymous User
 
   ScenariO brief: Anonymous, or public, users are also known as non-authenticated users.
   Essentially, they do not have an account, or if they do, they haven't signed on.
 
-    Given Jane Doe, a non-authenticated user
-    When Jane navigates to the 'All Snippets' page
-    Then the system shows her only public snippets
+    Given an unregistered user, Jane Doe
+    When Jane views a list of snippets
+    Then she sees only the public snippets
 
-  Scenario: Display All Snippets To Authenticated User
+  Scenario: Display All Relevant Snippets To an Authenticated User
 
   ScenariO brief: An authenticated user has an account and has signed on through a
-  logon validation process.
+  sign-on validation process.
 
-    Given John Smith, who has a valid account
-    When the John authenticates
-    And he navigates to the 'All Snippets' page
-    Then the system shows him all public snippets
-    And all snippets that he authored
-    But not any private snippets that he did not author
+    Given a registered user with a valid account, John Smith
+    And John has signed on to the system
+    When he views a list of snippets
+    Then the system shows him all PUBLIC snippets
+    And all of the snippets that he authored
+    But not any of the PRIVATE snippets that he did not author

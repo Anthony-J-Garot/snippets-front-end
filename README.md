@@ -1,97 +1,61 @@
 # Overview
 
-This is a front-end application separate from the Django backend 
-API that sources GraphQL. The front-end guys on my team tend
-towards React.js, so I cobbled this App to be a proof of concept
-that an isolated front-end can do queries and mutations to the
-[snippets_graphql](https://github.com/Anthony-J-Garot/snippets_graphql) 
-backend that I wrote.
+This is a fully functional front-end application for use with a separate,
+complementary Django backend API that sources GraphQL. I chose React.js
+based upon the suggestion of my team members.
+
+This App is a proof of concept. I created this to learn how to handle
+GraphQL queries, mutations, and subscriptions from React.js to an 
+[API Server](https://github.com/Anthony-J-Garot/snippets_graphql).
 
 This React.js App started as plain vanilla, i.e.
 
 `npx create-react-app snippets-front-end`
 
-then I continued to add to it until it could do queries
-and mutations. I also added routing to allow for easy
+then I continued to add to it until it could do queries,
+mutations, and subscriptions. Routing was added to allow for easy
 access to the features.
 
-# Getting started
+Jest unit tests were created for each of the hooks (useQuery, 
+useMutation, useSubscription). These were added as a precursor to 
+wiring up Gherkin feature specifications.
 
-After ~~npm install~~ yarn install, I loaded these packages.
+Mid-way through the unit tests I converted all (most?) JavaScript to 
+TypeScript files.
 
-`yarn add @apollo/client graphql --dev`
-`yarn add react-router-dom --dev`
+## What the App does
 
-I'm pretty well convinced that yarn is better than npm, hands
-down. 
+Nothing, really. I started with the backend API through Django & Channels,
+and the tutorial spoke of "snippets," and I continued with the theme. 
+Perhaps a "snippet" is like a blog entry. I don't know. The actual purpose
+of the App was for the sake of writing an App, not for what it does.
 
-`./runserver.sh` will get the server running on port 3000. You
-can change the port inside this file if you wish.
-
-# High Level Look at the App
-
-## Began With a Query
-
-I began by writing a query to pull all rows from the sqlite3
-db used by the backend. A query is the simplest form of GraphQL. 
-See AllSnippets/index.tsx for specifics.
-
-I put the Apollo client connection into a file called 
-ApolloClient.js so that I could have one connection for multiple 
-*pages*. To have multiple pages, I needed to add routes. See the 
-Routes section below.
-
-## The Create Mutation was next
-
-This was the second proof of concept, which was a little more
-complex because of the creation of a form. I cobbled this 
-together from various examples on the Internet to my specific
-"snippets" design.
-
-## Routes
-
-After the query spit out data, I moved on to a mutation. However,
-I wanted to keep the All Snippets query. So I created multiple 
-routes for different purposes that call the Django backend.
-
-## Just a bit of formatting
+## Look and Feel
 
 I added just enough CSS to make it not totally ugly. CSS is in
 separate files per
 [Stack Overflow](https://stackoverflow.com/questions/60464799/why-to-use-separate-css-files-for-components-in-react-js).
 Making this App pretty was not a big concern.
 
-## The Update Mutation was next
+# Getting started
 
-There wasn't anything overly tricky about the update part of 
-useMutation. What was a little tricky was pre-populating the form
-with data first. The problem is that of the deconstruction forms
-of useQuery and useMutation clobbering each other. So with regards
-to data, error, and loading, we must consult MacLeod who would say,
-"There can be only one (each)."
+`$ yarn install`
 
-It turns out that data is only necessary from useQuery, and there
-are methods attached to the useMutation hook that can be used instead
-of the deconstructed loading and error. Well, there is for error . . .
-I think I just don't care about loading with regards to useMutation.
+To get the server running (port 3000):
 
-So I got that sorted.
+`$ ./runserver.sh` 
 
-## The Subscription
+# High Level Look at the App
 
-This was a little tricky in React, but I got it to work. 
+This app uses [Apollo Client](https://www.apollographql.com/docs/react/) 
+for GraphQL connections.
 
-So, now I have a React version within this repo and a 
-JavaScript native version in
-[the backend repo](https://github.com/Anthony-J-Garot/snippets_graphql).
+Main.tsx containts the routes for the app. This points to components
+on separate *pages*. 
 
-# Adding Gherkin
+Jest unit tests are in *.test.tsx next to each component being tested.
 
-I put the features and step-definitions into a directory called specs/
-based upon the layout in the jest-cucumber package examples.
-
-`yarn add jest-cucumber --dev`
-
+There is one Observable to update a notification when an action has
 # Useful Links
 
 https://www.apollographql.com/docs/react/get-started/

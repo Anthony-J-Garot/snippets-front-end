@@ -2,6 +2,14 @@ import {loadFeature, defineFeature} from 'jest-cucumber';
 import CreateSnippet from '../../src/pages/CreateSnippet/index';
 import {noop} from '../../src/utils.js';
 
+/*
+ * This page follows the basic outline from the jest-cucumber documentation
+ * https://github.com/bencompton/jest-cucumber
+ *
+ * Needed to add "jest" section to package.json to get this to work
+ * yarn test /specs/step-definitions/CreateSnippet.steps.ts/
+ */
+
 const feature = loadFeature('../features/CreateSnippet.feature');
 
 defineFeature(feature, (test) => {
@@ -14,15 +22,15 @@ defineFeature(feature, (test) => {
   // Note that I had to add "and" callback
   test('Successful creation of snippet', ({given, when, then, and}) => {
 
-    given('a web browser is at the \'Add Snippet\' user form', () => {
+    given('Authorized user John Smith wishes to add a new snippet', () => {
       noop(); // beforeEach() sets the initial state
     });
 
-    when('the user supplies a (.*), (.*), and chooses the (.*)', ({title, body, privacy}) => {
+    when('John supplies an appropriate (.*), (.*), and chooses a (*) option', ({title, body, privacy}) => {
       console.log(title, body, privacy);
     });
 
-    then('the system notifies the user of snippet acceptance', () => {
+    then('John is notified that the snippet was created', () => {
       // TODO Left off here
       // expect(coinStatus).toBe<CoinStatus>('CoinReturned');
     });

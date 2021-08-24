@@ -62,5 +62,18 @@
     "rxjs": "^7.3.0",
     "typescript": "^4.3.5",
     "yarn": "^1.22.11"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testMatch": [
+      "**/*.steps.ts"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "ts",
+      "tsx"
+    ]
   }
 }

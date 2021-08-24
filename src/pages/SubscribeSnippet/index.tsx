@@ -18,7 +18,7 @@ interface IFeedItem {
 }
 
 // Do not create an instance of this. It will make you unhappy.
-interface ISubscriptionProps {
+export interface ISubscriptionProps {
   transactions: IFeedItem[]
 }
 
@@ -50,9 +50,10 @@ const SubscribeSnippet: React.FC = (): ReactElement => {
   });
 
   const {loading, error} = useSubscription(SNIPPET_NOGROUP_SUBSCRIPTION, {
-    variables: {}, // no inputs necessary for this particular subscription
+    variables: {}, // no inputs necessary for this particular (no-group) subscription
     onSubscriptionData: (data) => {
       console.log('SUBSCRIPTION: data sent is ', data);
+      // console.log('SUBSCRIPTION: data in JSON is ', JSON.stringify(data.subscriptionData));
       transactions.push(data.subscriptionData.data.onSnippetNoGroup);
       console.log('Transactions (' + (transactions.length) + ') ', transactions);
 
@@ -69,6 +70,7 @@ const SubscribeSnippet: React.FC = (): ReactElement => {
   }
 
   if (error) {
+    console.log('Error: ' + error);
     noticesStore.setNotice({notice: 'Error: ' + error});
   }
 
@@ -124,7 +126,7 @@ const Transaction: React.FC<ISubscriptionProps> = (SubscriptionProps: ISubscript
  * 2. no group
  * No group is the simpler, so I will start with that.
  */
-const SNIPPET_NOGROUP_SUBSCRIPTION = gql`
+export const SNIPPET_NOGROUP_SUBSCRIPTION = gql`
 subscription subNoGroup {
   onSnippetNoGroup {
     sender

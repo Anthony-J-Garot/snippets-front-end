@@ -1,10 +1,10 @@
 import {loadFeature, defineFeature} from 'jest-cucumber';
-import CreateSnippet from '../../src/pages/CreateSnippet/index';
-import {noop} from '../../src/utils';
 import TestRenderer, {ReactTestInstance} from 'react-test-renderer';
-import {BrowserRouter} from 'react-router-dom';
+import {StaticRouter} from 'react-router-dom';
 import {MockedProvider} from '@apollo/client/testing';
 import React from 'react';
+import CreateSnippet from '../../src/pages/CreateSnippet/index';
+import {noop} from '../../src/utils';
 
 /*
  * This page follows the basic outline from the jest-cucumber documentation
@@ -14,18 +14,19 @@ import React from 'react';
  * $ yarn gherkin specs/step-definitions/CreateSnippet.steps.tsx
  */
 
-const feature = loadFeature('../features/CreateSnippet.feature');
+// This is relative to <docroot>
+const feature = loadFeature('specs/features/CreateSnippet.feature');
 
 defineFeature(feature, (test) => {
   let instance: ReactTestInstance;
 
   beforeEach(() => {
     const component = TestRenderer.create(
-      <BrowserRouter>
+      <StaticRouter>
         <MockedProvider addTypename={false}>
           <CreateSnippet />
         </MockedProvider>,
-      </BrowserRouter>
+      </StaticRouter>
     );
 
     // The "test instance"
@@ -38,18 +39,19 @@ defineFeature(feature, (test) => {
 
   // Note that I had to add "and" callback
   test('Successful creation of snippet', ({given, when, then, and}) => {
-    let titleField:ReactTestInstance = {} as ReactTestInstance;
-    let bodyField:ReactTestInstance = {} as ReactTestInstance;
-    let isPrivateField:ReactTestInstance = {} as ReactTestInstance;
+    let titleField: ReactTestInstance = {} as ReactTestInstance;
+    let bodyField: ReactTestInstance = {} as ReactTestInstance;
+    let isPrivateField: ReactTestInstance = {} as ReactTestInstance;
 
     given('Authorized user John Smith wishes to add a new snippet', () => {
       noop(); // beforeEach() sets the initial state
     });
 
     when(
-      'John supplies an appropriate (.*), (.*), and chooses a (*) option',
-      async ({expectedTitle, expectedBody, expectedIsPrivate}) => {
-        console.log(expectedTitle, expectedBody, expectedIsPrivate);
+      /^John supplies an appropriate (.*), (.*), and chooses a (.*) option$/,
+      async (expectedTitle, expectedBody, expectedIsPrivate, table) => {
+        console.log('when input vars', expectedTitle, expectedBody, expectedIsPrivate);
+        console.log('table', table);
 
         // Find the form fields
         titleField = instance.findByProps({type: 'text', id: 'title'});
@@ -76,6 +78,10 @@ defineFeature(feature, (test) => {
     });
 
     and(/the new snippet persists/, () => {
+      // expect(coinStatus).toBe<CoinStatus>('CoinReturned');
+    });
+
+    and(/subscribers to the feed are notified/, () => {
       // expect(coinStatus).toBe<CoinStatus>('CoinReturned');
     });
   });

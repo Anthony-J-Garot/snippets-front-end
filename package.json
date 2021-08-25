@@ -24,7 +24,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint \"src/\" \"specs/step-definitions/\"",
-    "gherkin": "eslint \"specs/step-definitions/\" & jest --color",
+    "gherkin": "eslint \"specs/step-definitions/\" & jest --watchAll --color",
     "clear_jest": "jest --clearCache"
   },
   "eslintConfig": {
@@ -83,6 +83,7 @@
       "js",
       "ts",
       "tsx"
-    ]
+    ],
+	"watchPathIgnorePatterns": ["<rootDir>/node_modules/", "<rootDir>/.git/"]
   }
 }

@@ -49,6 +49,7 @@
     "@testing-library/dom": "^8.1.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@types/react": "^17.0.18",
+    "@types/react-dom": "^17.0.9",
     "@types/react-router-dom": "^5.1.8",
     "@types/react-test-renderer": "^17.0.1",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
@@ -74,7 +75,7 @@
   "jest": {
     "transform": {
       "^.+\\.tsx?$": "ts-jest",
-	  ".+\\.(css|styl|less|sass|scss)$": "jest-css-modules-transform"
+      ".+\\.(css|styl|less|sass|scss)$": "jest-css-modules-transform"
     },
     "testMatch": [
       "**/*.steps.tsx"
@@ -84,6 +85,9 @@
       "ts",
       "tsx"
     ],
-	"watchPathIgnorePatterns": ["<rootDir>/node_modules/", "<rootDir>/.git/"]
+    "watchPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/.git/"
+    ]
   }
 }

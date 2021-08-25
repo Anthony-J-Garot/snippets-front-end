@@ -56,6 +56,30 @@ on separate *pages*.
 Jest unit tests are in *.test.tsx next to each component being tested.
 
 There is one Observable to update a notification when an action has
+occurred.
+
+# Running the unit tests
+
+## Standard Unit Tests
+
+The standard unit tests can be run using yarn:
+
+`$ yarn test`
+
+## Gherkin specifications
+
+The Gherkin tests use the 'gherkin' script I put into package.json.
+I prefaced with [eslint](https://eslint.org/docs/user-guide/command-line-interface)
+because, why wouldn't you? 
+
+All:
+
+`$ yarn gherkin`
+
+Specific:
+
+`$ yarn gherkin specs/step-definitions/CreateSnippet.steps.tsx`
+
 # Useful Links
 
 https://www.apollographql.com/docs/react/get-started/

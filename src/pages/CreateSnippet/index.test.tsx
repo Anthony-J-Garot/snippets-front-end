@@ -90,9 +90,9 @@ it('should create snippet', async () => {
   const instance = (component as {root:ReactTestInstance}).root;
 
   // Find the form fields
-  const title = instance.findByProps({type: 'text', id: 'title'});
-  const body = instance.findByProps({id: 'body'});
-  const isPrivate = instance.findByProps({type: 'checkbox', id: 'private'});
+  const titleField = instance.findByProps({type: 'text', id: 'title'});
+  const bodyField = instance.findByProps({id: 'body'});
+  const isPrivateField = instance.findByProps({type: 'checkbox', id: 'private'});
 
   // Update the values to something I can track later.
   // Updates should fire off the setFormState event.
@@ -104,18 +104,18 @@ it('should create snippet', async () => {
     'He pulls the spitting high tension wires down';
   const expectedIsPrivate = false;
   await TestRenderer.act(async () => {
-    title.props.onChange({target: {value: expectedTitle}});
+    titleField.props.onChange({target: {value: expectedTitle}});
   });
   await TestRenderer.act(async () => {
-    body.props.onChange({target: {value: expectedBody}});
+    bodyField.props.onChange({target: {value: expectedBody}});
   });
   await TestRenderer.act(async () => {
-    isPrivate.props.onChange({target: {checked: expectedIsPrivate}});  // Note: checked instead of value
+    isPrivateField.props.onChange({target: {checked: expectedIsPrivate}});  // Note: checked instead of value
   });
 
-  expect(title.props.value).toBe(expectedTitle);
-  expect(body.props.value).toBe(expectedBody);
-  expect(isPrivate.props.checked).toBe(expectedIsPrivate);
+  expect(titleField.props.value).toBe(expectedTitle);
+  expect(bodyField.props.value).toBe(expectedBody);
+  expect(isPrivateField.props.checked).toBe(expectedIsPrivate);
 
   // Find the form (There can be only one)
   const form = instance.findByType('form');

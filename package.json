@@ -4,22 +4,28 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.4.4",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
+    "@testing-library/react": "^12.0.0",
+    "@testing-library/user-event": "^13.2.1",
     "eslint-config-prettier": "^8.3.0",
+    "esrecurse": "^4.3.0",
+    "esutils": "^2.0.3",
     "graphql": "^15.5.1",
     "react": "^17.0.2",
+    "react-app": "^1.1.2",
     "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^4.0.3",
     "subscriptions-transport-ws": "^0.9.19",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^2.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint \"specs/step-definitions/**\"",
+    "gherkin": "yarn run lint & jest --color",
+    "clear_jest": "jest --clearCache"
   },
   "eslintConfig": {
     "extends": [
@@ -41,6 +47,7 @@
   },
   "devDependencies": {
     "@testing-library/dom": "^8.1.0",
+    "@testing-library/jest-dom": "^5.11.4",
     "@types/react": "^17.0.18",
     "@types/react-router-dom": "^5.1.8",
     "@types/react-test-renderer": "^17.0.1",
@@ -53,22 +60,24 @@
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "fastq": "^1.11.1",
+    "jest": "^27.0.6",
+    "jest-css-modules-transform": "^4.3.0",
     "jest-cucumber": "^3.0.1",
     "prelude-ls": "^1.2.1",
     "prettier": "^2.3.2",
-    "react-app": "^1.1.2",
-    "react-router-dom": "^5.2.0",
     "react-test-renderer": "^17.0.2",
     "rxjs": "^7.3.0",
+    "ts-jest": "^27.0.5",
     "typescript": "^4.3.5",
     "yarn": "^1.22.11"
   },
   "jest": {
     "transform": {
-      "^.+\\.tsx?$": "ts-jest"
+      "^.+\\.tsx?$": "ts-jest",
+	  ".+\\.(css|styl|less|sass|scss)$": "jest-css-modules-transform"
     },
     "testMatch": [
-      "**/*.steps.ts"
+      "**/*.steps.tsx"
     ],
     "moduleFileExtensions": [
       "js",

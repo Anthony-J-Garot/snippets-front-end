@@ -23,3 +23,4 @@ Feature: Create Snippet
       | Watch the sun rise | At the bottom of the sea | false   |
     Then John is notified that the snippet was created
     And the new snippet persists
+    And subscribers to the feed are notified

@@ -9,8 +9,8 @@ export interface NoticeState {
 }
 
 // Blank to start
-const initialState: NoticeState = {notice: ''};
-const noticeState = initialState;
+const initialState: NoticeState = {notice: ''} as NoticeState;
+const noticeState:NoticeState = initialState;
 
 const noticesSubject = new BehaviorSubject(noticeState);
 
@@ -20,7 +20,7 @@ const noticesStore = {
       next: (noticeState: NoticeState) => {
         setState((prevState: NoticeState) => ({
           ...prevState,
-          notice: Object.values(noticeState.notice)
+          notice: noticeState.notice
         }));
       }
     };

@@ -23,8 +23,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint \"specs/step-definitions/**\"",
-    "gherkin": "yarn run lint & jest --color",
+    "lint": "eslint \"src/\" \"specs/step-definitions/\"",
+    "gherkin": "eslint \"specs/step-definitions/\" & jest --color",
     "clear_jest": "jest --clearCache"
   },
   "eslintConfig": {

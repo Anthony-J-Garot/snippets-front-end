@@ -76,7 +76,7 @@ const editIcon = () => {
  * Defines a component that executes the GraphQL query with
  * the useQuery hook and returns the data in a formatted way.
  */
-const AllSnippets: React.FC = (): ReactElement => {
+const AllSnippets = (): ReactElement => {
 
   const {loading, data, refetch} = useQuery(ALL_SNIPPETS_QUERY, {
     // fetchPolicy is necessary for refetchQueries to work after creating a new entry.

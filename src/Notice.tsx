@@ -5,7 +5,7 @@ import noticesStore from './Observables/noticesStore';
 // Having it blank means it doesn't show at all.
 const defaultState = {notice: ''};
 
-const Notice: React.FC = (): ReactElement => {
+const Notice = (): ReactElement => {
   const [state, setState] = useState(defaultState);
 
   useEffect(() => {

@@ -17,7 +17,7 @@ const initialState: IFormState = {
 /*
  * Define this page component
  */
-const CreateSnippet: React.FC = (): ReactElement => {
+const CreateSnippet = (): ReactElement => {
 
   // The data that’s typed into the form fields is held in the
   // component’s local state by way of the useState hook.

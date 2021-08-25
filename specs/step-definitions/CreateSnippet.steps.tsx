@@ -21,20 +21,7 @@ defineFeature(feature, (test) => {
   let instance: ReactTestInstance;
 
   beforeEach(() => {
-    const component = TestRenderer.create(
-      <StaticRouter>
-        <MockedProvider addTypename={false}>
-          <CreateSnippet />
-        </MockedProvider>,
-      </StaticRouter>
-    );
-
-    // The "test instance"
-    instance = (component as { root: ReactTestInstance }).root;
-
-    // Make sure the component rendered
-    const createSnippet = instance.findByType(CreateSnippet);
-    expect(createSnippet).toBeDefined();
+    noop();
   });
 
   // Note that I had to add "and" callback
@@ -44,33 +31,51 @@ defineFeature(feature, (test) => {
     let isPrivateField: ReactTestInstance = {} as ReactTestInstance;
 
     given('Authorized user John Smith wishes to add a new snippet', () => {
-      noop(); // beforeEach() sets the initial state
+      // Recall that beforeEach() sets the initial state,
+      // but I think I will use that for Backgrounds.
+
+      const component = TestRenderer.create(
+        <StaticRouter>
+          <MockedProvider addTypename={false}>
+            <CreateSnippet />
+          </MockedProvider>,
+        </StaticRouter>
+      );
+
+      // The "test instance"
+      instance = (component as { root: ReactTestInstance }).root;
+
+      // Make sure the component rendered
+      const createSnippet = instance.findByType(CreateSnippet);
+      expect(createSnippet).toBeDefined();
     });
 
     when(
       /^John supplies an appropriate (.*), (.*), and chooses a (.*) option$/,
-      async (expectedTitle, expectedBody, expectedIsPrivate, table) => {
-        console.log('when input vars', expectedTitle, expectedBody, expectedIsPrivate);
-        console.log('table', table);
+      async (arg0, arg1, arg2, table) => {
 
         // Find the form fields
         titleField = instance.findByProps({type: 'text', id: 'title'});
         bodyField = instance.findByProps({id: 'body'});
         isPrivateField = instance.findByProps({type: 'checkbox', id: 'private'});
 
-        await TestRenderer.act(async () => {
-          titleField.props.onChange({target: {value: expectedTitle}});
-        });
-        await TestRenderer.act(async () => {
-          bodyField.props.onChange({target: {value: expectedBody}});
-        });
-        await TestRenderer.act(async () => {
-          isPrivateField.props.onChange({target: {checked: expectedIsPrivate}});  // Note: checked instead of value
-        });
+        for (const whenRow of table) {
+          // console.log(whenRow);
 
-        expect(titleField.props.value).toBe(expectedTitle);
-        expect(bodyField.props.value).toBe(expectedBody);
-        expect(isPrivateField.props.checked).toBe(expectedIsPrivate);
+          await TestRenderer.act(async () => {
+            titleField.props.onChange({target: {value: whenRow.title}});
+          });
+          await TestRenderer.act(async () => {
+            bodyField.props.onChange({target: {value: whenRow.body}});
+          });
+          await TestRenderer.act(async () => {
+            isPrivateField.props.onChange({target: {checked: whenRow.privacy}});  // Note: checked instead of value
+          });
+
+          expect(titleField.props.value).toBe(whenRow.title);
+          expect(bodyField.props.value).toBe(whenRow.body);
+          expect(isPrivateField.props.checked).toBe(whenRow.privacy);
+        }
       });
 
     then('John is notified that the snippet was created', () => {

@@ -4,10 +4,8 @@ import {StaticRouter} from 'react-router-dom';
 import {loadFeature, defineFeature} from 'jest-cucumber';
 import {MockedProvider, MockedResponse} from '@apollo/client/testing';
 import {noop} from '../../src/utils';
-import CreateSnippet, {CREATE_SNIPPET_MUTATION} from '../../src/pages/CreateSnippet/index';
-import {mockCreateInputVariables, newDataCreateSnippet} from './CreateSnippet.mock';
-import {ALL_SNIPPETS_QUERY} from '../../src/pages/AllSnippets';
-import {newDataAllSnippets} from '../../src/pages/AllSnippets/mockFixtures';
+import CreateSnippet from '../../src/pages/CreateSnippet/index';
+import {mocks, createMutationCalled, refetchCalled} from './CreateSnippet.mock';
 
 /*
  * This page follows the basic outline from the jest-cucumber documentation
@@ -15,6 +13,7 @@ import {newDataAllSnippets} from '../../src/pages/AllSnippets/mockFixtures';
  *
  * Needed to add "jest" section to package.json to get this to work
  * $ yarn gherkin specs/step-definitions/CreateSnippet.steps.tsx
+ * $ ./run_specifications.sh specs/step-definitions/CreateSnippet.steps.tsx
  */
 
 // This is relative to <docroot>
@@ -26,62 +25,6 @@ defineFeature(feature, (test) => {
   beforeEach(() => {
     noop();
   });
-
-  let createMutationCalled = false;
-  let refetchCalled = false;
-  const mocks: readonly MockedResponse[] = [
-    // CREATION # 0
-    {
-      request: {
-        query: CREATE_SNIPPET_MUTATION,
-        variables: mockCreateInputVariables[0],
-      },
-      newData: () => {
-        console.log('create 0: fired');
-
-        createMutationCalled = true;
-        return newDataCreateSnippet();
-      },
-    },
-    {
-      request: {
-        query: ALL_SNIPPETS_QUERY,
-        variables: {},
-      },
-      newData: () => {
-        console.log('refetch 0: fired');
-
-        refetchCalled = true;
-        return newDataAllSnippets();
-      },
-    },
-
-    // CREATION # 1
-    {
-      request: {
-        query: CREATE_SNIPPET_MUTATION,
-        variables: mockCreateInputVariables[1],
-      },
-      newData: () => {
-        console.log('create 1: fired');
-
-        createMutationCalled = true;
-        return newDataCreateSnippet();
-      },
-    },
-    {
-      request: {
-        query: ALL_SNIPPETS_QUERY,
-        variables: {},
-      },
-      newData: () => {
-        console.log('refetch 1: fired');
-
-        refetchCalled = true;
-        return newDataAllSnippets();
-      },
-    },
-  ];
 
   // Note that I had to add "and" callback
   test('Successful creation of snippet', ({given, when, then, and}) => {

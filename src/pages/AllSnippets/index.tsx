@@ -24,13 +24,6 @@ export const DELETE_SNIPPET_MUTATION = gql`
 mutation mutDeleteSnippet($id: ID!) {
   deleteSnippet(id: $id) {
     ok
-    snippet {
-      id
-      title
-      private
-      created
-      body
-    }
   }
 }
 `;

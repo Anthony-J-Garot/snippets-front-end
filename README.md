@@ -85,3 +85,34 @@ Specific:
 https://www.apollographql.com/docs/react/get-started/
 https://www.apollographql.com/docs/react/data/mutations/
 https://www.howtographql.com/react-apollo/3-mutations-creating-links/
+
+# CORS
+
+My backend is Django on port 4000, and my front-end is React
+on port 3000. They're on the same VM, 192.168.2.99 specifically,
+but I access from a web browser on my laptop. As such, CORS
+became an issue.
+
+I got around it initially with [this answer](https://stackoverflow.com/a/51388077) 
+from Stack Overflow. On the Django side I followed 
+[The Django CORS Guide](https://www.stackhawk.com/blog/django-cors-guide/).
+
+I only noticed that it failed when I converted the Apollo Client 
+connection to TypeScript, because ApolloClient() does not have the 
+fetchOptions option.
+
+By failure I mean:
+
+* only delete fails
+* 400 Bad Request
+* Referrer Policy : strict-origin-when-cross-origin
+* Access-Control-Allow-Origin: http://192.168.2.99:3000
+
+Hmmm . . . now I wonder if this was a CORS issue after all. The Referrer 
+Policy threw me because it's there and in red. Hmmm.
+
+Ack! Never mind. I will leave this CORS section here because it has
+some useful links, but when I looked in the Response body I saw that
+it was simply a gql error. You know, the Django backend was awfully
+bashful on the nature of this issue. Now, at least, I can feel 
+some confidence to convert the ApolloClient() code to TypeScript.

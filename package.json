@@ -6,6 +6,7 @@
     "@apollo/client": "^3.4.4",
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.2.1",
+    "cross-fetch": "^3.1.4",
     "eslint-config-prettier": "^8.3.0",
     "esrecurse": "^4.3.0",
     "esutils": "^2.0.3",
@@ -21,9 +22,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint \"src/\" \"specs/step-definitions/\"",
+    "test": "eslint \"src/\" & jest --watchAll --color",
     "gherkin": "eslint \"specs/step-definitions/\" & jest --watchAll --color",
     "clear_jest": "jest --clearCache"
   },
@@ -78,7 +79,8 @@
       ".+\\.(css|styl|less|sass|scss)$": "jest-css-modules-transform"
     },
     "testMatch": [
-      "**/*.steps.tsx"
+      "**/*.steps.ts(x)?",
+      "**/*.test.ts(x)?"
     ],
     "moduleFileExtensions": [
       "js",
@@ -88,6 +90,12 @@
     "watchPathIgnorePatterns": [
       "<rootDir>/node_modules/",
       "<rootDir>/.git/"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupTests.ts"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/"
     ]
   }
 }

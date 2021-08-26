@@ -2,7 +2,7 @@ import React from 'react';
 import TestRenderer, {ReactTestInstance} from 'react-test-renderer';
 import {MockedProvider, MockedResponse} from '@apollo/client/testing';
 import AllSnippets, {ALL_SNIPPETS_QUERY, DELETE_SNIPPET_MUTATION} from './index';
-import {BrowserRouter} from 'react-router-dom';
+import {StaticRouter} from 'react-router-dom';
 import {newDataAllSnippets, newDataDeleteSnippet} from './mockFixtures';
 
 /*
@@ -60,11 +60,11 @@ it('should delete snippet', async () => {
   let component = {};
   await TestRenderer.act(async () => {
     component = await TestRenderer.create(
-      <BrowserRouter>
+      <StaticRouter>
         <MockedProvider mocks={mocks} addTypename={false}>
           <AllSnippets />
         </MockedProvider>,
-      </BrowserRouter>
+      </StaticRouter>
     );
 
     await new Promise(resolve => setTimeout(resolve, 200 + (Math.random() * 300)));

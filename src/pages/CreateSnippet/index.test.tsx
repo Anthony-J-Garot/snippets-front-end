@@ -2,7 +2,7 @@ import React from 'react';
 import TestRenderer, {ReactTestInstance} from 'react-test-renderer';
 import {MockedProvider, MockedResponse} from '@apollo/client/testing';
 import CreateSnippet, {CREATE_SNIPPET_MUTATION} from './index';
-import {BrowserRouter} from 'react-router-dom';
+import {StaticRouter} from 'react-router-dom';
 import {ALL_SNIPPETS_QUERY} from '../AllSnippets';
 import {mockCreateInputVariables, newDataCreateSnippet} from './mockFixtures';
 import {newDataAllSnippets} from '../AllSnippets/mockFixtures';
@@ -57,11 +57,11 @@ const mocks: readonly MockedResponse[] = [
  */
 it('renders without error', () => {
   const component = TestRenderer.create(
-    <BrowserRouter>
+    <StaticRouter>
       <MockedProvider addTypename={false}>
         <CreateSnippet />
       </MockedProvider>,
-    </BrowserRouter>
+    </StaticRouter>
   );
 
   // The "test instance"
@@ -79,11 +79,11 @@ it('renders without error', () => {
 
 it('should create snippet', async () => {
   const component = TestRenderer.create(
-    <BrowserRouter>
+    <StaticRouter>
       <MockedProvider mocks={mocks} addTypename={false}>
         <CreateSnippet />
       </MockedProvider>,
-    </BrowserRouter>
+    </StaticRouter>
   );
 
   // The "test instance"

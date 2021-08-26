@@ -2,7 +2,7 @@ import React from 'react';
 import TestRenderer, {ReactTestInstance} from 'react-test-renderer';
 import {MockedProvider, MockedResponse} from '@apollo/client/testing';
 import SubscribeSnippet, {SNIPPET_NOGROUP_SUBSCRIPTION} from './index';
-import {BrowserRouter} from 'react-router-dom';
+import {StaticRouter} from 'react-router-dom';
 import {newDataFeedItem} from './mockFixtures';
 
 /*
@@ -37,11 +37,11 @@ const mocks: readonly MockedResponse[] = [
  */
 it('should receive a snippet feed item', async () => {
   const component = TestRenderer.create(
-    <BrowserRouter>
+    <StaticRouter>
       <MockedProvider mocks={mocks} addTypename={false}>
         <SubscribeSnippet />
       </MockedProvider>,
-    </BrowserRouter>
+    </StaticRouter>
   );
 
   // The "test instance"

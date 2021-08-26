@@ -1,19 +1,45 @@
-import {ApolloClient, InMemoryCache, split, HttpLink} from '@apollo/client';
+import {ApolloClient, InMemoryCache, split, createHttpLink} from '@apollo/client';
 import {WebSocketLink} from '@apollo/client/link/ws';
 import {getMainDefinition} from '@apollo/client/utilities';
+// import * as ws from 'ws';
+
+// node-fetch didn't work
+// https://github.com/apollographql/apollo-link/issues/513#issuecomment-580990233
+import fetch from 'cross-fetch';
 
 // Describe our environment
 const host = '192.168.2.99:4000';
 const graphql_path = '/graphql/';
+const httpEndpoint = 'http://' + host + graphql_path;
+const wsEndpoint = 'ws://' + host + graphql_path;
 
-// HTTP
-const httpLink = new HttpLink({
-  uri: 'http://' + host + graphql_path
+// HTTP requests
+const httpLink = createHttpLink({
+  uri: httpEndpoint,
+  fetch: fetch,
 });
 
-// WebSocket
+// Define an authToken function because localStorage doesn't
+// exist when testing.
+const authToken = () => {
+  // console.log('process.title', process.title);
+  // console.log('process.env.NODE_ENV', process.env.NODE_ENV);
+  if(process.title !== 'browser') return '';
+
+  let authToken = localStorage.getItem('authToken');
+  if (!authToken) {
+    console.log('Generating authToken');
+    authToken = 'ABCDEFG';
+    localStorage.setItem('authToken', authToken);
+  } else {
+    console.log('Using existing authToken');
+  }
+  return authToken;
+};
+
+// WebSocket requests
 const wsLink = new WebSocketLink({
-  uri: 'ws://' + host + graphql_path,
+  uri: wsEndpoint,
   wsProtocols: ['graphql-ws'],
   options: {
     reconnect: true,
@@ -21,20 +47,10 @@ const wsLink = new WebSocketLink({
     // See the on_connect(self, payload) function in the Django consumer.
     connectionParams: {
       // The authToken we pass might be from a cookie or whatnot
-      // authToken: localStorage.getItem('authToken'),
-      authToken: (() => {
-        let authToken = localStorage.getItem('authToken');
-        if (!authToken) {
-          console.log('Generating authToken');
-          authToken = 'ABCDEFG';
-          localStorage.setItem('authToken', authToken);
-        } else {
-          console.log('Using existing authToken');
-        }
-        return authToken;
-      })()
-    }
+      authToken: authToken()
+    },
   },
+  // webSocketImpl: ws
 });
 
 // The split function takes three parameters:
@@ -58,9 +74,6 @@ const splitLink = split(
 const client = new ApolloClient({
   link: splitLink,
   cache: new InMemoryCache(),
-  fetchOptions: {
-    mode: 'no-cors',
-  },
 });
 
 export default client;

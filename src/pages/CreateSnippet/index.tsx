@@ -56,7 +56,9 @@ const CreateSnippet = (): ReactElement => {
       <p className="App-page-title">Create Snippet</p>
       <form onSubmit={(e) => {
         e.preventDefault();
-        createSnippet();
+        createSnippet().then(()=>{
+          console.log('Snippet created');
+        });
       }}>
         {SnippetFormFields(formState, setFormState)}
         <br />

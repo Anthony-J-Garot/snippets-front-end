@@ -3,7 +3,7 @@ import TestRenderer, {ReactTestInstance} from 'react-test-renderer';
 import {StaticRouter} from 'react-router-dom';
 import {loadFeature, defineFeature} from 'jest-cucumber';
 import {MockedProvider} from '@apollo/client/testing';
-import {noop} from '../../src/utils';
+import {noop, promiseTimeout} from '../../src/utils';
 import CreateSnippet from '../../src/pages/CreateSnippet/index';
 import {mocks, createMutationCalled, refetchCalled} from './CreateSnippet.mock';
 import Notice from '../../src/Notice';
@@ -94,7 +94,7 @@ defineFeature(feature, (test) => {
           preventDefault: () => false
         });
 
-        await new Promise(resolve => setTimeout(resolve, 200 + (Math.random() * 300)));
+        await new Promise(resolve => promiseTimeout(resolve));
       });
 
       // Did the mock gql newData fire as expected?

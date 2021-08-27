@@ -4,6 +4,7 @@ import {MockedProvider, MockedResponse} from '@apollo/client/testing';
 import AllSnippets, {ALL_SNIPPETS_QUERY, DELETE_SNIPPET_MUTATION} from './index';
 import {StaticRouter} from 'react-router-dom';
 import {newDataAllSnippets, newDataDeleteSnippet} from './mockFixtures';
+import {promiseTimeout} from '../../utils';
 
 /*
  * This is just the delete test. I separated it from the All Snippets test even
@@ -67,7 +68,7 @@ it('should delete snippet', async () => {
       </StaticRouter>
     );
 
-    await new Promise(resolve => setTimeout(resolve, 200 + (Math.random() * 300)));
+    await new Promise(resolve => promiseTimeout(resolve));
   });
 
 
@@ -92,7 +93,7 @@ it('should delete snippet', async () => {
   await TestRenderer.act(async () => {
     deleteLink.props.onClick({target: {value: ''}});
 
-    await new Promise(resolve => setTimeout(resolve, 200 + (Math.random() * 300)));
+    await new Promise(resolve => promiseTimeout(resolve));
   });
 
   // How did we do?

@@ -4,6 +4,7 @@ import {MockedProvider, MockedResponse} from '@apollo/client/testing';
 import AllSnippets, {ALL_SNIPPETS_QUERY} from './index';
 import {StaticRouter} from 'react-router-dom';
 import {newDataAllSnippets} from './mockFixtures';
+import {promiseTimeout} from '../../utils';
 
 /*
  * For standard (non Gherkin) unit tests, the jest framework works well enough.
@@ -64,7 +65,7 @@ it('should render rows', async () => {
       </StaticRouter>
     );
 
-    await new Promise(resolve => setTimeout(resolve, 200 + (Math.random() * 300)));
+    await new Promise(resolve => promiseTimeout(resolve));
   });
 
 

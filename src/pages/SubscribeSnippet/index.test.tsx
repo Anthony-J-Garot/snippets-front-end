@@ -4,6 +4,7 @@ import {MockedProvider, MockedResponse} from '@apollo/client/testing';
 import SubscribeSnippet, {SNIPPET_NOGROUP_SUBSCRIPTION} from './index';
 import {StaticRouter} from 'react-router-dom';
 import {newDataFeedItem} from './mockFixtures';
+import {promiseTimeout} from '../../utils';
 
 /*
  * For standard (non Gherkin) unit tests, the jest framework works well enough.
@@ -44,7 +45,7 @@ it('should receive a snippet feed item', async () => {
     </StaticRouter>
   );
 
-  
+
   const testInstance = (testRenderer as { root: ReactTestInstance }).root;
   // console.log('root', instance);
 
@@ -55,7 +56,7 @@ it('should receive a snippet feed item', async () => {
 
   // Don't really have to trigger anything. Just give time for the mocked data to come in.
   await TestRenderer.act(async () => {
-    await new Promise(resolve => setTimeout(resolve, 200 + (Math.random() * 300)));
+    await new Promise(resolve => promiseTimeout(resolve));
   });
 
   // How did we do?

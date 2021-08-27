@@ -6,6 +6,7 @@ import {StaticRouter} from 'react-router-dom';
 import {ALL_SNIPPETS_QUERY} from '../AllSnippets';
 import {mockCreateInputVariables, newDataCreateSnippet} from './mockFixtures';
 import {newDataAllSnippets} from '../AllSnippets/mockFixtures';
+import {promiseTimeout} from '../../utils';
 
 /*
  * For standard (non Gherkin) unit tests, the jest framework works well enough.
@@ -64,7 +65,7 @@ it('renders without error', () => {
     </StaticRouter>
   );
 
-  
+
   const testInstance = (testRenderer as {root:ReactTestInstance}).root;
 
   // Make sure the component rendered
@@ -86,7 +87,7 @@ it('should create snippet', async () => {
     </StaticRouter>
   );
 
-  
+
   const testInstance = (testRenderer as {root:ReactTestInstance}).root;
 
   // Find the form fields
@@ -127,7 +128,7 @@ it('should create snippet', async () => {
       preventDefault: () => false
     });
 
-    await new Promise(resolve => setTimeout(resolve, 200 + (Math.random() * 300)));
+    await new Promise(resolve => promiseTimeout(resolve));
   });
 
   // How did we do?

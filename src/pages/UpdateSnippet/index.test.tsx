@@ -11,6 +11,7 @@ import {
   newDataUpdateSnippet,
   updateProps
 } from './mockFixtures';
+import {promiseTimeout} from '../../utils';
 
 /*
  * For standard (non Gherkin) unit tests, the jest framework works well enough.
@@ -85,8 +86,8 @@ it('should update snippet', async () => {
     </StaticRouter>
   );
 
-  
-  const testInstance = (testRenderer as {root:ReactTestInstance}).root;
+
+  const testInstance = (testRenderer as { root: ReactTestInstance }).root;
 
   // Find the form fields
   const title = testInstance.findByProps({type: 'text', id: 'title'});
@@ -121,7 +122,7 @@ it('should update snippet', async () => {
       preventDefault: () => false
     });
 
-    await new Promise(resolve => setTimeout(resolve, 200 + (Math.random() * 300)));
+    await new Promise(resolve => promiseTimeout(resolve));
   });
 
   expect(title.props.value).toBe(expectedTitle);

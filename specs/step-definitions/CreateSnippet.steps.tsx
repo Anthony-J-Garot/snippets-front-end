@@ -1,7 +1,7 @@
 import React from 'react';
 import TestRenderer, {ReactTestInstance} from 'react-test-renderer';
 import {StaticRouter} from 'react-router-dom';
-import {loadFeature, defineFeature} from 'jest-cucumber';
+import {loadFeature, defineFeature } from 'jest-cucumber';
 import {MockedProvider} from '@apollo/client/testing';
 import {noop, promiseTimeout} from '../../src/utils';
 import CreateSnippet from '../../src/pages/CreateSnippet/index';
@@ -21,10 +21,31 @@ import Notice from '../../src/Notice';
 const feature = loadFeature('specs/features/CreateSnippet.feature');
 
 defineFeature(feature, (test) => {
-  let testInstance: ReactTestInstance;
+
+  // Create the TestRenderer outside of the tests.
+  // You don't want to do this in the beforeEach() or a step because
+  // these are run for every entry in the Examples table and slows
+  // down the test suite considerably.
+  const testRenderer = TestRenderer.create(
+    <StaticRouter>
+      <Notice />
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <CreateSnippet />
+      </MockedProvider>,
+    </StaticRouter>
+  );
+
+  const testInstance:ReactTestInstance = (testRenderer as { root: ReactTestInstance }).root;
+  //console.log('testInstance', testInstance);
+
+  // Make sure the relevant components rendered
+  const createSnippet = testInstance.findByType(CreateSnippet);
+  expect(createSnippet).toBeDefined();
+  const notice = testInstance.findByType(Notice);
+  expect(notice).toBeDefined();
 
   beforeEach(() => {
-    noop();
+    noop('beforeEach');
   });
 
   // Note that I had to add "and" callback
@@ -34,26 +55,7 @@ defineFeature(feature, (test) => {
     let isPrivateField: ReactTestInstance = {} as ReactTestInstance;
 
     given('Authorized user John Smith wishes to add a new snippet', () => {
-      // Recall that beforeEach() sets the initial state,
-      // but I think I will use that for Backgrounds.
-
-      const testRenderer = TestRenderer.create(
-        <StaticRouter>
-          <Notice />
-          <MockedProvider mocks={mocks} addTypename={false}>
-            <CreateSnippet />
-          </MockedProvider>,
-        </StaticRouter>
-      );
-
-      testInstance = (testRenderer as { root: ReactTestInstance }).root;
-      //console.log('testInstance', testInstance);
-
-      // Make sure the relevant components rendered
-      const createSnippet = testInstance.findByType(CreateSnippet);
-      expect(createSnippet).toBeDefined();
-      const notice = testInstance.findByType(Notice);
-      expect(notice).toBeDefined();
+      noop();
     });
 
     when(

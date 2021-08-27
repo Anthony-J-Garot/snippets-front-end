@@ -116,3 +116,23 @@ some useful links, but when I looked in the Response body I saw that
 it was simply a gql error. You know, the Django backend was awfully
 bashful on the nature of this issue. Now, at least, I can feel 
 some confidence to convert the ApolloClient() code to TypeScript.
+
+# Dynamic Examples for Gherkin Specifications
+
+TL;DR I didn't get this to work.
+
+Since a Gherkin "Scenario Outline" has an Examples table with 
+multiple entries, I wondered if I could create dynamic mocks 
+from the When. Well, I can change the mocks dynamically, but 
+Jest didn't match them to the mutations. 
+
+Looking online, I see that someone had a similar idea, created 
+[a pull request](https://github.com/apollographql/apollo-client/pull/6701),
+but the changes are sitting in limbo (still as of 2021.08.27).
+
+Another tack was to read the Examples table first. Looks like 
+others wanted the same thing. The [work-arounds](https://stackoverflow.com/questions/41566294/behave-writing-a-scenario-outline-with-dynamic-examples) 
+weren’t pretty.
+
+I didn't dig into the jest-cucumber source code, though. This is
+as far as I wanted to take this.

@@ -36,7 +36,7 @@ const mocks: readonly MockedResponse[] = [
  * Need <BrowseRouter> because of embedded <Link>s.
  */
 it('should receive a snippet feed item', async () => {
-  const component = TestRenderer.create(
+  const testRenderer = TestRenderer.create(
     <StaticRouter>
       <MockedProvider mocks={mocks} addTypename={false}>
         <SubscribeSnippet />
@@ -44,12 +44,12 @@ it('should receive a snippet feed item', async () => {
     </StaticRouter>
   );
 
-  // The "test instance"
-  const instance = (component as { root: ReactTestInstance }).root;
+  
+  const testInstance = (testRenderer as { root: ReactTestInstance }).root;
   // console.log('root', instance);
 
   // Ensure the page rendered
-  const pageTitle = instance.findByProps({className: 'App-page-title'});
+  const pageTitle = testInstance.findByProps({className: 'App-page-title'});
   expect(pageTitle).toBeDefined();
   expect(pageTitle.props.children).toBe('Real-time Subscription Feed');
 

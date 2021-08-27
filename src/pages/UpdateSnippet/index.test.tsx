@@ -77,7 +77,7 @@ const mocks: readonly MockedResponse[] = [
  * Need <BrowseRouter> because of embedded <Link>s.
  */
 it('should update snippet', async () => {
-  const component = TestRenderer.create(
+  const testRenderer = TestRenderer.create(
     <StaticRouter>
       <MockedProvider mocks={mocks} addTypename={false}>
         <UpdateSnippet {...updateProps} />
@@ -85,13 +85,13 @@ it('should update snippet', async () => {
     </StaticRouter>
   );
 
-  // The "test instance"
-  const instance = (component as {root:ReactTestInstance}).root;
+  
+  const testInstance = (testRenderer as {root:ReactTestInstance}).root;
 
   // Find the form fields
-  const title = instance.findByProps({type: 'text', id: 'title'});
-  const body = instance.findByProps({id: 'body'});
-  const isPrivate = instance.findByProps({type: 'checkbox', id: 'private'});
+  const title = testInstance.findByProps({type: 'text', id: 'title'});
+  const body = testInstance.findByProps({id: 'body'});
+  const isPrivate = testInstance.findByProps({type: 'checkbox', id: 'private'});
 
   // Update the values to something I can track later.
   // Updates should fire off the setFormState event.
@@ -112,7 +112,7 @@ it('should update snippet', async () => {
   });
 
   // Find the form (There can be only one)
-  const form = instance.findByType('form');
+  const form = testInstance.findByType('form');
   expect(form).toBeDefined();
   //console.log('form.props.onSubmit', form.props.onSubmit);
 

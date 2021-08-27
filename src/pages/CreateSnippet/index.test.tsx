@@ -56,7 +56,7 @@ const mocks: readonly MockedResponse[] = [
  * Need <BrowseRouter> because of embedded <Link>s.
  */
 it('renders without error', () => {
-  const component = TestRenderer.create(
+  const testRenderer = TestRenderer.create(
     <StaticRouter>
       <MockedProvider addTypename={false}>
         <CreateSnippet />
@@ -64,21 +64,21 @@ it('renders without error', () => {
     </StaticRouter>
   );
 
-  // The "test instance"
-  const instance = (component as {root:ReactTestInstance}).root;
+  
+  const testInstance = (testRenderer as {root:ReactTestInstance}).root;
 
   // Make sure the component rendered
-  const createSnippet = instance.findByType(CreateSnippet);
+  const createSnippet = testInstance.findByType(CreateSnippet);
   expect(createSnippet).toBeDefined();
 
   // Find the submit button (There can be only one)
-  const submitButton = instance.findByType('button');
+  const submitButton = testInstance.findByType('button');
   expect(submitButton).toBeDefined();
   expect(submitButton.props.children).toBe('Create Snippet');
 });
 
 it('should create snippet', async () => {
-  const component = TestRenderer.create(
+  const testRenderer = TestRenderer.create(
     <StaticRouter>
       <MockedProvider mocks={mocks} addTypename={false}>
         <CreateSnippet />
@@ -86,13 +86,13 @@ it('should create snippet', async () => {
     </StaticRouter>
   );
 
-  // The "test instance"
-  const instance = (component as {root:ReactTestInstance}).root;
+  
+  const testInstance = (testRenderer as {root:ReactTestInstance}).root;
 
   // Find the form fields
-  const titleField = instance.findByProps({type: 'text', id: 'title'});
-  const bodyField = instance.findByProps({id: 'body'});
-  const isPrivateField = instance.findByProps({type: 'checkbox', id: 'private'});
+  const titleField = testInstance.findByProps({type: 'text', id: 'title'});
+  const bodyField = testInstance.findByProps({id: 'body'});
+  const isPrivateField = testInstance.findByProps({type: 'checkbox', id: 'private'});
 
   // Update the values to something I can track later.
   // Updates should fire off the setFormState event.
@@ -118,7 +118,7 @@ it('should create snippet', async () => {
   expect(isPrivateField.props.checked).toBe(expectedIsPrivate);
 
   // Find the form (There can be only one)
-  const form = instance.findByType('form');
+  const form = testInstance.findByType('form');
   expect(form).toBeDefined();
   //console.log('form.props.onSubmit', form.props.onSubmit);
 

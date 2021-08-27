@@ -1,7 +1,9 @@
-import {MockedResponse} from "@apollo/client/testing";
-import {CREATE_SNIPPET_MUTATION} from "../../src/pages/CreateSnippet";
-import {ALL_SNIPPETS_QUERY} from "../../src/pages/AllSnippets";
-import {newDataAllSnippets} from "../../src/pages/AllSnippets/mockFixtures";
+import {MockedResponse} from '@apollo/client/testing';
+import {CREATE_SNIPPET_MUTATION} from '../../src/pages/CreateSnippet';
+import {ALL_SNIPPETS_QUERY} from '../../src/pages/AllSnippets';
+import {newDataAllSnippets} from '../../src/pages/AllSnippets/mockFixtures';
+
+type TGqlData = Record<string, unknown>;
 
 const mockCreateInputVariables = [
   {
@@ -37,8 +39,8 @@ const newDataCreateSnippet = () => (
   } as const
 );
 
-export var createMutationCalled = false;
-export var refetchCalled = false;
+export let createMutationCalled = false;
+export let refetchCalled = false;
 
 export const mocks: readonly MockedResponse[] = [
   // CREATION # 0
@@ -47,7 +49,7 @@ export const mocks: readonly MockedResponse[] = [
       query: CREATE_SNIPPET_MUTATION,
       variables: mockCreateInputVariables[0],
     },
-    newData: () => {
+    newData: (): TGqlData => {
       console.log('create 0: fired');
 
       createMutationCalled = true;
@@ -59,7 +61,7 @@ export const mocks: readonly MockedResponse[] = [
       query: ALL_SNIPPETS_QUERY,
       variables: {},
     },
-    newData: () => {
+    newData: (): TGqlData => {
       console.log('refetch 0: fired');
 
       refetchCalled = true;
@@ -73,7 +75,7 @@ export const mocks: readonly MockedResponse[] = [
       query: CREATE_SNIPPET_MUTATION,
       variables: mockCreateInputVariables[1],
     },
-    newData: () => {
+    newData: (): TGqlData => {
       console.log('create 1: fired');
 
       createMutationCalled = true;
@@ -85,7 +87,7 @@ export const mocks: readonly MockedResponse[] = [
       query: ALL_SNIPPETS_QUERY,
       variables: {},
     },
-    newData: () => {
+    newData: (): TGqlData => {
       console.log('refetch 1: fired');
 
       refetchCalled = true;

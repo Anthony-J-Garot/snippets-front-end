@@ -2,10 +2,11 @@ import React from 'react';
 import TestRenderer, {ReactTestInstance} from 'react-test-renderer';
 import {StaticRouter} from 'react-router-dom';
 import {loadFeature, defineFeature} from 'jest-cucumber';
-import {MockedProvider, MockedResponse} from '@apollo/client/testing';
+import {MockedProvider} from '@apollo/client/testing';
 import {noop} from '../../src/utils';
 import CreateSnippet from '../../src/pages/CreateSnippet/index';
 import {mocks, createMutationCalled, refetchCalled} from './CreateSnippet.mock';
+import Notice from '../../src/Notice';
 
 /*
  * This page follows the basic outline from the jest-cucumber documentation
@@ -20,7 +21,7 @@ import {mocks, createMutationCalled, refetchCalled} from './CreateSnippet.mock';
 const feature = loadFeature('specs/features/CreateSnippet.feature');
 
 defineFeature(feature, (test) => {
-  let instance: ReactTestInstance;
+  let testInstance: ReactTestInstance;
 
   beforeEach(() => {
     noop();
@@ -36,20 +37,23 @@ defineFeature(feature, (test) => {
       // Recall that beforeEach() sets the initial state,
       // but I think I will use that for Backgrounds.
 
-      const component = TestRenderer.create(
+      const testRenderer = TestRenderer.create(
         <StaticRouter>
+          <Notice />
           <MockedProvider mocks={mocks} addTypename={false}>
             <CreateSnippet />
           </MockedProvider>,
         </StaticRouter>
       );
 
-      // The "test instance"
-      instance = (component as { root: ReactTestInstance }).root;
+      testInstance = (testRenderer as { root: ReactTestInstance }).root;
+      //console.log('testInstance', testInstance);
 
-      // Make sure the component rendered
-      const createSnippet = instance.findByType(CreateSnippet);
+      // Make sure the relevant components rendered
+      const createSnippet = testInstance.findByType(CreateSnippet);
       expect(createSnippet).toBeDefined();
+      const notice = testInstance.findByType(Notice);
+      expect(notice).toBeDefined();
     });
 
     when(
@@ -58,9 +62,9 @@ defineFeature(feature, (test) => {
         console.log('\ntitle:', expectedTitle, '\nbody:', expectedBody, '\nprivacy:', expectedPrivacy);
 
         // Find the form fields
-        titleField = instance.findByProps({type: 'text', id: 'title'});
-        bodyField = instance.findByProps({id: 'body'});
-        isPrivateField = instance.findByProps({type: 'checkbox', id: 'private'});
+        titleField = testInstance.findByProps({type: 'text', id: 'title'});
+        bodyField = testInstance.findByProps({id: 'body'});
+        isPrivateField = testInstance.findByProps({type: 'checkbox', id: 'private'});
 
         await TestRenderer.act(async () => {
           titleField.props.onChange({target: {value: expectedTitle}});
@@ -80,12 +84,12 @@ defineFeature(feature, (test) => {
     then(/the new snippet persists/, async () => {
 
       // Find the form (There can be only one)
-      const form = instance.findByType('form');
+      const form = testInstance.findByType('form');
       expect(form).toBeDefined();
       // console.log('form.props.onSubmit', form.props.onSubmit);
 
       await TestRenderer.act(async () => {
-        noop('Firing onSubmit');
+        // noop('Firing onSubmit');
         form.props.onSubmit({
           preventDefault: () => false
         });
@@ -93,13 +97,15 @@ defineFeature(feature, (test) => {
         await new Promise(resolve => setTimeout(resolve, 200 + (Math.random() * 300)));
       });
 
-      // How did we do?
+      // Did the mock gql newData fire as expected?
       expect(createMutationCalled).toBe(true);
       expect(refetchCalled).toBe(true);
     });
 
     and('John is notified that the snippet was created', () => {
-      noop('AND1 Needs code');
+      const notice = testInstance.findByProps({className: 'notice'});
+      expect(notice).toBeDefined();
+      expect(notice.props.children).toBe('Your snippet has been created');
     });
 
     and(/subscribers to the feed are notified/, () => {

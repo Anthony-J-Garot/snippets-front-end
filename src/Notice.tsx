@@ -9,12 +9,12 @@ const Notice = (): ReactElement => {
   const [state, setState] = useState(defaultState);
 
   useEffect(() => {
-    console.log('<Notice /> component subscribing to notice store');
+    // console.log('<Notice /> component subscribing to notice store');
     noticesStore.subscribe(setState);
   }, []);
 
   return (
-    <p className="notice">{state.notice}</p>
+    <p className='notice'>{state.notice}</p>
   );
 };
 

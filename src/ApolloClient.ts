@@ -1,6 +1,7 @@
 import {ApolloClient, InMemoryCache, split, createHttpLink} from '@apollo/client';
 import {WebSocketLink} from '@apollo/client/link/ws';
 import {getMainDefinition} from '@apollo/client/utilities';
+import {isBrowser} from './utils';
 // import * as ws from 'ws';
 
 // node-fetch didn't work
@@ -24,7 +25,7 @@ const httpLink = createHttpLink({
 const authToken = () => {
   // console.log('process.title', process.title);
   // console.log('process.env.NODE_ENV', process.env.NODE_ENV);
-  if(process.title !== 'browser') return '';
+  if (!isBrowser()) return '';
 
   let authToken = localStorage.getItem('authToken');
   if (!authToken) {

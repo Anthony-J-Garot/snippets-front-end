@@ -57,9 +57,9 @@ const mocks: readonly MockedResponse[] = [
  */
 it('should delete snippet', async () => {
 
-  let component = {};
+  let testRenderer = {};
   await TestRenderer.act(async () => {
-    component = await TestRenderer.create(
+    testRenderer = await TestRenderer.create(
       <StaticRouter>
         <MockedProvider mocks={mocks} addTypename={false}>
           <AllSnippets />
@@ -70,22 +70,22 @@ it('should delete snippet', async () => {
     await new Promise(resolve => setTimeout(resolve, 200 + (Math.random() * 300)));
   });
 
-  // The "test instance"
-  const instance = (component as { root: ReactTestInstance }).root;
+
+  const testInstance = (testRenderer as { root: ReactTestInstance }).root;
   // console.log('instance', instance);
 
-  // Make sure the component rendered
-  const allSnippets = instance.findByType(AllSnippets);
+  // Make sure the testRenderer rendered
+  const allSnippets = testInstance.findByType(AllSnippets);
   expect(allSnippets).toBeDefined();
 
   // See if any links were rendered
-  // const Links = instance.findAllByProps({to: '#', className: 'deleteIcon'});
+  // const Links = testInstance.findAllByProps({to: '#', className: 'deleteIcon'});
   // Links.forEach((value) => {
   //   console.log('value.props', value.props);
   // });
 
   // Find the delete link (There can be only one)
-  const deleteLink = instance.findByProps({id: 'delete_1'});
+  const deleteLink = testInstance.findByProps({id: 'delete_1'});
   expect(deleteLink).toBeDefined();
 
   // Now click the delete icon link thing

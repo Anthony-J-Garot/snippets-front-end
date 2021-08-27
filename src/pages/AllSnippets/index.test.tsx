@@ -33,7 +33,7 @@ const mocks: readonly MockedResponse[] = [
 ];
 
 it('renders without error', () => {
-  const component = TestRenderer.create(
+  const testRenderer = TestRenderer.create(
     <StaticRouter>
       <MockedProvider mocks={mocks} addTypename={false}>
         <AllSnippets />
@@ -41,10 +41,10 @@ it('renders without error', () => {
     </StaticRouter>
   );
 
-  // The "test instance"
-  const instance = (component as { root: ReactTestInstance }).root;
 
-  const loading = instance.findAllByProps({className: 'loading'});
+  const testInstance = (testRenderer as { root: ReactTestInstance }).root;
+
+  const loading = testInstance.findAllByProps({className: 'loading'});
   // console.log(loading[0].children) ;
   expect(loading[0].children).toContain('Loading...');
 });
@@ -54,9 +54,9 @@ it('renders without error', () => {
  */
 it('should render rows', async () => {
 
-  let component = {};
+  let testRenderer = {};
   await TestRenderer.act(async () => {
-    component = await TestRenderer.create(
+    testRenderer = await TestRenderer.create(
       <StaticRouter>
         <MockedProvider mocks={mocks} addTypename={false}>
           <AllSnippets />
@@ -68,16 +68,15 @@ it('should render rows', async () => {
   });
 
 
-  // The "test instance"
-  const instance = (component as { root: ReactTestInstance }).root;
+  const testInstance = (testRenderer as { root: ReactTestInstance }).root;
 
   // You can convert to JSON first then drill down from there.
-  // console.log(component.toJSON()[0].children[1].children[1].children[1]);
+  // console.log(testRenderer.toJSON()[0].children[1].children[1].children[1]);
 
   // When using findByProps or findAllByProps, be sure to use the React name,
   // not the HTML name. So use className instead of class, even though in the
   // DOM it's class.
-  const titles = instance.findAllByProps({className: 'col2'});
+  const titles = testInstance.findAllByProps({className: 'col2'});
   const title_2 = titles[1].children;
   // console.log('title_2', title_2);
 

@@ -1,12 +1,10 @@
 import React, {ReactElement, useState} from 'react';
 import './index.css';
-import {
-  gql,
-  useMutation,
-} from '@apollo/client';
+import {gql, useMutation} from '@apollo/client';
 import {ALL_SNIPPETS_QUERY} from '../AllSnippets';
 import SnippetFormFields, {IFormState} from '../../SnippetFormFields';
 import noticesStore from '../../Observables/noticesStore';
+import {noop} from '../../utils';
 
 const initialState: IFormState = {
   title: '',
@@ -56,8 +54,8 @@ const CreateSnippet = (): ReactElement => {
       <p className="App-page-title">Create Snippet</p>
       <form onSubmit={(e) => {
         e.preventDefault();
-        createSnippet().then(()=>{
-          console.log('Snippet created');
+        createSnippet().then(() => {
+          noop('Snippet created');
         });
       }}>
         {SnippetFormFields(formState, setFormState)}

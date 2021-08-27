@@ -19,6 +19,8 @@ import {promiseTimeout} from '../../utils';
  *
  * To run just the tests in this file:
  * $ yarn test src/pages/UpdateSnippet/
+ * or
+ * $ ./run_regulartests.sh src/pages/UpdateSnippet/
  */
 
 

@@ -1,7 +1,7 @@
 import {ApolloClient, InMemoryCache, split, createHttpLink} from '@apollo/client';
 import {WebSocketLink} from '@apollo/client/link/ws';
 import {getMainDefinition} from '@apollo/client/utilities';
-import {isBrowser} from './utils';
+import {getAuthToken} from './authentication';
 // import * as ws from 'ws';
 
 // node-fetch didn't work
@@ -20,24 +20,6 @@ const httpLink = createHttpLink({
   fetch: fetch,
 });
 
-// Define an authToken function because localStorage doesn't
-// exist when testing.
-const authToken = () => {
-  // console.log('process.title', process.title);
-  // console.log('process.env.NODE_ENV', process.env.NODE_ENV);
-  if (!isBrowser()) return '';
-
-  let authToken = localStorage.getItem('authToken');
-  if (!authToken) {
-    console.log('Generating authToken');
-    authToken = 'ABCDEFG';
-    localStorage.setItem('authToken', authToken);
-  } else {
-    console.log('Using existing authToken');
-  }
-  return authToken;
-};
-
 // WebSocket requests
 const wsLink = new WebSocketLink({
   uri: wsEndpoint,
@@ -48,7 +30,7 @@ const wsLink = new WebSocketLink({
     // See the on_connect(self, payload) function in the Django consumer.
     connectionParams: {
       // The authToken we pass might be from a cookie or whatnot
-      authToken: authToken()
+      authToken: getAuthToken()
     },
   },
   // webSocketImpl: ws

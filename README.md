@@ -86,6 +86,17 @@ https://www.apollographql.com/docs/react/get-started/
 https://www.apollographql.com/docs/react/data/mutations/
 https://www.howtographql.com/react-apollo/3-mutations-creating-links/
 
+# Authentication
+
+At present, authentication occurs through GraphQL through a
+mutation. If the user is authenticated, a token is set in
+localStorage. I threw all the token related functions into 
+authentication.ts for now . . . until I know what I want to
+do with them.
+
+I don't have authentication working throughout the App yet.
+Soon.
+
 # CORS
 
 My backend is Django on port 4000, and my front-end is React

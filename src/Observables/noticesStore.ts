@@ -6,21 +6,21 @@ import {BehaviorSubject} from 'rxjs';
 import {isBrowser} from '../utils';
 
 // Any message to the user, or "notice," is simply a string
-export interface NoticeState {
+export interface INoticeState {
   notice: string
 }
 
 // Blank notice to start
-const initialState: NoticeState = {notice: ''} as NoticeState;
-const noticeState: NoticeState = initialState;
+const initialState: INoticeState = {notice: ''} as INoticeState;
+const noticeState: INoticeState = initialState;
 
 const noticesSubject = new BehaviorSubject(noticeState);
 
 const noticesStore = {
-  subscribe: (setState: Dispatch<SetStateAction<NoticeState>>): void => {
+  subscribe: (setState: Dispatch<SetStateAction<INoticeState>>): void => {
     const observer = {
-      next: (noticeState: NoticeState) => {
-        setState((prevState: NoticeState) => ({
+      next: (noticeState: INoticeState) => {
+        setState((prevState: INoticeState) => ({
           ...prevState,
           notice: noticeState.notice
         }));
@@ -28,7 +28,7 @@ const noticesStore = {
     };
     noticesSubject.subscribe(observer);
   },
-  setNotice: (notice: NoticeState): void => {
+  setNotice: (notice: INoticeState): void => {
     // console.log('setNotice() . . . ', notice);
     noticeState.notice = notice.notice;
     noticesSubject.next(noticeState);

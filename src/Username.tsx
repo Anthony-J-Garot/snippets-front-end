@@ -9,13 +9,19 @@ const Username = (): ReactElement => {
   const [state, setState] = useState(defaultState);
 
   useEffect(() => {
-    console.log('<Username /> component subscribing to userstore');
+    // Subscribe so that state changes occur
     userStore.subscribe(setState);
   }, []);
 
-  return (
-    <p className='username'>{state.username}</p>
-  );
+  if (state.username !== '') {
+    return (
+      <p><span className='username-label'>User: </span><span className='username'>{state.username}</span></p>
+    );
+  } else {
+    return (
+      <p>&nbsp;</p>
+    );
+  }
 };
 
 export default Username;

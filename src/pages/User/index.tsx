@@ -36,12 +36,12 @@ export const Signon = (): ReactElement => {
     onCompleted: (data) => {
       console.log('onCompleted (authenticate)', data);
       if (data.login.ok) {
-        noticesStore.setNotice({notice: 'SUCCESS: You have been signed on'});
         newAuthToken();
-        userStore.setUser({username: 'Anthony'});
+        noticesStore.setNotice({notice: 'SUCCESS: You have been signed on'});
+        userStore.setUser({username: formState.username});
       } else {
-        noticesStore.setNotice({notice: 'FAILED: You failed to sign on'});
         clearAuthToken();
+        noticesStore.setNotice({notice: 'FAILED: You failed to sign on'});
         userStore.setUser({username: ''});
       }
     },
@@ -60,7 +60,7 @@ export const Signon = (): ReactElement => {
           noop('User authenticated');
         });
       }}>
-        <div className='flex flex-column'>
+        <div className='flex User-flex-column'>
           <input
             id='username'
             value={formState.username}

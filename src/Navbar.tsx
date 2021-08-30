@@ -6,23 +6,24 @@ import userStore from './Observables/userStore';
 
 
 // Logs off the user
-const signOff = (): void => {
+const signOffUser = (): void => {
   clearAuthToken();
   userStore.setUser({username: ''});
 };
 
 const defaultUsername = {username: ''};
 
-// Probably going to have to link this to an observable . . .
-const ShowSignOffButton = (): ReactElement => {
+// The <SignOnOff /> component renders based upon current authentication state.
+const SignOnOff = (): ReactElement => {
 
-  // Set the authToken state
-  const [authToken, setAuthToken] = useState('');
+  // Set-up the authToken state
+  const [authToken, setAuthToken] = useState(getAuthToken());
 
-  // Set the username state
+  // Set-up the username state
   const [username, setUsername] = useState(defaultUsername);
 
   useEffect(() => {
+    // Subscribe to the username because that will be the dependency for the next effect
     userStore.subscribe(setUsername);
   }, []);
 
@@ -40,12 +41,9 @@ const ShowSignOffButton = (): ReactElement => {
   }, [username]);
 
   // Shows up the second time-through.
-  // <p><a href='' onClick={signOff}>Sign off</a></p>
   if (authToken !== '') {
     return (
-      <p>
-        <button onClick={signOff}>Sign off</button>
-      </p>
+      <p><a href='#' onClick={signOffUser}>Sign off</a></p>
     );
   } else {
     return (
@@ -66,8 +64,8 @@ const Navbar = (): ReactElement => {
       {/* A link to the Playground on the API side. */}
       <p><a href="http://192.168.2.99:4000/graphql/" target="_blank" rel="noreferrer">GraphiQL Playground</a></p>
       <br />
-      <ShowSignOffButton />
       <Username />
+      <SignOnOff />
     </div>
   );
 };

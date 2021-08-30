@@ -94,7 +94,14 @@ localStorage. I threw all the token related functions into
 authentication.ts for now . . . until I know what I want to
 do with them.
 
-I don't have authentication working throughout the App yet.
+There are several options for storing tokens. Storing in 
+JavaScript memory is the safest, and perhaps easiest, but it 
+means logging in every time you come back to the page. That 
+detracts from the user experience. Storing in localStorage 
+gives a better user experience, but the App is vulnerable 
+to Cross-Site Scripting (XSS) attacks.
+
+Note: I don't have authentication working throughout the App yet.
 Soon.
 
 # CORS

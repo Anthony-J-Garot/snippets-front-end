@@ -4,6 +4,7 @@ import noticesStore from '../../Observables/noticesStore';
 import {noop} from '../../utils';
 import './index.css';
 import {clearAuthToken, newAuthToken} from '../../authentication';
+import userStore from '../../Observables/userStore';
 
 export interface IFormState {
   username: string,
@@ -16,9 +17,9 @@ const initialState: IFormState = {
 };
 
 /*
- * Define this page component
+ * Signon or Login component
  */
-const User = (): ReactElement => {
+export const Signon = (): ReactElement => {
 
   // The data that’s typed into the form fields is held in the
   // component’s local state by way of the useState hook.
@@ -37,9 +38,11 @@ const User = (): ReactElement => {
       if (data.login.ok) {
         noticesStore.setNotice({notice: 'SUCCESS: You have been signed on'});
         newAuthToken();
+        userStore.setUser({username: 'Anthony'});
       } else {
         noticesStore.setNotice({notice: 'FAILED: You failed to sign on'});
         clearAuthToken();
+        userStore.setUser({username: ''});
       }
     },
     onError: (error) => {
@@ -102,4 +105,4 @@ mutation mutLogin($input: LoginInput!) {
 }
 `;
 
-export default User;
+export default Signon;

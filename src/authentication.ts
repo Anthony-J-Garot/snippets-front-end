@@ -7,16 +7,14 @@ export const getAuthToken = (): string => {
   // console.log('process.env.NODE_ENV', process.env.NODE_ENV);
   if (!isBrowser()) return '';
 
-  let authToken = localStorage.getItem('authToken');
+  const authToken = localStorage.getItem('authToken');
   if (!authToken) {
-    console.log('Generating new authToken');
-    authToken = newAuthToken();
-
+    console.log('User not authenticated');
+    return '';
   } else {
-    console.log('User already authenticated with token [' + authToken + ']');
+    console.log('User authenticated with token [' + authToken + ']');
+    return authToken;
   }
-
-  return authToken;
 };
 
 // After generating, store it right away.
@@ -25,12 +23,14 @@ export const newAuthToken = (): string => {
   // since this is just a proof of concept . . .
   // Store the newly generated token
   const authToken = 'ABCDEFG';
+  console.log('newAuthToken', authToken);
   setAuthToken(authToken);
   return authToken;
 };
 
 export const clearAuthToken = (): void => {
-  setAuthToken('');
+  localStorage.clear();
+  // setAuthToken('');
   console.log('Token was cleared');
 };
 
@@ -38,6 +38,9 @@ export const clearAuthToken = (): void => {
 // someone else would have to do this.
 const setAuthToken = (authToken: string): void => {
   if (isBrowser()) {
+    // I may want to add stuff to the token
+    // localStorage.setItem('authToken', JSON.stringify(authToken));
+
     localStorage.setItem('authToken', authToken);
   }
 };

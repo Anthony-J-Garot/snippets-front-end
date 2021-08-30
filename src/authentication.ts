@@ -2,6 +2,8 @@ import {isBrowser} from './utils';
 
 // Define an authToken wrapper function because localStorage
 // doesn't exist when testing.
+//
+// Returns token or empty string.
 export const getAuthToken = (): string => {
   // console.log('process.title', process.title);
   // console.log('process.env.NODE_ENV', process.env.NODE_ENV);

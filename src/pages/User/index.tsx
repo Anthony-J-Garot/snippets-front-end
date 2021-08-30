@@ -5,6 +5,7 @@ import {noop} from '../../utils';
 import './index.css';
 import {clearAuthToken, newAuthToken} from '../../authentication';
 import userStore from '../../Observables/userStore';
+import {ANONYMOUS_USER} from '../../constants';
 
 export interface IFormState {
   username: string,
@@ -42,7 +43,7 @@ export const Signon = (): ReactElement => {
       } else {
         clearAuthToken();
         noticesStore.setNotice({notice: 'FAILED: You failed to sign on'});
-        userStore.setUser({username: ''});
+        userStore.setUser({username: ANONYMOUS_USER});
       }
     },
     onError: (error) => {

@@ -1,17 +1,16 @@
 import React, {ReactElement, useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import {clearAuthToken, getAuthToken} from './authentication';
-import Username from './Username';
 import userStore from './Observables/userStore';
+import {ANONYMOUS_USER} from './constants';
 
+const defaultUsername = {username: ANONYMOUS_USER};
 
 // Logs off the user
 const signOffUser = (): void => {
   clearAuthToken();
-  userStore.setUser({username: ''});
+  userStore.setUser({username: ANONYMOUS_USER});  // Clear it
 };
-
-const defaultUsername = {username: ''};
 
 // The <SignOnOff /> component renders based upon current authentication state.
 const SignOnOff = (): ReactElement => {
@@ -29,12 +28,12 @@ const SignOnOff = (): ReactElement => {
 
   // Next cycle, this gets run. (After the component is rendered.)
   // Is only called once.
-  // The deps = what it triggers off of.
+  // deps = what it triggers from.
   useEffect(() => {
-    // Every time the username changes, I want to verify that the user is still logged in.
+    // Every time the username changes, I want to verify that the user is still authenticated.
     const tempToken = getAuthToken();
 
-    // This triggers the whole component to re-render.
+    // A change in the token triggers the whole component to re-render.
     if (tempToken !== authToken) {
       setAuthToken(tempToken);
     }
@@ -43,15 +42,30 @@ const SignOnOff = (): ReactElement => {
   // Shows up the second time-through.
   if (authToken !== '') {
     return (
-      <p><a href='#' onClick={signOffUser}>Sign off</a></p>
+      <div>
+        {Username(username.username)}
+        <p><a href='#' onClick={signOffUser}>Sign off</a></p>
+      </div>
     );
   } else {
     return (
-      <p><Link to="/user">Sign on</Link></p>
+      <div>
+        {Username(username.username)}
+        <p><Link to="/user">Sign on</Link></p>
+      </div>
     );
   }
 };
 
+// Show the username in the Navbar
+const Username = (username: string): ReactElement => (
+  <p><span className='username-label'>User: </span><span className='username'>{username}</span></p>
+);
+
+
+/*
+ * The component I want to render
+ */
 const Navbar = (): ReactElement => {
 
   return (
@@ -64,7 +78,8 @@ const Navbar = (): ReactElement => {
       {/* A link to the Playground on the API side. */}
       <p><a href="http://192.168.2.99:4000/graphql/" target="_blank" rel="noreferrer">GraphiQL Playground</a></p>
       <br />
-      <Username />
+      <br />
+      <br />
       <SignOnOff />
     </div>
   );

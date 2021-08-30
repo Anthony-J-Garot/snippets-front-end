@@ -1,10 +1,10 @@
 import {Dispatch, SetStateAction} from 'react';
 import {BehaviorSubject} from 'rxjs';
+import {ANONYMOUS_USER} from '../constants';
 
 /*
- * At present, this observable is simply used to update the username in the
- * NavBar when the person signs on/off. I didn't name it "usernameStore"
- * because I may add something in the future.
+ * This observable is used to update the username in the NavBar when the
+ * person signs on/off.
  */
 
 // Any message to the user, or "username," is simply a string
@@ -13,7 +13,7 @@ export interface IUserState {
 }
 
 // Blank username to start
-const initialState: IUserState = {username: ''} as IUserState;
+const initialState: IUserState = {username: ANONYMOUS_USER} as IUserState;
 const userState: IUserState = initialState;
 
 const userSubject = new BehaviorSubject(userState);

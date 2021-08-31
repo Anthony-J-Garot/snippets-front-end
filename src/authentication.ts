@@ -21,11 +21,11 @@ export const getAuthToken = (): string => {
 
 // After generating, store it right away.
 export const newAuthToken = (): string => {
-  // Could probably do something more robust than this, but
-  // since this is just a proof of concept . . .
-  // Store the newly generated token
+  // Could generate a unique authToken, but since this is just a proof of concept . . .
   const authToken = 'ABCDEFG';
   console.log('newAuthToken', authToken);
+
+  // Store the newly generated token
   setAuthToken(authToken);
   return authToken;
 };

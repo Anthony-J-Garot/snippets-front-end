@@ -1,30 +1,25 @@
 import React, {ReactElement} from 'react';
-import {gql, useMutation, useQuery, DocumentNode} from '@apollo/client';
-import {Link} from 'react-router-dom';
+import {gql, useQuery, DocumentNode} from '@apollo/client';
 import './index.css';
 
+/*
+ * This shows which snippets a user can view according to
+ * permissions. I didn't port over the delete or edit functionality
+ * from All Snippets.
+ */
+
 // Defines the GraphQL client query to see all the things.
-export const ALL_SNIPPETS_QUERY: DocumentNode = gql`
-query qryAllSnippets {
-  allSnippets {
+export const LIMITED_SNIPPETS_QUERY: DocumentNode = gql`
+query qryLimitedSnippets {
+  limitedSnippets {
     id
     title
-    body
     bodyPreview
-    created
-    isPrivate: private
     owner
+    isPrivate: private
     __typename
   }
   __typename
-}
-`;
-
-export const DELETE_SNIPPET_MUTATION = gql`
-mutation mutDeleteSnippet($id: ID!) {
-  deleteSnippet(id: $id) {
-    ok
-  }
 }
 `;
 
@@ -32,13 +27,6 @@ mutation mutDeleteSnippet($id: ID!) {
  * Sets up the Apollo Client to pull the GraphQL query results.
  * This is the REST way. It's not needed when using useQuery.
  */
-// Constants.client
-// 	.query({
-// 		query: ALL_SNIPPETS_QUERY
-// 	})
-// 	.then(result => {
-// 		console.log("query result (ALL_SNIPPETS_QUERY):", result);
-// 	});
 
 const checkMarkIcon = (isPrivate: boolean) => {
   const check: string = process.env.PUBLIC_URL + '/check-mark-8-64.png';
@@ -51,55 +39,21 @@ const checkMarkIcon = (isPrivate: boolean) => {
   return ('');
 };
 
-const deleteIcon = () => {
-  const icon: string = process.env.PUBLIC_URL + '/delete.svg';
-  return (
-    <img src={icon} width={24} alt="Delete item" />
-  );
-};
-
-const editIcon = () => {
-  const icon: string = process.env.PUBLIC_URL + '/pencil.svg';
-  return (
-    <img src={icon} width={24} alt="Edit item" />
-  );
-};
-
 /*
  * Defines a component that executes the GraphQL query with
  * the useQuery hook and returns the data in a formatted way.
  */
-const AllSnippets = (): ReactElement => {
+const LimitedSnippets = (): ReactElement => {
 
-  const {loading, data, refetch} = useQuery(ALL_SNIPPETS_QUERY, {
+  const {loading, data, refetch} = useQuery(LIMITED_SNIPPETS_QUERY, {
     // fetchPolicy is necessary for refetchQueries to work after creating a new entry.
     fetchPolicy: 'cache-and-network',
     onCompleted: () => {
-      console.log('onCompleted (ALL_SNIPPETS_QUERY) fired');
+      console.log('onCompleted (LIMITED_SNIPPETS_QUERY) fired');
       console.log('data is', data);
     },
     onError: (error) => {
       console.log('QUERY Error: ', error);
-    },
-  });
-
-  // The useMutation hook passes the state into the mutation.
-  // The variables option must be passed in.
-  const [mutDeleteSnippet] = useMutation(DELETE_SNIPPET_MUTATION, {
-    // Note that is is an array. You can specify multiple queries to refetch after the mutation occurs.
-    // Note: refetchQueries will only work with strings if the component that defined the original query
-    // is not unmounted. On the contrary, it will always work when using the
-    // { query... , variables: ... } style.
-    // https://github.com/apollographql/apollo-client/issues/5419#issuecomment-598065442
-    refetchQueries: [{
-      query: ALL_SNIPPETS_QUERY,
-      variables: {}
-    }],
-    onCompleted: (data) => {
-      console.log('onCompleted (DeleteSnippet)', data);
-    },
-    onError: (error) => {
-      console.log('MUTATION Error: ', error);
     },
   });
 
@@ -120,7 +74,7 @@ const AllSnippets = (): ReactElement => {
   const Headers = () => (
     <div className="row">
       <div className="col1 header">
-        Act
+        ID
       </div>
       <div className="col2 header">
         Title
@@ -148,17 +102,13 @@ const AllSnippets = (): ReactElement => {
     title: string,
   }
 
-  // 	<Link to={`/snippet/delete/${id}`}>{deleteIcon(id)}</Link>
   // This creates all the snippets as an object
-  const allTheThings: ReactElement =
-    data.allSnippets.map(({id, title, bodyPreview, owner, isPrivate}: ISnippetMap): ReactElement => {
+  const limitedThings: ReactElement =
+    data.limitedSnippets.map(({id, title, bodyPreview, owner, isPrivate}: ISnippetMap): ReactElement => {
       return (
         <div key={id} className="row">
           <div className="col1">
-            <Link to={`/snippet/${id}`}>{editIcon()}</Link>
-            &nbsp;&nbsp;
-            <Link to="#" className='deleteIcon' id={`delete_${id}`}
-              onClick={() => mutDeleteSnippet({variables: {id: id}})}>{deleteIcon()}</Link>
+            {id}
           </div>
           <div className="col2">
             {title}
@@ -178,14 +128,14 @@ const AllSnippets = (): ReactElement => {
 
   return (
     <div>
-      <p className="App-page-title">All Snippets List</p>
+      <p className="App-page-title">My + Public Snippets List</p>
       <div id="snippets-list">
         <Headers />
-        {allTheThings}
+        {limitedThings}
       </div>
       <button onClick={handleClick}>Refetch!</button>
     </div>
   );
 };
 
-export default AllSnippets;
+export default LimitedSnippets;

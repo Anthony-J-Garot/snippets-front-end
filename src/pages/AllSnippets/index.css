@@ -1,38 +1,43 @@
-div#allTheThings div.row {
+div#snippets-list div.row {
     display: flex;
     text-align: left;
     background-color: #CFFFFF;
     border-bottom: 1px solid #009999;
 }
-div#allTheThings div.row:last-child {
+div#snippets-list div.row:last-child {
     display: flex;
     text-align: left;
     background-color: #CFFFFF;
     border-bottom: 0;
 }
 
-div#allTheThings div.header {
+div#snippets-list div.header {
     font-weight: bold;
     padding: 3px;
 }
 
-div#allTheThings div.col1 {
+div#snippets-list div.col1 {
     width: 6%;
     padding: 3px;
     text-align: center;
 }
 
-div#allTheThings div.col2 {
+div#snippets-list div.col2 {
     width: 19%;
     padding: 3px;
 }
 
-div#allTheThings div.col3 {
-    width: 70%;
+div#snippets-list div.col3 {
+    width: 50%;
     padding: 3px;
 }
 
-div#allTheThings div.col4 {
+div#snippets-list div.col4 {
+    width: 20%;
+    padding: 3px;
+    text-align: center;
+}
+div#snippets-list div.col5 {
     width: 5%;
     padding: 3px;
     text-align: center;

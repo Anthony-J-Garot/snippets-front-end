@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import {clearAuthToken, getAuthToken} from '../../authentication';
 import userStore from '../../Observables/userStore';
 import {ANONYMOUS_USER} from '../../constants';
+import client from '../../ApolloClient';
 
 /*
  * The <SignOnOff /> component renders based upon current authentication state.
@@ -12,8 +13,9 @@ const defaultUsername = {username: ANONYMOUS_USER};
 
 // Logs off the user
 const signOffUser = (): void => {
-  clearAuthToken();
-  userStore.setUser({username: ANONYMOUS_USER});  // Clear it
+  client.clearStore(); // Reset the InMemoryCache and re-poll
+  clearAuthToken(); // Always clear localStorage first
+  userStore.setUser(defaultUsername);  // Clear it
 };
 
 // Show the username in the Navbar
@@ -24,7 +26,7 @@ const Username = (username: string): ReactElement => (
 const SignOnOff = (): ReactElement => {
 
   // Set-up the authToken state
-  const [authToken, setAuthToken] = useState(getAuthToken());
+  const [authToken, setAuthToken] = useState(defaultUsername.username);
 
   // Set-up the username state
   const [username, setUsername] = useState(defaultUsername);
@@ -39,7 +41,7 @@ const SignOnOff = (): ReactElement => {
   // deps = what it triggers from.
   useEffect(() => {
     // Every time the username changes, I want to verify that the user is still authenticated.
-    const tempToken = getAuthToken();
+    const tempToken = getAuthToken('SignOnOff . . . useEffect');
 
     // A change in the token triggers the whole component to re-render.
     if (tempToken !== authToken) {

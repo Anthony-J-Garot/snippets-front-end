@@ -3,9 +3,9 @@ import {gql, useMutation} from '@apollo/client';
 import noticesStore from '../../Observables/noticesStore';
 import {noop} from '../../utils';
 import './index.css';
+import {clearAuthToken, generateLocalAuthToken} from '../../authentication';
 import userStore from '../../Observables/userStore';
 import {ANONYMOUS_USER} from '../../constants';
-import {clearAuthToken, setAuthToken} from '../../authentication';
 
 export interface IFormState {
   username: string,
@@ -19,39 +19,44 @@ const initialState: IFormState = {
 
 /*
  * Signon or Login component
- * This uses JWT, which means a token is passed back and forth such
- * that security information is available on the React front end.
+ *
+ * TODO Scheduled for Deprecation
+ *
+ * This uses a graphene mutation on the Django API backend. It
+ * doesn't do JWT, which means no token is passed back and forth.
+ * So although the user is validated on the back end, even logged
+ * in, there is no security information available on the React
+ * front end.
  */
-export const Signon = (): ReactElement => {
+export const SignonTokenless = (): ReactElement => {
 
   // The data that’s typed into the form fields is held in the
   // component’s local state by way of the useState hook.
   const [formState, setFormState] = useState(initialState);
 
-  // The useMutation hook passes the state into the mutation.
-  // Using the JWT tokenAuth to generate a token.
-  const [tokenAuth] = useMutation(TOKEN_AUTH_MUTATION, {
+  // The useMutation hook passes the state into the mutation
+  const [authenticate] = useMutation(LOGIN_MUTATION, {
     variables: {
-      username: formState.username,
-      password: formState.password
+      input: {
+        username: formState.username,
+        password: formState.password
+      }
     },
     onCompleted: (data) => {
-      console.log('onCompleted (tokenAuth)', data);
-      if (data.tokenAuth.token) {
-        // Capture token for the front end. Set this before Observables.
-        setAuthToken(data.tokenAuth.token);
+      console.log('onCompleted (authenticate)', data);
+      if (data.login.ok) {
+        generateLocalAuthToken();
         noticesStore.setNotice({notice: 'SUCCESS: You have been signed on'});
         userStore.setUser({username: formState.username});
       } else {
-        clearAuthToken(); // Clear the front end token
+        clearAuthToken();
         noticesStore.setNotice({notice: 'FAILED: You failed to sign on'});
         userStore.setUser({username: ANONYMOUS_USER});
       }
     },
     onError: (error) => {
       console.log('MUTATION Error: ', error);
-      noticesStore.setNotice({notice: '' + error});
-      userStore.setUser({username: ANONYMOUS_USER});
+      noticesStore.setNotice({notice: 'Error: ' + error});
     },
   });
 
@@ -60,9 +65,8 @@ export const Signon = (): ReactElement => {
       <p className="App-page-title">Login</p>
       <form onSubmit={(e) => {
         e.preventDefault();
-        tokenAuth().then(() => {
-          // Runs after onCompleted()
-          noop();
+        authenticate().then(() => {
+          noop('User authenticated');
         });
       }}>
         <div className='flex User-flex-column'>
@@ -89,7 +93,7 @@ export const Signon = (): ReactElement => {
                 password: e.target.value
               });
             }}
-            type='password'
+            type='text'
             placeholder='Enter your password'
           />
         </div>
@@ -102,14 +106,12 @@ export const Signon = (): ReactElement => {
 
 
 // Export for the unit test
-export const TOKEN_AUTH_MUTATION = gql`
-mutation mutSignonJWT($username: String!, $password: String!) {
-  tokenAuth(username: $username, password: $password) {
-    token
-    payload
-    refreshExpiresIn
+export const LOGIN_MUTATION = gql`
+mutation mutLogin($input: LoginInput!) {
+  login(input: $input) {
+    ok
   }
 }
 `;
 
-export default Signon;
+export default SignonTokenless;

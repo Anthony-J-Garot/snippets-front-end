@@ -1,6 +1,8 @@
 import React, {ReactElement} from 'react';
 import {gql, useQuery, DocumentNode} from '@apollo/client';
 import './index.css';
+import {getAuthToken} from '../../authentication';
+import userStore from '../../Observables/userStore';
 
 /*
  * This shows which snippets a user can view according to
@@ -43,11 +45,20 @@ const checkMarkIcon = (isPrivate: boolean) => {
  * Defines a component that executes the GraphQL query with
  * the useQuery hook and returns the data in a formatted way.
  */
+const username = userStore.getUser();
+const authToken = getAuthToken('LimitedSnippets');
+
 const LimitedSnippets = (): ReactElement => {
 
   const {loading, data, refetch} = useQuery(LIMITED_SNIPPETS_QUERY, {
     // fetchPolicy is necessary for refetchQueries to work after creating a new entry.
     fetchPolicy: 'cache-and-network',
+    context: {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'JWT ' + authToken
+      }
+    },
     onCompleted: () => {
       console.log('onCompleted (LIMITED_SNIPPETS_QUERY) fired');
       console.log('data is', data);
@@ -128,7 +139,7 @@ const LimitedSnippets = (): ReactElement => {
 
   return (
     <div>
-      <p className="App-page-title">My + Public Snippets List</p>
+      <p className="App-page-title">My [{username}] + Public Snippets List</p>
       <div id="snippets-list">
         <Headers />
         {limitedThings}

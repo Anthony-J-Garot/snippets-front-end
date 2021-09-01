@@ -30,12 +30,17 @@ const userStore = {
     };
     userSubject.subscribe(observer);
   },
+  initialState: initialState,
+  // Setter
   setUser: (username: IUserState): void => {
-    // console.log('setUser() . . . ', username);
+    console.log('userStore.setUser() . . . ', username);
     userState.username = username.username;
     userSubject.next(userState);
   },
-  initialState: initialState
+  // Getter
+  getUser: (): string => {
+    return userState.username;
+  }
 };
 
 export default userStore;

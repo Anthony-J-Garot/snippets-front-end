@@ -29,8 +29,10 @@ const wsLink = new WebSocketLink({
     // The connectionParams object is passed to the server when connects.
     // See the on_connect(self, payload) function in the Django consumer.
     connectionParams: {
-      // The authToken we pass might be from a cookie or whatnot
-      authToken: getAuthToken()
+      // The assumption is that we pass the authToken got from JWT through
+      // the WebSocket, which passes through the payload to the consumer,
+      // e.g. MyGraphqlWsConsumer in my Django back end.
+      authToken: getAuthToken('WebSocket')
     },
   },
   // webSocketImpl: ws
@@ -53,10 +55,38 @@ const splitLink = split(
   httpLink,
 );
 
+// simple cache
+const cache = new InMemoryCache();
+
+// Cache with options
+// https://stackoverflow.com/questions/63423578/cache-data-may-be-lost-when-replacing-the-my-field-of-a-query-object
+// Didn't quite fix the issue:
+//    Cache data may be lost when replacing the limitedSnippets field of a Query object.
+// const cache = new InMemoryCache({
+//   typePolicies: {
+//     SnippetType: {
+//       keyFields: ['id']
+//     }
+//   }
+// });
+
 // initialize ApolloClient
-const client = new ApolloClient({
+export const client = new ApolloClient({
   link: splitLink,
-  cache: new InMemoryCache(),
+  cache: cache,
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'cache-and-network',
+      errorPolicy: 'ignore',
+    },
+    query: {
+      fetchPolicy: 'network-only',
+      errorPolicy: 'all',
+    },
+    mutate: {
+      errorPolicy: 'all',
+    },
+  }
 });
 
 export default client;

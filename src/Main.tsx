@@ -11,7 +11,7 @@ import LimitedSnippets from './pages/AllSnippets/limited';
 import CreateSnippet from './pages/CreateSnippet';
 import UpdateSnippet from './pages/UpdateSnippet';
 import SubscribeSnippet from './pages/SubscribeSnippet';
-import {Signon} from './pages/User';
+import {Signon} from './pages/User/Signon';
 
 /*
  * The Main component renders the "main" section from "pages."

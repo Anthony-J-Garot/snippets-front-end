@@ -1,7 +1,7 @@
 import React from 'react';
 import TestRenderer, {ReactTestInstance} from 'react-test-renderer';
 import {MockedProvider, MockedResponse} from '@apollo/client/testing';
-import User, {LOGIN_MUTATION} from './index';
+import User, {LOGIN_MUTATION} from './Signon';
 import {StaticRouter} from 'react-router-dom';
 import {mockLoginInputVariables, newDataLogin} from './mockFixtures';
 import {promiseTimeout} from '../../utils';

@@ -88,21 +88,29 @@ https://www.howtographql.com/react-apollo/3-mutations-creating-links/
 
 # Authentication
 
-At present, authentication occurs through GraphQL through a
-mutation. If the user is authenticated, a token is set in
-localStorage. I threw all the token related functions into 
-authentication.ts for now . . . until I know what I want to
-do with them.
+Look in src/pages/User for authentication components.
 
-There are several options for storing tokens. Storing in 
-JavaScript memory is the safest, and perhaps easiest, but it 
-means logging in every time you come back to the page. That 
-detracts from the user experience. Storing in localStorage 
-gives a better user experience, but the App is vulnerable 
-to Cross-Site Scripting (XSS) attacks.
+## Tokenless GraphQL Mutation Login
 
-Note: I don't have authentication working throughout the App yet.
-Soon.
+This was my first attempt at authentication, which works well
+enough on the server (API) side, but didn't lend well to this
+React front-end. I left the pages around for instructional 
+purposes. By that I mean that the mutation worked, the user 
+logged-in to the back end, but the front-end just had no idea
+what was going on.
+
+## authToken through JWT
+
+I set up the backend with [django-graphql-jwt](https://github.com/flavors/django-graphql-jwt).
+What this means on this React front-end is:
+
+1. Uses a mutation to request a token.
+2. Sends back the token through a header.
+
+I recommend the [Insomnia client](https://insomnia.rest/download) 
+for testing this. The GraphiQL playground doesn't let you send 
+headers (yet). I found the Insomnia client klunky at first, but 
+once I got used to it, I prefer it to GraphiQL.
 
 # CORS
 

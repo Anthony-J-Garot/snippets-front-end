@@ -23,6 +23,9 @@ const Username = (username: string): ReactElement => (
   <p><span className='username-label'>User: </span><span className='username'>{username}</span></p>
 );
 
+/*
+ * Component that shows the Sign-on/Sign-off link as well as the current user.
+ */
 const SignOnOff = (): ReactElement => {
 
   // Set-up the authToken state

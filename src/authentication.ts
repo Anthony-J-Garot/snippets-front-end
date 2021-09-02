@@ -4,6 +4,12 @@ import {isBrowser} from './utils';
  * These routines are roughly slapped together. I wasn't 100% sure where
  * I was going with authentication. These functions may or may not get
  * repurposed for JWT.
+ *
+ * There are several options for storing tokens. Storing in JavaScript
+ * memory is the safest, and perhaps easiest, but it means logging in
+ * every time you come back to the page. That detracts from the user
+ * experience. Storing in localStorage gives a better user experience,
+ * but the App is vulnerable to Cross-Site Scripting (XSS) attacks.
  */
 
 // Returns token or empty string.

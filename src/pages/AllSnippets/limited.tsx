@@ -53,6 +53,8 @@ const LimitedSnippets = (): ReactElement => {
   const {loading, data, refetch} = useQuery(LIMITED_SNIPPETS_QUERY, {
     // fetchPolicy is necessary for refetchQueries to work after creating a new entry.
     fetchPolicy: 'cache-and-network',
+    // How to pass headers for JWT authentication
+    // https://stackoverflow.com/questions/58073519/
     context: {
       headers: {
         'Content-Type': 'application/json',

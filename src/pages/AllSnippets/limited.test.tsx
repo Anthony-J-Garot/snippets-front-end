@@ -1,9 +1,9 @@
 import React from 'react';
 import TestRenderer, {ReactTestInstance} from 'react-test-renderer';
 import {MockedProvider, MockedResponse} from '@apollo/client/testing';
-import AllSnippets, {ALL_SNIPPETS_QUERY} from './index';
+import LimitedSnippets, {LIMITED_SNIPPETS_QUERY} from './limited';
 import {StaticRouter} from 'react-router-dom';
-import {newDataAllSnippets} from './mockFixturesAll';
+import {newDataLimitedSnippets} from './mockFixturesLimited';
 import {promiseTimeout} from '../../utils';
 
 /*
@@ -11,9 +11,7 @@ import {promiseTimeout} from '../../utils';
  * https://jestjs.io/docs/expect
  *
  * To run just the tests in this file:
- * $ yarn test src/pages/AllSnippets/index.test.tsx
- * or
- * $ ./run_regulartests.sh src/pages/AllSnippets/index.test.tsx
+ * $ ./run_regulartests.sh src/pages/AllSnippets/limited.test.tsx
  */
 
 /*
@@ -23,14 +21,14 @@ import {promiseTimeout} from '../../utils';
 const mocks: readonly MockedResponse[] = [
   {
     request: {
-      query: ALL_SNIPPETS_QUERY,
+      query: LIMITED_SNIPPETS_QUERY,
       variables: {},
     },
     newData: () => {
       // . . . arbitrary logic . . .
       console.log('newData 0 fired');
 
-      return newDataAllSnippets();
+      return newDataLimitedSnippets();
     },
   },
 ];
@@ -39,7 +37,7 @@ it('renders without error', () => {
   const testRenderer = TestRenderer.create(
     <StaticRouter>
       <MockedProvider mocks={mocks} addTypename={false}>
-        <AllSnippets />
+        <LimitedSnippets />
       </MockedProvider>,
     </StaticRouter>
   );
@@ -62,7 +60,7 @@ it('should render rows', async () => {
     testRenderer = await TestRenderer.create(
       <StaticRouter>
         <MockedProvider mocks={mocks} addTypename={false}>
-          <AllSnippets />
+          <LimitedSnippets />
         </MockedProvider>,
       </StaticRouter>
     );
@@ -85,5 +83,5 @@ it('should render rows', async () => {
 
   // toContain can be used even though the array contains only one entry.
   // https://jestjs.io/docs/expect#tocontainitem
-  expect(title_2).toContain('Chick Corea');
+  expect(title_2).toContain('Chick Corea Elektric Band');
 });

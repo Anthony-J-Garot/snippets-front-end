@@ -3,7 +3,8 @@ import TestRenderer, {ReactTestInstance} from 'react-test-renderer';
 import {MockedProvider, MockedResponse} from '@apollo/client/testing';
 import AllSnippets, {ALL_SNIPPETS_QUERY, DELETE_SNIPPET_MUTATION} from './index';
 import {StaticRouter} from 'react-router-dom';
-import {newDataAllSnippets, newDataDeleteSnippet} from './mockFixtures';
+import {newDataDeleteSnippet} from './mockFixturesDelete';
+import {newDataAllSnippets} from './mockFixturesAll';
 import {promiseTimeout} from '../../utils';
 
 /*

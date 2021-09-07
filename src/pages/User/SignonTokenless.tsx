@@ -56,7 +56,7 @@ export const SignonTokenless = (): ReactElement => {
     },
     onError: (error) => {
       console.log('MUTATION Error: ', error);
-      noticesStore.setNotice({notice: 'Error: ' + error});
+      noticesStore.setNotice({notice: '' + error});
     },
   });
 

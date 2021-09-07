@@ -7,6 +7,7 @@ import {noop, promiseTimeout} from '../../src/utils';
 import CreateSnippet from '../../src/pages/CreateSnippet/index';
 import {mocks, createMutationCalled, refetchCalled} from './CreateSnippet.mock';
 import Notice from '../../src/Notice';
+import userStore from "../../src/Observables/userStore";
 
 /*
  * This page follows the basic outline from the jest-cucumber documentation
@@ -55,7 +56,8 @@ defineFeature(feature, (test) => {
     let isPrivateField: ReactTestInstance = {} as ReactTestInstance;
 
     given('Authorized user John Smith wishes to add a new snippet', () => {
-      noop();
+      // This essentially logs in the user John Smith
+      userStore.setUser({username: 'john.smith'});
     });
 
     when(

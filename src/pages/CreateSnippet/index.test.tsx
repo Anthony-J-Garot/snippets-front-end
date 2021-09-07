@@ -5,7 +5,7 @@ import CreateSnippet, {CREATE_SNIPPET_MUTATION} from './index';
 import {StaticRouter} from 'react-router-dom';
 import {ALL_SNIPPETS_QUERY} from '../AllSnippets';
 import {mockCreateInputVariables, newDataCreateSnippet} from './mockFixtures';
-import {newDataAllSnippets} from '../AllSnippets/mockFixtures';
+import {newDataAllSnippets} from '../AllSnippets/mockFixturesAll';
 import {promiseTimeout} from '../../utils';
 
 /*

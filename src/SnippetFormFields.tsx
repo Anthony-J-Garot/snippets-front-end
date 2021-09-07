@@ -1,12 +1,17 @@
 import React, {ReactElement} from 'react';
+import userStore from './Observables/userStore';
 
 export interface IFormState {
   title: string,
   body: string,
-  private: boolean
+  private: boolean,
+  owner: string
 }
 
 const SnippetFormFields = (formState: IFormState, setFormState: (arg0: IFormState) => void): ReactElement => {
+
+  // The username comes from the userstore. If not authenticated, it will be 'AnonymousUser'.
+  formState.owner = userStore.getUser();
 
   return (
     <div className='flex flex-column mt3'>

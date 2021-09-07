@@ -71,7 +71,7 @@ const SubscribeSnippet = (): ReactElement => {
 
   if (error) {
     console.log('Error: ' + error);
-    noticesStore.setNotice({notice: 'Error: ' + error});
+    noticesStore.setNotice({notice: '' + error});
   }
 
   return (

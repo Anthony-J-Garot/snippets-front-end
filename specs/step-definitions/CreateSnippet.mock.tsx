@@ -1,7 +1,7 @@
 import {MockedResponse} from '@apollo/client/testing';
 import {CREATE_SNIPPET_MUTATION} from '../../src/pages/CreateSnippet';
 import {ALL_SNIPPETS_QUERY} from '../../src/pages/AllSnippets';
-import {newDataAllSnippets} from '../../src/pages/AllSnippets/mockFixtures';
+import {newDataAllSnippets} from '../../src/pages/AllSnippets/mockFixturesAll';
 
 type TGqlData = Record<string, unknown>;
 
@@ -10,34 +10,50 @@ const mockCreateInputVariables = [
     'input': {
       'title': 'Before the Dawn',
       'body': 'He awoke before the dawn',
-      'private': 'true'
+      'private': 'true',
+      'owner': 'john.smith'
     }
   },
   {
     'input': {
       'title': 'Watch the sun rise',
       'body': 'At the bottom of the sea',
-      'private': 'false'
+      'private': 'false',
+      'owner': 'john.smith'
     }
   }
 ];
 
-const newDataCreateSnippet = () => (
+const newDataCreateSnippet = [
   {
     'data': {
       'createFormSnippet': {
         'snippet': {
           'id': '12',
-          'title': 'Rodan',
-          'body': 'This does not actually have to match the inputs above.',
-          'private': true,
-          'owner': 'admin'
+          'title': 'Before the Dawn',
+          'body': 'He awoke before the dawn',
+          'private': 'true',
+          'owner': 'john.smith'
+        },
+        'ok': true
+      }
+    }
+  } as const,
+  {
+    'data': {
+      'createFormSnippet': {
+        'snippet': {
+          'id': '13',
+          'title': 'Watch the sun rise',
+          'body': 'At the bottom of the sea',
+          'private': 'false',
+          'owner': 'john.smith'
         },
         'ok': true
       }
     }
   } as const
-);
+];
 
 export let createMutationCalled = false;
 export let refetchCalled = false;
@@ -53,7 +69,7 @@ export const mocks: readonly MockedResponse[] = [
       console.log('create 0: fired');
 
       createMutationCalled = true;
-      return newDataCreateSnippet();
+      return newDataCreateSnippet[0];
     },
   },
   {
@@ -79,7 +95,7 @@ export const mocks: readonly MockedResponse[] = [
       console.log('create 1: fired');
 
       createMutationCalled = true;
-      return newDataCreateSnippet();
+      return newDataCreateSnippet[1];
     },
   },
   {

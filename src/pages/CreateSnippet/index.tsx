@@ -5,17 +5,21 @@ import {ALL_SNIPPETS_QUERY} from '../AllSnippets';
 import SnippetFormFields, {IFormState} from '../../SnippetFormFields';
 import noticesStore from '../../Observables/noticesStore';
 import {noop} from '../../utils';
+import {getAuthToken} from '../../authentication';
 
 const initialState: IFormState = {
   title: '',
   body: '',
-  private: true
+  private: true,
+  owner: 'AnonymousUser'
 };
 
 /*
- * Define this page component
+ * Define the Create form component
  */
 const CreateSnippet = (): ReactElement => {
+
+  const authToken = getAuthToken('CreateSnippets');
 
   // The data that’s typed into the form fields is held in the
   // component’s local state by way of the useState hook.
@@ -28,6 +32,13 @@ const CreateSnippet = (): ReactElement => {
         title: formState.title,
         body: formState.body,
         private: formState.private,
+        owner: formState.owner
+      }
+    },
+    context: {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'JWT ' + authToken
       }
     },
     // Note that is is an array. You can specify multiple queries to refetch after the mutation occurs.
@@ -45,7 +56,7 @@ const CreateSnippet = (): ReactElement => {
     },
     onError: (error) => {
       console.log('MUTATION Error: ', error);
-      noticesStore.setNotice({notice: 'Error: ' + error});
+      noticesStore.setNotice({notice: '' + error});
     },
   });
 
@@ -65,22 +76,6 @@ const CreateSnippet = (): ReactElement => {
     </div>
   );
 };
-
-
-// This is a basic mutation used with hard coded inputs to get
-// the above code working. Leaving around for a bit.
-// const CREATE_SNIPPET_MUTATION = gql`
-// mutation mutCreateSnippet {
-//   createFormSnippet(input: {title: "#N Coffee Tales", body: "A full rich flavor", private: true}) {
-//     snippet {
-//       title
-//       body
-//       private
-//     }
-//     ok
-//   }
-// }
-// `
 
 // Export for the unit test
 export const CREATE_SNIPPET_MUTATION = gql`

@@ -59,7 +59,7 @@ const UpdateSnippet: React.FC<IUpdateProps> = (UpdateProps :IUpdateProps): React
     },
     onError: (error) => {
       console.log('QUERY Error: ', error);
-      noticesStore.setNotice({notice: 'Error: ' + error});
+      noticesStore.setNotice({notice: '' + error});
     },
   });
 
@@ -68,7 +68,8 @@ const UpdateSnippet: React.FC<IUpdateProps> = (UpdateProps :IUpdateProps): React
   const [formState, setFormState] = useState({
     title: 'Loading . . . ',
     body: 'Loading . . . ',
-    private: true
+    private: true,
+    owner: 'AnonymousUser'
   });
 
   // The useMutation hook passes the state into the mutation
@@ -79,6 +80,7 @@ const UpdateSnippet: React.FC<IUpdateProps> = (UpdateProps :IUpdateProps): React
         title: formState.title,
         body: formState.body,
         private: formState.private,
+        owner: formState.owner
       }
     },
     // Note that is is an array. You can specify multiple queries to refetch after the mutation occurs.
@@ -98,7 +100,7 @@ const UpdateSnippet: React.FC<IUpdateProps> = (UpdateProps :IUpdateProps): React
     },
     onError: (error) => {
       console.log('MUTATION Error: ', error);
-      noticesStore.setNotice({notice: 'Error: ' + error});
+      noticesStore.setNotice({notice: '' + error});
     },
   });
 

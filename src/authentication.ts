@@ -25,7 +25,7 @@ export const getAuthToken = (origin?: string): string => {
 
   const authToken = localStorage.getItem('authToken');
   if (!authToken) {
-    console.log('getAuthToken(' + origin + '): User not authenticated');
+    console.log('getAuthToken(' + origin + '): No Token - User not authenticated');
     return '';
   } else {
     console.log('getAuthToken(' + origin + '): User authenticated with token [' + authToken + ']');

@@ -45,22 +45,15 @@ const checkMarkIcon = (isPrivate: boolean) => {
  * Defines a component that executes the GraphQL query with
  * the useQuery hook and returns the data in a formatted way.
  */
-const username = userStore.getUser();
-const authToken = getAuthToken('LimitedSnippets');
-
 const LimitedSnippets = (): ReactElement => {
+
+  const username = userStore.getUser();
 
   const {loading, data, refetch} = useQuery(LIMITED_SNIPPETS_QUERY, {
     // fetchPolicy is necessary for refetchQueries to work after creating a new entry.
-    fetchPolicy: 'cache-and-network',
-    // How to pass headers for JWT authentication
-    // https://stackoverflow.com/questions/58073519/
-    context: {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'JWT ' + authToken
-      }
-    },
+    // Using 'network-only' or Sign off won't update.
+    fetchPolicy: 'network-only',
+    context: context(),
     onCompleted: () => {
       console.log('onCompleted (LIMITED_SNIPPETS_QUERY) fired');
       console.log('data is', data);
@@ -148,6 +141,24 @@ const LimitedSnippets = (): ReactElement => {
       </div>
       <button onClick={handleClick}>Refetch!</button>
     </div>
+  );
+};
+
+// I separated this out because the headers weren't being updated after the user
+// logged out. Turns out changing the headers wasn't the problem, at least not
+// in my code.
+const context = () => {
+  const authToken = getAuthToken('LimitedSnippets');
+
+  // How to pass headers for JWT authentication
+  // https://stackoverflow.com/questions/58073519/
+  return (
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'JWT ' + authToken
+      }
+    }
   );
 };
 

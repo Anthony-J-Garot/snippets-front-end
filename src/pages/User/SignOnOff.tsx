@@ -13,9 +13,11 @@ const defaultUsername = {username: ANONYMOUS_USER};
 
 // Logs off the user
 const signOffUser = (): void => {
-  client.clearStore(); // Reset the InMemoryCache and re-poll
   clearAuthToken(); // Always clear localStorage first
-  userStore.setUser(defaultUsername);  // Clear it
+  userStore.setUser(defaultUsername);  // Clear the username (set to AnonymousUser)
+  // Not sure why both of these are necessary
+  client.cache.reset(); // Clear cache but doesn't fetch all active queries
+  client.clearStore(); // Reset the InMemoryCache and re-poll
 };
 
 // Show the username in the Navbar

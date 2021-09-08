@@ -1,12 +1,12 @@
-import {ApolloClient, InMemoryCache, split, createHttpLink} from '@apollo/client';
+import {ApolloClient, InMemoryCache, split, createHttpLink, ApolloLink} from '@apollo/client';
 import {WebSocketLink} from '@apollo/client/link/ws';
 import {getMainDefinition} from '@apollo/client/utilities';
 import {getAuthToken} from './authentication';
-// import * as ws from 'ws';
 
 // node-fetch didn't work
 // https://github.com/apollographql/apollo-link/issues/513#issuecomment-580990233
 import fetch from 'cross-fetch';
+import {isBrowser} from './utils';
 
 // Describe our environment
 const host = '192.168.2.99:4000';
@@ -20,40 +20,45 @@ const httpLink = createHttpLink({
   fetch: fetch,
 });
 
-// WebSocket requests
-const wsLink = new WebSocketLink({
-  uri: wsEndpoint,
-  wsProtocols: ['graphql-ws'],
-  options: {
-    reconnect: true,
-    // The connectionParams object is passed to the server when connects.
-    // See the on_connect(self, payload) function in the Django consumer.
-    connectionParams: {
-      // The assumption is that we pass the authToken got from JWT through
-      // the WebSocket, which passes through the payload to the consumer,
-      // e.g. MyGraphqlWsConsumer in my Django back end.
-      authToken: getAuthToken('WebSocket')
-    },
-  },
-  // webSocketImpl: ws
-});
+// Initially assign to httpLink. This is used when running unit tests.
+let splitLink: ApolloLink = httpLink;
 
-// The split function takes three parameters:
-//
-// * A function that's called for each operation to execute
-// * The Link to use for an operation if the function returns a "truthy" value
-// * The Link to use for an operation if the function returns a "falsy" value
-const splitLink = split(
-  ({query}) => {
-    const definition = getMainDefinition(query);
-    return (
-      definition.kind === 'OperationDefinition' &&
-      definition.operation === 'subscription'
-    );
-  },
-  wsLink,
-  httpLink,
-);
+// WebSocket requests are browser only. Unit tests choke on WebSocket stuff.
+// See https://github.com/apollographql/subscriptions-transport-ws/issues/333#issuecomment-359261024
+if (isBrowser()) {
+  const wsLink = new WebSocketLink({
+    uri: wsEndpoint,
+    wsProtocols: ['graphql-ws'],
+    options: {
+      reconnect: true,
+      // The connectionParams object is passed to the server when connects.
+      // See the on_connect(self, payload) function in the Django consumer.
+      connectionParams: {
+        // The assumption is that we pass the authToken got from JWT through
+        // the WebSocket, which passes through the payload to the consumer,
+        // e.g. MyGraphqlWsConsumer in my Django back end.
+        authToken: getAuthToken('WebSocket')
+      },
+    },
+  });
+
+  // The split function takes three parameters:
+  //
+  // * A function that's called for each operation to execute
+  // * The Link to use for an operation if the function returns a "truthy" value
+  // * The Link to use for an operation if the function returns a "falsy" value
+  splitLink = split(
+    ({query}) => {
+      const definition = getMainDefinition(query);
+      return (
+        definition.kind === 'OperationDefinition' &&
+        definition.operation === 'subscription'
+      );
+    },
+    wsLink,
+    httpLink,
+  );
+}
 
 // simple cache
 const cache = new InMemoryCache();

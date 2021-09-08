@@ -77,7 +77,7 @@ it('should delete snippet', async () => {
 
 
   const testInstance = (testRenderer as { root: ReactTestInstance }).root;
-  // console.log('instance', instance);
+  // console.log('testInstance', testInstance);
 
   // Make sure the testRenderer rendered
   const allSnippets = testInstance.findByType(AllSnippets);

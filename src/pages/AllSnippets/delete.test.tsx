@@ -6,6 +6,7 @@ import {StaticRouter} from 'react-router-dom';
 import {newDataDeleteSnippet} from './mockFixturesDelete';
 import {newDataAllSnippets} from './mockFixturesAll';
 import {promiseTimeout} from '../../utils';
+import { TGqlData } from '../../types';
 
 /*
  * This is just the delete test. I separated it from the All Snippets test even
@@ -29,7 +30,7 @@ const mocks: readonly MockedResponse[] = [
       query: ALL_SNIPPETS_QUERY,
       variables: {},
     },
-    newData: () => {
+    newData: () : TGqlData => {
       // . . . arbitrary logic . . .
       console.log('newData 0 fired');
 
@@ -46,7 +47,7 @@ const mocks: readonly MockedResponse[] = [
       query: DELETE_SNIPPET_MUTATION,
       variables: {id: '1'},
     },
-    newData: () => {
+    newData: () : TGqlData => {
       // . . . arbitrary logic . . .
       console.log('newData 1 fired');
 

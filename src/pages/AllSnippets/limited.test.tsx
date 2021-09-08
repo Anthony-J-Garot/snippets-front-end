@@ -5,6 +5,7 @@ import LimitedSnippets, {LIMITED_SNIPPETS_QUERY} from './limited';
 import {StaticRouter} from 'react-router-dom';
 import {newDataLimitedSnippets} from './mockFixturesLimited';
 import {promiseTimeout} from '../../utils';
+import { TGqlData } from '../../types';
 
 /*
  * For standard (non Gherkin) unit tests, the jest framework works well enough.
@@ -24,7 +25,7 @@ const mocks: readonly MockedResponse[] = [
       query: LIMITED_SNIPPETS_QUERY,
       variables: {},
     },
-    newData: () => {
+    newData: () : TGqlData => {
       // . . . arbitrary logic . . .
       console.log('newData 0 fired');
 

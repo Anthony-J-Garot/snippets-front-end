@@ -3,6 +3,7 @@ import './index.css';
 import {gql, useSubscription, useApolloClient} from '@apollo/client';
 import {useState} from 'react';
 import noticesStore from '../../Observables/noticesStore';
+import {noop} from '../../utils';
 
 interface IFeedItem {
   ok: boolean,
@@ -22,7 +23,7 @@ export interface ISubscriptionProps {
   transactions: IFeedItem[]
 }
 
-const transactions: IFeedItem[] = [];
+export const transactions: IFeedItem[] = [];
 
 // Just a simple seed value
 const placeholder: IFeedItem = {
@@ -66,7 +67,7 @@ const SubscribeSnippet = (): ReactElement => {
   });
 
   if (loading) {
-    console.log('loading');
+    noop('loading');
   }
 
   if (error) {

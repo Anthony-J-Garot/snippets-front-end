@@ -12,14 +12,13 @@ import {
   updateProps
 } from './mockFixtures';
 import {promiseTimeout} from '../../utils';
+import { TGqlData } from '../../types';
 
 /*
  * For standard (non Gherkin) unit tests, the jest framework works well enough.
  * https://jestjs.io/docs/expect
  *
  * To run just the tests in this file:
- * $ yarn test src/pages/UpdateSnippet/
- * or
  * $ ./run_regulartests.sh src/pages/UpdateSnippet/
  */
 
@@ -35,7 +34,7 @@ const mocks: readonly MockedResponse[] = [
       variables: {'id': updateProps.snippetId},
     },
     // newData totally overrides result
-    newData: () => {
+    newData: () : TGqlData => {
       // . . . arbitrary logic . . .
       console.log('mock newData 0: fired');
 
@@ -50,7 +49,7 @@ const mocks: readonly MockedResponse[] = [
       variables: mockUpdateInputVariables,
     },
     // newData totally overrides result
-    newData: () => {
+    newData: () : TGqlData => {
       // . . . arbitrary logic . . .
       console.log('mock newData 1: fired');
 
@@ -66,7 +65,7 @@ const mocks: readonly MockedResponse[] = [
       variables: {},
     },
     // newData totally overrides result
-    newData: () => {
+    newData: () : TGqlData => {
       // . . . arbitrary logic . . .
       console.log('mock newData 2: fired');
 

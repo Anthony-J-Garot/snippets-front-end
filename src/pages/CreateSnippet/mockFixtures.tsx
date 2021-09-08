@@ -3,7 +3,8 @@ export const mockCreateInputVariables = {
   'input': {
     'title': 'Godzilla',
     'body': 'With a purposeful grimace and a terrible sound\nHe pulls the spitting high tension wires down',
-    'private': false
+    'private': false,
+    'owner': 'AnonymousUser'
   }
 };
 

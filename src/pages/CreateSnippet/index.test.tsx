@@ -7,13 +7,14 @@ import {ALL_SNIPPETS_QUERY} from '../AllSnippets';
 import {mockCreateInputVariables, newDataCreateSnippet} from './mockFixtures';
 import {newDataAllSnippets} from '../AllSnippets/mockFixturesAll';
 import {promiseTimeout} from '../../utils';
+import { TGqlData } from '../../types';
 
 /*
  * For standard (non Gherkin) unit tests, the jest framework works well enough.
  * https://jestjs.io/docs/expect
  *
  * To run just the tests in this file:
- * $ yarn test src/pages/CreateSnippet/
+ * $ ./run_regulartests.sh src/pages/CreateSnippet/index.test.tsx
  */
 
 
@@ -27,7 +28,7 @@ const mocks: readonly MockedResponse[] = [
       variables: mockCreateInputVariables,
     },
     // newData: totally overrides result:
-    newData: () => {
+    newData: (): TGqlData => {
       // . . . arbitrary logic . . .
       console.log('mock newData 0: fired');
 
@@ -43,7 +44,7 @@ const mocks: readonly MockedResponse[] = [
       variables: {},
     },
     // newData totally overrides result
-    newData: () => {
+    newData: (): TGqlData => {
       // . . . arbitrary logic . . .
       console.log('mock newData 1: fired');
 

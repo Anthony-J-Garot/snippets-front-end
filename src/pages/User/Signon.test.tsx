@@ -5,6 +5,7 @@ import User, {TOKEN_AUTH_MUTATION} from './Signon';
 import {StaticRouter} from 'react-router-dom';
 import {mockSignonInputVariables, newDataSignon} from './mockFixtures';
 import {promiseTimeout} from '../../utils';
+import {TGqlData} from '../../types';
 
 /*
  * For standard (non Gherkin) unit tests, the jest framework works well enough.
@@ -23,7 +24,7 @@ const mocks: readonly MockedResponse[] = [
       variables: mockSignonInputVariables,
     },
     // newData: totally overrides result:
-    newData: () => {
+    newData: (): TGqlData => {
       // . . . arbitrary logic . . .
       console.log('mock newData 0: fired');
 

@@ -5,14 +5,13 @@ import SubscribeSnippet, {SNIPPET_NOGROUP_SUBSCRIPTION} from './index';
 import {StaticRouter} from 'react-router-dom';
 import {newDataFeedItem} from './mockFixtures';
 import {promiseTimeout} from '../../utils';
+import { TGqlData } from '../../types';
 
 /*
  * For standard (non Gherkin) unit tests, the jest framework works well enough.
  * https://jestjs.io/docs/expect
  *
  * To run just the tests in this file:
- * $ yarn test src/pages/SubscribeSnippet/
- * or
  * $ ./run_regulartests.sh src/pages/SubscribeSnippet/
  */
 
@@ -25,7 +24,7 @@ const mocks: readonly MockedResponse[] = [
       variables: {}, // no inputs necessary for this particular (no-group) subscription
     },
     // newData totally overrides result
-    newData: () => {
+    newData: () : TGqlData => {
       // . . . arbitrary logic . . .
       console.log('mock newData 0: fired');
 
@@ -47,9 +46,8 @@ it('should receive a snippet feed item', async () => {
     </StaticRouter>
   );
 
-
   const testInstance = (testRenderer as { root: ReactTestInstance }).root;
-  // console.log('root', instance);
+  // console.log('root', testInstance);
 
   // Ensure the page rendered
   const pageTitle = testInstance.findByProps({className: 'App-page-title'});

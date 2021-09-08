@@ -2,8 +2,9 @@ import {MockedResponse} from '@apollo/client/testing';
 import {CREATE_SNIPPET_MUTATION} from '../../src/pages/CreateSnippet';
 import {ALL_SNIPPETS_QUERY} from '../../src/pages/AllSnippets';
 import {newDataAllSnippets} from '../../src/pages/AllSnippets/mockFixturesAll';
-
-type TGqlData = Record<string, unknown>;
+import {SNIPPET_NOGROUP_SUBSCRIPTION} from '../../src/pages/SubscribeSnippet';
+import {newDataFeedItem} from '../../src/pages/SubscribeSnippet/mockFixtures';
+import {TGqlData} from '../../src/types';
 
 const mockCreateInputVariables = [
   {
@@ -57,6 +58,7 @@ const newDataCreateSnippet = [
 
 export let createMutationCalled = false;
 export let refetchCalled = false;
+export let subscriptionMutationCalled = 0;
 
 export const mocks: readonly MockedResponse[] = [
   // CREATION # 0
@@ -108,6 +110,23 @@ export const mocks: readonly MockedResponse[] = [
 
       refetchCalled = true;
       return newDataAllSnippets();
+    },
+  },
+];
+
+export const mocksSubscription: readonly MockedResponse[] = [
+  {
+    request: {
+      query: SNIPPET_NOGROUP_SUBSCRIPTION,
+      variables: {}, // no inputs necessary for this particular (no-group) subscription
+    },
+    // newData totally overrides result
+    newData: (): TGqlData => {
+      // . . . arbitrary logic . . .
+      console.log('mockSubscription newData 0: fired');
+
+      subscriptionMutationCalled++;
+      return newDataFeedItem();
     },
   },
 ];

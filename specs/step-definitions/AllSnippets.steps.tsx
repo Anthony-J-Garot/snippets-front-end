@@ -20,30 +20,11 @@ import {signOffUser} from '../../src/pages/User/signoff';
 const feature = loadFeature('specs/features/AllSnippets.feature');
 
 defineFeature(feature, (test) => {
-
-  // Create the TestRenderer outside of the tests.
-  // You don't want to do this in the beforeEach() or within a step because these are
-  // run for every entry in the Examples table, slows things down, and gives erroneous
-  // results when incrementing counts.
-  const testRendererCreate = TestRenderer.create(
-    <StaticRouter>
-      <Notice />
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <AllSnippets />
-      </MockedProvider>,
-    </StaticRouter>
-  );
-
-  // Ensure the relevant components rendered on the Creation page
-  const testInstanceCreate: ReactTestInstance = (testRendererCreate as { root: ReactTestInstance }).root;
-  //console.log('testInstanceCreate', testInstanceCreate);
-  const allSnippets = testInstanceCreate.findByType(AllSnippets);
-  expect(allSnippets).toBeDefined();
-  const notice = testInstanceCreate.findByType(Notice);
-  expect(notice).toBeDefined();
+  let testRenderer = {};
+  let testInstance: ReactTestInstance = (testRenderer as { root: ReactTestInstance }).root;
 
   beforeEach(() => {
-    noop('beforeEach');
+    noop('beforeEach()');
   });
 
   test('Show All Public Snippets Regardless of User', ({given, when, then}) => {
@@ -51,30 +32,45 @@ defineFeature(feature, (test) => {
     given('that public user Jane Doe does not have a system account', async () => {
       // This essentially ensures that no one is logged in.
       // Unnecessary because that's the default state, but it ensures the logout code is covered.
-      noop('SIGN OFF USER');
       signOffUser();
+    });
 
-      // Just wait for the mutation to fire
+    when('Jane views a list of All Snippets', async () => {
+      testRenderer = TestRenderer.create(
+        <StaticRouter>
+          <Notice />
+          <MockedProvider mocks={mocks} addTypename={false}>
+            <AllSnippets />
+          </MockedProvider>,
+        </StaticRouter>
+      );
+
+      // Ensure the relevant components rendered on the Creation page
+      testInstance = (testRenderer as { root: ReactTestInstance }).root;
+      //console.log('testInstance', testInstance);
+
+      const allSnippets = testInstance.findByType(AllSnippets);
+      expect(allSnippets).toBeDefined();
+      const notice = testInstance.findByType(Notice);
+      expect(notice).toBeDefined();
+
+      // Allow the mutation to fire
       await TestRenderer.act(async () => {
         await new Promise(resolve => promiseTimeout(resolve));
       });
 
     });
 
-    when('Jane views a list of All Snippets', () => {
-      noop('WHEN CLAUSE');
-    });
+    then('Jane sees all the snippets', () => {
+      // When using findByProps or findAllByProps, be sure to use the React name,
+      // not the HTML name. So use className instead of class, even though in the
+      // DOM it's class.
+      const titles = testInstance.findAllByProps({className: 'col2'});
+      const title_2 = titles[1].children;
 
-    then('she sees all snippets', async () => {
-      noop('THEN CLAUSE');
-
-      // Just wait for the mutation to fire
-      await TestRenderer.act(async () => {
-        await new Promise(resolve => promiseTimeout(resolve));
-      });
-
-      // Did the mock gql newData fire as expected?
-      noop('Needs tests');
+      // toContain() can be used even though the array contains only one entry.
+      // https://jestjs.io/docs/expect#tocontainitem
+      expect(title_2).toContain('Chick Corea');
     });
   });
 });

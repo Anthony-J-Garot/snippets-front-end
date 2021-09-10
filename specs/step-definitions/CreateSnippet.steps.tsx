@@ -66,7 +66,7 @@ defineFeature(feature, (test) => {
 
 
   beforeEach(() => {
-    noop('beforeEach');
+    noop('beforeEach()');
   });
 
   // Note that I had to add "and" callback

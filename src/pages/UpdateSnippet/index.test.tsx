@@ -4,7 +4,7 @@ import {MockedProvider, MockedResponse} from '@apollo/client/testing';
 import UpdateSnippet, {GET_SNIPPET_QUERY, UPDATE_SNIPPET_MUTATION} from './index';
 import {StaticRouter} from 'react-router-dom';
 import {ALL_SNIPPETS_QUERY} from '../AllSnippets';
-import {newDataAllSnippets} from '../AllSnippets/mockFixturesAll';
+import {newDataAllSnippets} from '../../../specs/step-definitions/AllSnippets.mock';
 import {
   mockUpdateInputVariables,
   newDataGetSnippetQueryForUpdate,

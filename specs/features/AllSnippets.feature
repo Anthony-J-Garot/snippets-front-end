@@ -18,4 +18,4 @@ Feature: Show Snippets
 
     Given that public user Jane Doe does not have a system account
     When Jane views a list of All Snippets
-    Then she sees all snippets
+    Then Jane sees all the snippets

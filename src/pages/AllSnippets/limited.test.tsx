@@ -78,7 +78,7 @@ it('should render rows', async () => {
   const title_2 = titles[1].children;
   // console.log('title_2', title_2);
 
-  // toContain can be used even though the array contains only one entry.
+  // toContain() can be used even though the array contains only one entry.
   // https://jestjs.io/docs/expect#tocontainitem
   expect(title_2).toContain('Chick Corea Elektric Band');
 });

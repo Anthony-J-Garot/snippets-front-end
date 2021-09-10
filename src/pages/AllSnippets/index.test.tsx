@@ -3,7 +3,7 @@ import TestRenderer, {ReactTestInstance} from 'react-test-renderer';
 import {MockedProvider, MockedResponse} from '@apollo/client/testing';
 import AllSnippets, {ALL_SNIPPETS_QUERY} from './index';
 import {StaticRouter} from 'react-router-dom';
-import {newDataAllSnippets} from './mockFixturesAll';
+import {newDataAllSnippets} from '../../../specs/step-definitions/AllSnippets.mock';
 import {promiseTimeout} from '../../utils';
 import { TGqlData } from '../../types';
 
@@ -65,7 +65,6 @@ it('should render rows', async () => {
     await new Promise(resolve => promiseTimeout(resolve));
   });
 
-
   const testInstance = (testRenderer as { root: ReactTestInstance }).root;
 
   // You can convert to JSON first then drill down from there.
@@ -78,7 +77,7 @@ it('should render rows', async () => {
   const title_2 = titles[1].children;
   // console.log('title_2', title_2);
 
-  // toContain can be used even though the array contains only one entry.
+  // toContain() can be used even though the array contains only one entry.
   // https://jestjs.io/docs/expect#tocontainitem
   expect(title_2).toContain('Chick Corea');
 });

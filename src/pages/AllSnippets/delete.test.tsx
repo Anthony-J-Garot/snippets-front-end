@@ -4,7 +4,7 @@ import {MockedProvider, MockedResponse} from '@apollo/client/testing';
 import AllSnippets, {ALL_SNIPPETS_QUERY, DELETE_SNIPPET_MUTATION} from './index';
 import {StaticRouter} from 'react-router-dom';
 import {newDataDeleteSnippet} from './mockFixturesDelete';
-import {newDataAllSnippets} from './mockFixturesAll';
+import {newDataAllSnippets} from '../../../specs/step-definitions/AllSnippets.mock';
 import {promiseTimeout} from '../../utils';
 import { TGqlData } from '../../types';
 

@@ -12,8 +12,6 @@ import { TGqlData } from '../../types';
  * https://jestjs.io/docs/expect
  *
  * To run just the tests in this file:
- * $ yarn test src/pages/AllSnippets/index.test.tsx
- * or
  * $ ./run_regulartests.sh src/pages/AllSnippets/index.test.tsx
  */
 

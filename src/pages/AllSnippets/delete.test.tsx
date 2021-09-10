@@ -13,8 +13,6 @@ import { TGqlData } from '../../types';
  * though the code resides in index.tsx.
  *
  * To run just the tests in this file:
- * $ yarn test src/pages/AllSnippets/delete.test.tsx
- * or
  * $ ./run_regulartests.sh src/pages/AllSnippets/delete.test.tsx
  */
 

@@ -57,7 +57,7 @@ export const Signon = (): ReactElement => {
 
   return (
     <div>
-      <p className="App-page-title">Login</p>
+      <p className="App-page-title">Sign on</p>
       <form onSubmit={(e) => {
         e.preventDefault();
         tokenAuth().then(() => {

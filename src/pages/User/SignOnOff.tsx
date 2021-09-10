@@ -4,12 +4,21 @@ import {clearAuthToken, getAuthToken} from '../../authentication';
 import userStore from '../../Observables/userStore';
 import {ANONYMOUS_USER} from '../../constants';
 import client from '../../ApolloClient';
+import {gql} from '@apollo/client';
 
 /*
  * The <SignOnOff /> component renders based upon current authentication state.
  */
 
 const defaultUsername = {username: ANONYMOUS_USER};
+
+const LOGOUT_MUTATION = gql`
+mutation mutLogout {
+  logout {
+    ok
+  }
+}
+`;
 
 // Logs off the user
 const signOffUser = (): void => {
@@ -18,6 +27,11 @@ const signOffUser = (): void => {
   // Not sure why both of these are necessary
   client.cache.reset(); // Clear cache but doesn't fetch all active queries
   client.clearStore(); // Reset the InMemoryCache and re-poll
+
+  client.mutate({
+    mutation: LOGOUT_MUTATION,
+    variables: {}
+  });
 };
 
 // Show the username in the Navbar

@@ -13,7 +13,7 @@ const newDataLogout = () => (
   } as const
 );
 
-const newDataAllSnippets = () => (
+export const newDataAllSnippets = () => (
   {
     'data': {
       'allSnippets': [

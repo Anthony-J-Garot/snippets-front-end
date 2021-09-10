@@ -7,9 +7,7 @@ import {noop, promiseTimeout} from '../../src/utils';
 import AllSnippets from '../../src/pages/AllSnippets/index';
 import {mocks} from './AllSnippets.mock';
 import Notice from '../../src/Notice';
-import userStore from '../../src/Observables/userStore';
-import {ANONYMOUS_USER} from "../../src/constants";
-import {signOffUser} from "../../src/pages/User/signoff";
+import {signOffUser} from '../../src/pages/User/signoff';
 
 /*
  * This page follows the basic outline from the jest-cucumber documentation

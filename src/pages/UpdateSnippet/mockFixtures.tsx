@@ -3,6 +3,7 @@ import {IUpdateProps} from './index';
 // Define an arbitrary snippetId that will be used for all mock data for the update
 export const updateProps: IUpdateProps = {} as IUpdateProps;
 updateProps.snippetId = '818';
+export const now = new Date().toISOString();
 
 export const mockUpdateInputVariables = {
   'id': updateProps.snippetId,
@@ -10,7 +11,7 @@ export const mockUpdateInputVariables = {
     'title': 'Godzilla',
     'body': 'With a purposeful grimace and a terrible sound\nHe pulls the spitting high tension wires down',
     'private': false,
-    'owner': 'AnonymousUser',
+    'created': now
   }
 };
 
@@ -23,7 +24,7 @@ export const newDataGetSnippetQueryForUpdate = () => (
         'body': mockUpdateInputVariables.input.body,
         'private': mockUpdateInputVariables.input.private,
         'owner': 'john.smith',
-        'created': '2021-07-16T18:36:50.206000+00:00',
+        'created': now,
         '__typename': 'SnippetType'
       }
     }

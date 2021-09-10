@@ -6,6 +6,7 @@ import {ALL_SNIPPETS_QUERY} from '../AllSnippets';
 import SnippetFormFields from '../../SnippetFormFields';
 import noticesStore from '../../Observables/noticesStore';
 import {RouteComponentProps} from 'react-router-dom';
+import {now} from "./mockFixtures";
 
 export interface IUpdateProps extends RouteComponentProps {
   snippetId: string,
@@ -80,7 +81,7 @@ const UpdateSnippet: React.FC<IUpdateProps> = (UpdateProps :IUpdateProps): React
         title: formState.title,
         body: formState.body,
         private: formState.private,
-        owner: formState.owner
+        created: now
       }
     },
     // Note that is is an array. You can specify multiple queries to refetch after the mutation occurs.
@@ -134,7 +135,7 @@ query snippetById($id: String!) {
 `;
 
 export const UPDATE_SNIPPET_MUTATION = gql`
-mutation updateSnippet($id: ID!, $input: SnippetInput!) {
+mutation mutUpdateSnippet($id: ID!, $input: SnippetInput!) {
   updateSnippet(id: $id, input: $input) {
     snippet {
       title

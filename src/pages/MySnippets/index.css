@@ -1,0 +1,44 @@
+div#snippets-list div.row {
+    display: flex;
+    text-align: left;
+    background-color: #CFFFFF;
+    border-bottom: 1px solid #009999;
+}
+div#snippets-list div.row:last-child {
+    display: flex;
+    text-align: left;
+    background-color: #CFFFFF;
+    border-bottom: 0;
+}
+
+div#snippets-list div.header {
+    font-weight: bold;
+    padding: 3px;
+}
+
+div#snippets-list div.col1 {
+    width: 6%;
+    padding: 3px;
+    text-align: center;
+}
+
+div#snippets-list div.col2 {
+    width: 19%;
+    padding: 3px;
+}
+
+div#snippets-list div.col3 {
+    width: 50%;
+    padding: 3px;
+}
+
+div#snippets-list div.col4 {
+    width: 20%;
+    padding: 3px;
+    text-align: center;
+}
+div#snippets-list div.col5 {
+    width: 5%;
+    padding: 3px;
+    text-align: center;
+}

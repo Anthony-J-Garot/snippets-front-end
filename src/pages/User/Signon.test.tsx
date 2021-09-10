@@ -3,7 +3,7 @@ import TestRenderer, {ReactTestInstance} from 'react-test-renderer';
 import {MockedProvider, MockedResponse} from '@apollo/client/testing';
 import User, {TOKEN_AUTH_MUTATION} from './Signon';
 import {StaticRouter} from 'react-router-dom';
-import {mockSignonInputVariables, newDataSignon} from './mockFixtures';
+import {mockSignonInputVariables, newDataSignon} from '../../../specs/step-definitions/MySnippets.mock';
 import {promiseTimeout} from '../../utils';
 import {TGqlData} from '../../types';
 
@@ -17,7 +17,7 @@ import {TGqlData} from '../../types';
 
 let loginMutationCalled = false;
 const mocks: readonly MockedResponse[] = [
-  // The mock for the creation step
+  // The mock for the authToken authentication step
   {
     request: {
       query: TOKEN_AUTH_MUTATION,
@@ -46,12 +46,11 @@ it('renders without error', () => {
     </StaticRouter>
   );
 
-
   const testInstance = (testRenderer as { root: ReactTestInstance }).root;
 
   // Make sure the component rendered
-  const createSnippet = testInstance.findByType(User);
-  expect(createSnippet).toBeDefined();
+  const userComponent = testInstance.findByType(User);
+  expect(userComponent).toBeDefined();
 
   // Find the submit button (There can be only one)
   const submitButton = testInstance.findByType('button');
@@ -67,7 +66,6 @@ it('should create snippet', async () => {
       </MockedProvider>,
     </StaticRouter>
   );
-
 
   const testInstance = (testRenderer as { root: ReactTestInstance }).root;
 

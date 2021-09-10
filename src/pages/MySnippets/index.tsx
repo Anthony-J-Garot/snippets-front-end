@@ -12,7 +12,7 @@ import userStore from '../../Observables/userStore';
 
 // Defines the GraphQL client query to see all the things.
 export const LIMITED_SNIPPETS_QUERY: DocumentNode = gql`
-query qryLimitedSnippets {
+query qryMySnippets {
   limitedSnippets {
     id
     title
@@ -45,7 +45,7 @@ const checkMarkIcon = (isPrivate: boolean) => {
  * Defines a component that executes the GraphQL query with
  * the useQuery hook and returns the data in a formatted way.
  */
-const LimitedSnippets = (): ReactElement => {
+const MySnippets = (): ReactElement => {
 
   const username = userStore.getUser();
 
@@ -148,7 +148,7 @@ const LimitedSnippets = (): ReactElement => {
 // logged out. Turns out changing the headers wasn't the problem, at least not
 // in my code.
 const context = () => {
-  const authToken = getAuthToken('LimitedSnippets');
+  const authToken = getAuthToken('MySnippets');
 
   // How to pass headers for JWT authentication
   // https://stackoverflow.com/questions/58073519/
@@ -162,4 +162,4 @@ const context = () => {
   );
 };
 
-export default LimitedSnippets;
+export default MySnippets;

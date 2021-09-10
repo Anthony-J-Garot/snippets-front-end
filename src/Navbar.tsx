@@ -11,7 +11,7 @@ const Navbar = (): ReactElement => {
   return (
     <div className="navbar">
       <p><Link to="/">Home</Link></p>
-      <p><Link to="/snippet">My Snippets</Link></p>
+      <p><Link to="/snippet/my">My Snippets</Link></p>
       <p><Link to="/snippet/all">All Snippets</Link></p>
       <p><Link to="/snippet/create">Create Snippet</Link></p>
       <p><Link to="/snippet/subscribe">Subscribe</Link></p>

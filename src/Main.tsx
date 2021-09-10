@@ -7,7 +7,7 @@ import {
 // Pages
 import Home from './pages/Home';
 import AllSnippets from './pages/AllSnippets';
-import LimitedSnippets from './pages/AllSnippets/limited';
+import MySnippets from './pages/MySnippets';
 import CreateSnippet from './pages/CreateSnippet';
 import UpdateSnippet from './pages/UpdateSnippet';
 import SubscribeSnippet from './pages/SubscribeSnippet';
@@ -21,7 +21,8 @@ const Main = (): ReactElement => {
     <Switch> {/* The Switch decides which component to show based on the current URL.*/}
       <Route exact path='/' component={Home} />
       <Route exact path='/user' component={Signon} />
-      <Route exact path='/snippet' component={LimitedSnippets} />
+      <Route exact path='/snippet/' component={MySnippets} />
+      <Route exact path='/snippet/my' component={MySnippets} />
       <Route exact path='/snippet/all' component={AllSnippets} />
       <Route exact path='/snippet/create' component={CreateSnippet} />
 

@@ -1,4 +1,4 @@
-export const newDataLimitedSnippets = () => (
+export const newDataMySnippets = () => (
   {
     'data': {
       'limitedSnippets': [

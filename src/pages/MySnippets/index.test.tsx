@@ -1,9 +1,9 @@
 import React from 'react';
 import TestRenderer, {ReactTestInstance} from 'react-test-renderer';
 import {MockedProvider, MockedResponse} from '@apollo/client/testing';
-import LimitedSnippets, {LIMITED_SNIPPETS_QUERY} from './limited';
+import MySnippets, {LIMITED_SNIPPETS_QUERY} from './index';
 import {StaticRouter} from 'react-router-dom';
-import {newDataLimitedSnippets} from './mockFixturesLimited';
+import {newDataMySnippets} from './mockFixtures';
 import {promiseTimeout} from '../../utils';
 import { TGqlData } from '../../types';
 
@@ -12,7 +12,7 @@ import { TGqlData } from '../../types';
  * https://jestjs.io/docs/expect
  *
  * To run just the tests in this file:
- * $ ./run_regulartests.sh src/pages/AllSnippets/limited.test.tsx
+ * $ ./run_regulartests.sh src/pages/MySnippets/index.test.tsx
  */
 
 const mocks: readonly MockedResponse[] = [
@@ -25,7 +25,7 @@ const mocks: readonly MockedResponse[] = [
       // . . . arbitrary logic . . .
       console.log('newData 0 fired');
 
-      return newDataLimitedSnippets();
+      return newDataMySnippets();
     },
   },
 ];
@@ -34,7 +34,7 @@ it('renders without error', () => {
   const testRenderer = TestRenderer.create(
     <StaticRouter>
       <MockedProvider mocks={mocks} addTypename={false}>
-        <LimitedSnippets />
+        <MySnippets />
       </MockedProvider>,
     </StaticRouter>
   );
@@ -57,7 +57,7 @@ it('should render rows', async () => {
     testRenderer = await TestRenderer.create(
       <StaticRouter>
         <MockedProvider mocks={mocks} addTypename={false}>
-          <LimitedSnippets />
+          <MySnippets />
         </MockedProvider>,
       </StaticRouter>
     );

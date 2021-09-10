@@ -1,38 +1,15 @@
 import React, {ReactElement, useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
-import {clearAuthToken, getAuthToken} from '../../authentication';
+import {getAuthToken} from '../../authentication';
 import userStore from '../../Observables/userStore';
+import {signOffUser} from './signoff';
 import {ANONYMOUS_USER} from '../../constants';
-import client from '../../ApolloClient';
-import {gql} from '@apollo/client';
+
 
 /*
  * The <SignOnOff /> component renders based upon current authentication state.
  */
 
-const defaultUsername = {username: ANONYMOUS_USER};
-
-const LOGOUT_MUTATION = gql`
-mutation mutLogout {
-  logout {
-    ok
-  }
-}
-`;
-
-// Logs off the user
-const signOffUser = (): void => {
-  clearAuthToken(); // Always clear localStorage first
-  userStore.setUser(defaultUsername);  // Clear the username (set to AnonymousUser)
-  // Not sure why both of these are necessary
-  client.cache.reset(); // Clear cache but doesn't fetch all active queries
-  client.clearStore(); // Reset the InMemoryCache and re-poll
-
-  client.mutate({
-    mutation: LOGOUT_MUTATION,
-    variables: {}
-  });
-};
 
 // Show the username in the Navbar
 const Username = (username: string): ReactElement => (
@@ -45,10 +22,10 @@ const Username = (username: string): ReactElement => (
 const SignOnOff = (): ReactElement => {
 
   // Set-up the authToken state
-  const [authToken, setAuthToken] = useState(defaultUsername.username);
+  const [authToken, setAuthToken] = useState(ANONYMOUS_USER.username);
 
   // Set-up the username state
-  const [username, setUsername] = useState(defaultUsername);
+  const [username, setUsername] = useState(ANONYMOUS_USER);
 
   useEffect(() => {
     // Subscribe to the username because that will be the dependency for the next effect

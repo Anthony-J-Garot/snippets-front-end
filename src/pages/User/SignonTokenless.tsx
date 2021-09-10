@@ -24,9 +24,9 @@ const initialState: IFormState = {
  *
  * This uses a graphene mutation on the Django API backend. It
  * doesn't do JWT, which means no token is passed back and forth.
- * So although the user is validated on the back end, even logged
+ * So although the user is validated on the back-end, even logged
  * in, there is no security information available on the React
- * front end.
+ * front-end.
  */
 export const SignonTokenless = (): ReactElement => {
 
@@ -51,7 +51,7 @@ export const SignonTokenless = (): ReactElement => {
       } else {
         clearAuthToken();
         noticesStore.setNotice({notice: 'FAILED: You failed to sign on'});
-        userStore.setUser({username: ANONYMOUS_USER});
+        userStore.setUser(ANONYMOUS_USER);
       }
     },
     onError: (error) => {

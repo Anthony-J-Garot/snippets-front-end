@@ -13,7 +13,7 @@ export interface IUserState {
 }
 
 // Blank username to start
-const initialState: IUserState = {username: ANONYMOUS_USER} as IUserState;
+const initialState: IUserState = ANONYMOUS_USER as IUserState;
 const userState: IUserState = initialState;
 
 const userSubject = new BehaviorSubject(userState);

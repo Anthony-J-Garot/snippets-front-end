@@ -34,9 +34,11 @@ export const getAuthToken = (origin?: string): string => {
 };
 
 export const clearAuthToken = (): void => {
-  localStorage.clear();
-  // setAuthToken('');
-  console.log('localStorage token was cleared');
+  if (isBrowser()) {
+    localStorage.clear();
+    // setAuthToken('');
+    console.log('localStorage token was cleared');
+  }
 };
 
 export const setAuthToken = (authToken: string): void => {

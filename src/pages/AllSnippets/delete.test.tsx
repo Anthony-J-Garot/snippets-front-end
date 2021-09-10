@@ -18,10 +18,6 @@ import { TGqlData } from '../../types';
  * $ ./run_regulartests.sh src/pages/AllSnippets/delete.test.tsx
  */
 
-/*
- * Each mock object defines a request field (indicating the shape and variables of the operation to
- * match against) and a result field (indicating the shape of the response to return for that operation).
- */
 let deleteMutationCalled = false;
 let refetchCalled = false;
 const mocks: readonly MockedResponse[] = [

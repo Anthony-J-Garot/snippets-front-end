@@ -36,7 +36,7 @@ if (isBrowser()) {
       connectionParams: {
         // The assumption is that we pass the authToken got from JWT through
         // the WebSocket, which passes through the payload to the consumer,
-        // e.g. MyGraphqlWsConsumer in my Django back end.
+        // e.g. MyGraphqlWsConsumer in my Django back-end.
         authToken: getAuthToken('WebSocket')
       },
     },

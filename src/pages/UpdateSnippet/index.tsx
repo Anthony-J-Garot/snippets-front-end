@@ -6,7 +6,7 @@ import {ALL_SNIPPETS_QUERY} from '../AllSnippets';
 import SnippetFormFields from '../../SnippetFormFields';
 import noticesStore from '../../Observables/noticesStore';
 import {RouteComponentProps} from 'react-router-dom';
-import {now} from "./mockFixtures";
+import {now} from './mockFixtures';
 
 export interface IUpdateProps extends RouteComponentProps {
   snippetId: string,

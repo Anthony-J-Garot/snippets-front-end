@@ -96,7 +96,7 @@ This was my first attempt at authentication, which works well
 enough on the server (API) side, but didn't lend well to this
 React front-end. I left the pages around for instructional 
 purposes. By that I mean that the mutation worked, the user 
-logged-in to the back end, but the front-end just had no idea
+logged-in to the back-end, but the front-end just had no idea
 what was going on.
 
 ## authToken through JWT

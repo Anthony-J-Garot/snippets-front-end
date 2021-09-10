@@ -20,7 +20,7 @@ const initialState: IFormState = {
 /*
  * Signon or Login component
  * This uses JWT, which means a token is passed back and forth such
- * that security information is available on the React front end.
+ * that security information is available on the React front-end.
  */
 export const Signon = (): ReactElement => {
 
@@ -38,20 +38,20 @@ export const Signon = (): ReactElement => {
     onCompleted: (data) => {
       console.log('onCompleted (tokenAuth)', data);
       if (data.tokenAuth.token) {
-        // Capture token for the front end. Set this before Observables.
+        // Capture token for the front-end. Set this before Observables.
         setAuthToken(data.tokenAuth.token);
         noticesStore.setNotice({notice: 'SUCCESS: You have been signed on'});
         userStore.setUser({username: formState.username});
       } else {
-        clearAuthToken(); // Clear the front end token
+        clearAuthToken(); // Clear the front-end token
         noticesStore.setNotice({notice: 'FAILED: You failed to sign on'});
-        userStore.setUser({username: ANONYMOUS_USER});
+        userStore.setUser(ANONYMOUS_USER);
       }
     },
     onError: (error) => {
       console.log('MUTATION Error: ', error);
       noticesStore.setNotice({notice: '' + error});
-      userStore.setUser({username: ANONYMOUS_USER});
+      userStore.setUser(ANONYMOUS_USER);
     },
   });
 

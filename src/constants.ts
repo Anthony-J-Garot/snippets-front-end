@@ -3,4 +3,4 @@
  * Immutable constants
  */
 
-export const ANONYMOUS_USER = 'AnonymousUser';
+export const ANONYMOUS_USER = {username: 'AnonymousUser'};

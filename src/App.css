@@ -47,21 +47,42 @@ div.App div.row {
 }
 
 div.App div.left {
-    flex: 20%;
+    flex: 18%;
 }
 
 div.App div.right {
-    flex: 80%;
+    flex: 82%;
     padding-left: 10px;
 }
 
 div.App div.navbar {
     background-color: #3488bc;
     display: flow-root;
-    height: 400px;
+    height: 480px;
+
+    font-size: large;
+    text-align: left;
+}
+div.App div.navbar p {
+    margin-left: 40px;
 }
 
 div.App div.navbar a {
     color: white;
-    font-size: large;
+}
+
+div.App div.navbar p.navbar-header {
+    font-weight: bold;
+    margin-left: 20px;
+}
+
+div.App span.username-label {
+    font-weight: bold;
+    color: white;
+    font-size: medium;
+}
+
+div.App span.username {
+    color: white;
+    font-size: medium;
 }

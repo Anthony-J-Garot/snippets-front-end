@@ -12,11 +12,9 @@ code {
     monospace;
 }
 
-.username-label {
-    font-weight: bold;
-    color: white;
-}
-
-.username {
-    color: white;
+hr {
+    width: 90%;
+    border: 0;
+    height: 1px;
+    background-color: #003366;
 }

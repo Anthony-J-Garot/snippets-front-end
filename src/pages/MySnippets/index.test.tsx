@@ -3,7 +3,7 @@ import TestRenderer, {ReactTestInstance} from 'react-test-renderer';
 import {MockedProvider, MockedResponse} from '@apollo/client/testing';
 import MySnippets, {LIMITED_SNIPPETS_QUERY} from './index';
 import {StaticRouter} from 'react-router-dom';
-import {newDataMySnippets} from './mockFixtures';
+import {newDataMySnippetsAuthenticatedUser} from './mockFixtures';
 import {promiseTimeout} from '../../utils';
 import { TGqlData } from '../../types';
 
@@ -25,7 +25,7 @@ const mocks: readonly MockedResponse[] = [
       // . . . arbitrary logic . . .
       console.log('mock newData 0 fired');
 
-      return newDataMySnippets();
+      return newDataMySnippetsAuthenticatedUser;
     },
   },
 ];

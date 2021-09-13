@@ -1,11 +1,15 @@
 import React from 'react';
 import TestRenderer, {ReactTestInstance} from 'react-test-renderer';
-import {MockedProvider, MockedResponse} from '@apollo/client/testing';
-import User, {TOKEN_AUTH_MUTATION} from './Signon';
+import {MockedProvider} from '@apollo/client/testing';
+import User from './Signon';
 import {StaticRouter} from 'react-router-dom';
-import {mockSignonInputVariables, newDataSignon} from '../../../specs/step-definitions/MySnippets.mock';
 import {promiseTimeout} from '../../utils';
-import {TGqlData} from '../../types';
+import {
+  mocksAuthenticatedUser,
+  loginMutationCalled,
+  authenticatedUsername,
+  authenticatedPassword
+} from '../../../specs/step-definitions/MySnippets.mock';
 
 /*
  * For standard (non Gherkin) unit tests, the jest framework works well enough.
@@ -14,25 +18,6 @@ import {TGqlData} from '../../types';
  * To run just the tests in this file:
  * $ ./run_regulartests.sh src/pages/User/Signon.test.tsx
  */
-
-let loginMutationCalled = false;
-const mocks: readonly MockedResponse[] = [
-  // The mock for the authToken authentication step
-  {
-    request: {
-      query: TOKEN_AUTH_MUTATION,
-      variables: mockSignonInputVariables,
-    },
-    // newData: totally overrides result:
-    newData: (): TGqlData => {
-      // . . . arbitrary logic . . .
-      console.log('mock newData 0: fired');
-
-      loginMutationCalled = true;
-      return newDataSignon;
-    },
-  },
-];
 
 /*
  * Need <BrowseRouter> because of embedded <Link>s.
@@ -61,7 +46,7 @@ it('renders without error', () => {
 it('should create snippet', async () => {
   const testRenderer = TestRenderer.create(
     <StaticRouter>
-      <MockedProvider mocks={mocks} addTypename={false}>
+      <MockedProvider mocks={mocksAuthenticatedUser} addTypename={false}>
         <User />
       </MockedProvider>,
     </StaticRouter>
@@ -77,8 +62,8 @@ it('should create snippet', async () => {
   // Updates should fire off the setFormState event.
   // I must specify each FormEvent object that is expected
   // in SnippetFormFields.tsx, e.g. e.target.value
-  const expectedUsername = mockSignonInputVariables.username;
-  const expectedPassword = mockSignonInputVariables.password;
+  const expectedUsername = authenticatedUsername;
+  const expectedPassword = authenticatedPassword;
   await TestRenderer.act(async () => {
     usernameField.props.onChange({target: {value: expectedUsername}});
   });

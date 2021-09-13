@@ -5,10 +5,16 @@ import {loadFeature, defineFeature} from 'jest-cucumber';
 import {MockedProvider} from '@apollo/client/testing';
 import {noop, promiseTimeout} from '../../src/utils';
 import MySnippets from '../../src/pages/MySnippets';
-import {loginMutationCalled, mocks} from './MySnippets.mock';
 import Notice from '../../src/Notice';
 import User from '../../src/pages/User/Signon';
-import {mockSignonInputVariables} from './MySnippets.mock';
+import {signOffUser} from '../../src/pages/User/signoff';
+import {
+  loginMutationCalled,
+  authenticatedUsername,
+  authenticatedPassword,
+  mocksAuthenticatedUser,
+  mocksAnonymousUser
+} from './MySnippets.mock';
 
 /*
  * This page follows the basic outline from the jest-cucumber documentation
@@ -33,15 +39,43 @@ defineFeature(feature, (test) => {
 
   test('Show All Public Snippets to AnonymousUser', ({given, when, then}) => {
     given('an unauthenticated user, Jane Doe', () => {
-      noop('GIVEN: TODO');
+      // For this step, trigger the logout function.
+      // Technically this doesn't have to be done with mock data, but this allows
+      // testing of logout.
+      signOffUser();
     });
 
-    when('Jane views the list of My Snippets', () => {
-      noop('WHEN: TODO');
+    when('Jane views the list of My Snippets', async () => {
+      testRenderer = TestRenderer.create(
+        <StaticRouter>
+          <Notice />
+          <MockedProvider mocks={mocksAnonymousUser} addTypename={false}>
+            <MySnippets />
+          </MockedProvider>,
+        </StaticRouter>
+      );
+
+      // Ensure the relevant components rendered on the Creation page
+      testInstance = (testRenderer as { root: ReactTestInstance }).root;
+      //console.log('testInstance', testInstance);
+
+      const mySnippets = testInstance.findByType(MySnippets);
+      expect(mySnippets).toBeDefined();
+      const notice = testInstance.findByType(Notice);
+      expect(notice).toBeDefined();
+
+      // Allow the mutation to fire
+      await TestRenderer.act(async () => {
+        await new Promise(resolve => promiseTimeout(resolve));
+      });
+
     });
 
     then('she sees only public snippets', () => {
-      noop('THEN: TODO');
+      // At present, private is shown with a green checkbox, and public is simply an
+      // empty <div></div> cell.
+      const isPrivate = testInstance.findAllByProps({className: 'col5'});
+      isPrivate.forEach((cell) => expect(cell.props.children).toBe(''));
     });
   });
 
@@ -50,7 +84,7 @@ defineFeature(feature, (test) => {
     given('that John Smith has logged on', async () => {
       const testRenderer = TestRenderer.create(
         <StaticRouter>
-          <MockedProvider mocks={mocks} addTypename={false}>
+          <MockedProvider mocks={mocksAuthenticatedUser} addTypename={false}>
             <User />
           </MockedProvider>,
         </StaticRouter>
@@ -66,8 +100,8 @@ defineFeature(feature, (test) => {
       // Updates should fire off the setFormState event.
       // I must specify each FormEvent object that is expected
       // in SnippetFormFields.tsx, e.g. e.target.value
-      const expectedUsername = mockSignonInputVariables.username;
-      const expectedPassword = mockSignonInputVariables.password;
+      const expectedUsername = authenticatedUsername;
+      const expectedPassword = authenticatedPassword;
       await TestRenderer.act(async () => {
         usernameField.props.onChange({target: {value: expectedUsername}});
       });
@@ -99,7 +133,7 @@ defineFeature(feature, (test) => {
       testRenderer = TestRenderer.create(
         <StaticRouter>
           <Notice />
-          <MockedProvider mocks={mocks} addTypename={false}>
+          <MockedProvider mocks={mocksAuthenticatedUser} addTypename={false}>
             <MySnippets />
           </MockedProvider>,
         </StaticRouter>
@@ -121,24 +155,37 @@ defineFeature(feature, (test) => {
 
     });
 
+    let privateCount = 0;
+    let ownerCount = 0;
     then('he sees all PUBLIC snippets', () => {
-      // When using findByProps or findAllByProps, be sure to use the React name,
-      // not the HTML name. So use className instead of class, even though in the
-      // DOM it's class.
-      const titles = testInstance.findAllByProps({className: 'col2'});
-      const title_2 = titles[1].children;
+      // At present, private is shown with a green checkbox, and public is simply an
+      // empty <div></div> cell.
+      const owner = testInstance.findAllByProps({className: 'col4'});
+      const isPrivate = testInstance.findAllByProps({className: 'col5'});
+      isPrivate.forEach((cell, index) => {
+        if (cell.props.children !== '') {
+          // It's a private cell. It should then be owned by this user.
+          expect(owner[index].props.children).toBe(authenticatedUsername);
+        } else {
+          privateCount++;
+        }
+        if(owner[index].props.children === authenticatedUsername) {
+          ownerCount++;
+        }
+      });
 
-      // toContain() can be used even though the array contains only one entry.
-      // https://jestjs.io/docs/expect#tocontainitem
-      expect(title_2).toContain('Chick Corea Elektric Band');
+      // These are fixed constants based upon the fixture data
+      expect(privateCount).toBe(4);
+      expect(ownerCount).toBe(3);
     });
 
     and('he sees all of the snippets that he authored', () => {
-      noop('AND: TODO');
+      expect(ownerCount).toBe(3);
     });
 
     but('he does not see any PRIVATE snippets that he did not author', () => {
-      noop('BUT: TODO');
+      // This was covered in the then() step.
+      noop();
     });
   });
 });

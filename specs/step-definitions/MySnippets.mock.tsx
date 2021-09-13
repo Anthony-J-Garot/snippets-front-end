@@ -2,22 +2,29 @@ import {MockedResponse} from '@apollo/client/testing';
 import {TGqlData} from '../../src/types';
 import {TOKEN_AUTH_MUTATION} from '../../src/pages/User/Signon';
 import {LIMITED_SNIPPETS_QUERY} from '../../src/pages/MySnippets';
-import {newDataMySnippets} from '../../src/pages/MySnippets/mockFixtures';
+import {
+  newDataMySnippetsAnonymousUser,
+  newDataMySnippetsAuthenticatedUser
+} from '../../src/pages/MySnippets/mockFixtures';
 
-export const mockSignonInputVariables = (
+export const authenticatedUsername = 'john.smith';
+export const authenticatedPassword = 'withscores4!';
+
+const mockAuthenticatedUserVariables = (
   {
-    'username': 'john.smith',
-    'password': 'withscores4!'
+    'username': authenticatedUsername,
+    'password': authenticatedPassword
   }
 );
 
-export const newDataSignon = (
+// Using JWT tokenAuth
+const newDataTokenAuthResponse = (
   {
     'data': {
       'tokenAuth': {
         'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImpvaG4uc21pdGgiLCJleHAiOjE2MzA1MjA5MTUsIm9yaWdJYXQiOjE2MzA1MjA2MTV9.y_mwXKOZj2yh73GeeuXi1lZzElIl3dketbfZ-3bmpxc',
         'payload': {
-          'username': 'john.smith',
+          'username': authenticatedUsername,
           'exp': 1630520915,
           'origIat': 1630520615
         },
@@ -35,12 +42,12 @@ export const newDataSignon = (
  *    newData() supplies the shape of the response that is expected
  */
 export let loginMutationCalled = false;
-export const mocks: readonly MockedResponse[] = [
+export const mocksAuthenticatedUser: readonly MockedResponse[] = [
   // The mock for the authToken authentication step
   {
     request: {
       query: TOKEN_AUTH_MUTATION,
-      variables: mockSignonInputVariables,
+      variables: mockAuthenticatedUserVariables,
     },
     // newData: totally overrides result:
     newData: (): TGqlData => {
@@ -48,7 +55,7 @@ export const mocks: readonly MockedResponse[] = [
       console.log('mock newData 0: fired');
 
       loginMutationCalled = true;
-      return newDataSignon;
+      return newDataTokenAuthResponse;
     },
   },
   // Return the limited list of things
@@ -61,7 +68,24 @@ export const mocks: readonly MockedResponse[] = [
       // . . . arbitrary logic . . .
       console.log('mock newData 1 fired');
 
-      return newDataMySnippets();
+      return newDataMySnippetsAuthenticatedUser;
+    },
+  },
+];
+
+loginMutationCalled = false;
+export const mocksAnonymousUser: readonly MockedResponse[] = [
+  // Return the limited list of things
+  {
+    request: {
+      query: LIMITED_SNIPPETS_QUERY,
+      variables: {},
+    },
+    newData: () : TGqlData => {
+      // . . . arbitrary logic . . .
+      console.log('mock newData 1 fired');
+
+      return newDataMySnippetsAnonymousUser;
     },
   },
 ];

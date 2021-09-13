@@ -8,7 +8,8 @@ Feature: Show Snippets
   An authenticated user to see their own records as well as all public records.
   The AnonymousUser to see only public records.
 
-  @excluded
+  @included
+  @anonymous-user
   Scenario: Show All Public Snippets to AnonymousUser
 
   Anonymous, or public, users are also known as non-authenticated users.
@@ -20,6 +21,7 @@ Feature: Show Snippets
     Then she sees only public snippets
 
   @included
+  @authenticated-user
   Scenario: Show All Owner Specific Snippets + Public Snippets to Authenticated User
 
   An authenticated user has signed on to a registered account. They can

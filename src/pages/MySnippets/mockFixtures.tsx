@@ -1,4 +1,50 @@
-export const newDataMySnippets = () => (
+/*
+ * Contains fixture data for Authenticated and Anonymous Users.
+ */
+
+export const newDataMySnippetsAnonymousUser = (
+  {
+    'data': {
+      'limitedSnippets': [
+        {
+          'id': '3',
+          'title': 'Chick Corea Elektric Band',
+          'bodyPreview': 'Chick Corea on the keyboards',
+          'owner': 'admin',
+          'isPrivate': false,
+          '__typename': 'SnippetType'
+        },
+        {
+          'id': '4',
+          'title': 'Musical Item #4',
+          'bodyPreview': 'Herbie Hancock',
+          'owner': 'john.smith',
+          'isPrivate': false,
+          '__typename': 'SnippetType'
+        },
+        {
+          'id': '7',
+          'title': 'Miles Davis',
+          'bodyPreview': 'A Kind of Blue',
+          'owner': 'admin',
+          'isPrivate': false,
+          '__typename': 'SnippetType'
+        },
+        {
+          'id': '9',
+          'title': 'Blue Oyster Cult',
+          'bodyPreview': 'Needs more cowbell\n...\n',
+          'owner': 'Rudi the Rottweiler',
+          'isPrivate': false,
+          '__typename': 'SnippetType'
+        }
+      ],
+      '__typename': 'Query'
+    } as const
+  }
+);
+
+export const newDataMySnippetsAuthenticatedUser = (
   {
     'data': {
       'limitedSnippets': [

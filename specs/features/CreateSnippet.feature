@@ -12,6 +12,7 @@ Feature: Create Snippet
   [Remember: Try to make your specifications as concrete as possible, and
   don't write about buttons, forms, links, and input fields when possible.]
 
+  @included
   Scenario Outline: Successful creation of snippet
 
   Outline brief:
@@ -24,7 +25,6 @@ Feature: Create Snippet
   be set by the author upon creation and edit. The owner field is set to whomever
   created the snippet."
 
-    @included
     Given Authorized user John Smith wishes to add a new snippet
     When John supplies an appropriate <title>, <body>, and chooses a <privacy> option
     Then the new snippet persists

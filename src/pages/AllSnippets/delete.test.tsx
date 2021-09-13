@@ -26,7 +26,7 @@ const mocks: readonly MockedResponse[] = [
     },
     newData: () : TGqlData => {
       // . . . arbitrary logic . . .
-      console.log('newData 0 fired');
+      console.log('mock newData 0 fired');
 
       // First time through is to load page data.
       // Only set refetchCalled after the delete occurred.
@@ -43,7 +43,7 @@ const mocks: readonly MockedResponse[] = [
     },
     newData: () : TGqlData => {
       // . . . arbitrary logic . . .
-      console.log('newData 1 fired');
+      console.log('mock newData 1 fired');
 
       deleteMutationCalled = true;
       return newDataDeleteSnippet();

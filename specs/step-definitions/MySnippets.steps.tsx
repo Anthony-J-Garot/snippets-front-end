@@ -17,15 +17,18 @@ import {mockSignonInputVariables} from './MySnippets.mock';
  * $ ./run_specifications.sh specs/step-definitions/MySnippets.steps.tsx
  */
 
-// This is relative to <docroot>
-const feature = loadFeature('specs/features/MySnippets.feature');
+const feature = loadFeature('../features/MySnippets.feature',
+  {
+    tagFilter: '@included and not @excluded',
+    loadRelativePath: true
+  });
 
 defineFeature(feature, (test) => {
   let testRenderer = {};
   let testInstance: ReactTestInstance = (testRenderer as { root: ReactTestInstance }).root;
 
   beforeEach(() => {
-    noop('beforeEach()');
+    noop();
   });
 
   test('Show All Public Snippets to AnonymousUser', ({given, when, then}) => {

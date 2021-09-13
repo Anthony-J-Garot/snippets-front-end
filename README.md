@@ -162,3 +162,8 @@ weren’t pretty.
 
 I didn't dig into the jest-cucumber source code, though. This is
 as far as I wanted to take this.
+
+# Possible Improvements
+
+* For now there are options specified in each call to loadFeature().  These could be moved to a [global configuration](https://github.com/bencompton/jest-cucumber/blob/master/docs/AdditionalConfiguration.md) file.
+* 

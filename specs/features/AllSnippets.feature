@@ -9,6 +9,7 @@ Feature: Show Snippets
   with the ability to delete and edit, is a useful tool for coding
   authenticated pages.
 
+  @included
   Scenario: Show All Public Snippets Regardless of User
 
   Django has a built-in user called AnonymousUser for an un-authenticated

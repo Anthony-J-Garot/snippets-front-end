@@ -6,7 +6,7 @@ import {newDataMySnippets} from '../../src/pages/MySnippets/mockFixtures';
 
 export const mockSignonInputVariables = (
   {
-    'username': 'admin',
+    'username': 'john.smith',
     'password': 'withscores4!'
   }
 );
@@ -59,7 +59,7 @@ export const mocks: readonly MockedResponse[] = [
     },
     newData: () : TGqlData => {
       // . . . arbitrary logic . . .
-      console.log('newData 0 fired');
+      console.log('mock newData 1 fired');
 
       return newDataMySnippets();
     },

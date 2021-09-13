@@ -16,15 +16,18 @@ import {signOffUser} from '../../src/pages/User/signoff';
  * $ ./run_specifications.sh specs/step-definitions/AllSnippets.steps.tsx
  */
 
-// This is relative to <docroot>
-const feature = loadFeature('specs/features/AllSnippets.feature');
+const feature = loadFeature('../features/AllSnippets.feature',
+  {
+    tagFilter: '@included and not @excluded',
+    loadRelativePath: true
+  });
 
 defineFeature(feature, (test) => {
   let testRenderer = {};
   let testInstance: ReactTestInstance = (testRenderer as { root: ReactTestInstance }).root;
 
   beforeEach(() => {
-    noop('beforeEach()');
+    noop();
   });
 
   test('Show All Public Snippets Regardless of User', ({given, when, then}) => {

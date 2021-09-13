@@ -23,8 +23,11 @@ import SubscribeSnippet, {transactions} from '../../src/pages/SubscribeSnippet';
  * $ ./run_specifications.sh specs/step-definitions/CreateSnippet.steps.tsx
  */
 
-// This is relative to <docroot>
-const feature = loadFeature('specs/features/CreateSnippet.feature');
+const feature = loadFeature('../features/CreateSnippet.feature',
+  {
+    tagFilter: '@included and not @excluded',
+    loadRelativePath: true
+  });
 
 defineFeature(feature, (test) => {
 
@@ -66,7 +69,7 @@ defineFeature(feature, (test) => {
 
 
   beforeEach(() => {
-    noop('beforeEach()');
+    noop();
   });
 
   // Note that I had to add "and" callback

@@ -69,7 +69,7 @@ export const mocks: readonly MockedResponse[] = [
     },
     newData: (): TGqlData => {
       // . . . arbitrary logic . . .
-      console.log('newData 0 fired');
+      console.log('mock newData 0 fired');
 
       return newDataLogout();
     },
@@ -82,7 +82,7 @@ export const mocks: readonly MockedResponse[] = [
     },
     newData: (): TGqlData => {
       // . . . arbitrary logic . . .
-      console.log('newData 1 fired');
+      console.log('mock newData 1 fired');
 
       return newDataAllSnippets();
     },

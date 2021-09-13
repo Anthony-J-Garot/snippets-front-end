@@ -24,6 +24,7 @@ Feature: Create Snippet
   be set by the author upon creation and edit. The owner field is set to whomever
   created the snippet."
 
+    @included
     Given Authorized user John Smith wishes to add a new snippet
     When John supplies an appropriate <title>, <body>, and chooses a <privacy> option
     Then the new snippet persists

@@ -1,7 +1,16 @@
 import {MockedResponse} from '@apollo/client/testing';
 import {TGqlData} from '../../src/types';
 import {ALL_SNIPPETS_QUERY} from '../../src/pages/AllSnippets';
-import {LOGIN_MUTATION} from '../../src/pages/User/SignonTokenless';
+import {gql} from '@apollo/client';
+
+// Export for the unit test
+export const LOGIN_MUTATION = gql`
+mutation mutLogin($input: LoginInput!) {
+  login(input: $input) {
+    ok
+  }
+}
+`;
 
 const newDataLogout = () => (
   {

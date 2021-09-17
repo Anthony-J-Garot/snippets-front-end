@@ -5,17 +5,19 @@ export interface IFormState {
   title: string,
   body: string,
   private: boolean,
-  owner: string
+  user: number
 }
 
 const SnippetFormFields = (formState: IFormState, setFormState: (arg0: IFormState) => void): ReactElement => {
 
-  // The username comes from the userstore. If not authenticated, it will be 'AnonymousUser'.
-  const authenticatedUser = userStore.getUser();
-  if (formState.owner != authenticatedUser) {
+  // The userID doesn't really matter because the back-end will set
+  // a snippet's owner to the authenticated user. Maybe if I do something
+  // with admin functions I will change this.
+  const userID = userStore.getUserId();
+  if (formState.user != userID) {
     setFormState({
       ...formState,
-      owner: authenticatedUser
+      user: userID
     });
   }
 

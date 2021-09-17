@@ -34,7 +34,7 @@ export const newDataMySnippetsAnonymousUser = (
           'id': '9',
           'title': 'Blue Oyster Cult',
           'bodyPreview': 'Needs more cowbell\n...\n',
-          'owner': 'Rudi the Rottweiler',
+          'owner': null,
           'isPrivate': false,
           '__typename': 'SnippetType'
         }
@@ -84,7 +84,7 @@ export const newDataMySnippetsAuthenticatedUser = (
           'id': '9',
           'title': 'Blue Oyster Cult',
           'bodyPreview': 'Needs more cowbell\n...\n',
-          'owner': 'Rudi the Rottweiler',
+          'owner': null,
           'isPrivate': false,
           '__typename': 'SnippetType'
         },

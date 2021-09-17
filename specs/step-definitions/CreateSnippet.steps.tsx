@@ -80,7 +80,7 @@ defineFeature(feature, (test) => {
 
     given('Authorized user John Smith wishes to add a new snippet', () => {
       // This essentially logs in the user John Smith
-      userStore.setUser({username: 'john.smith'});
+      userStore.setUser({id:2, username: 'john.smith'});
     });
 
     when(

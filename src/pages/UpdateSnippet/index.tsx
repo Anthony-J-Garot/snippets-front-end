@@ -70,7 +70,7 @@ const UpdateSnippet: React.FC<IUpdateProps> = (UpdateProps :IUpdateProps): React
     title: 'Loading . . . ',
     body: 'Loading . . . ',
     private: true,
-    owner: 'AnonymousUser'
+    user: 1
   });
 
   // The useMutation hook passes the state into the mutation

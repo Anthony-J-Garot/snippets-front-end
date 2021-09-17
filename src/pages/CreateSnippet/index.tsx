@@ -11,7 +11,7 @@ const initialState: IFormState = {
   title: '',
   body: '',
   private: true,
-  owner: 'AnonymousUser'
+  user: 1
 };
 
 /*
@@ -32,7 +32,7 @@ const CreateSnippet = (): ReactElement => {
         title: formState.title,
         body: formState.body,
         private: formState.private,
-        owner: formState.owner
+        user: formState.user
       }
     },
     context: {
@@ -86,7 +86,7 @@ mutation mutCreateSnippet($input: FormCreateSnippetMutationInput!) {
       title
       body
       private
-      owner
+      user { id, username, email }
     }
     ok
   }

@@ -4,7 +4,7 @@ import noticesStore from '../../Observables/noticesStore';
 import {noop} from '../../utils';
 import './index.css';
 import userStore from '../../Observables/userStore';
-import {ANONYMOUS_USER} from '../../constants';
+import {PUBLIC_USER} from '../../constants';
 import {clearAuthToken, setAuthToken} from '../../authentication';
 
 export interface IFormState {
@@ -41,17 +41,17 @@ export const Signon = (): ReactElement => {
         // Capture token for the front-end. Set this before Observables.
         setAuthToken(data.tokenAuth.token);
         noticesStore.setNotice({notice: 'SUCCESS: You have been signed on'});
-        userStore.setUser({username: formState.username});
+        userStore.setUser({id: data.tokenAuth.payload.user_id, username: formState.username});
       } else {
         clearAuthToken(); // Clear the front-end token
         noticesStore.setNotice({notice: 'FAILED: You failed to sign on'});
-        userStore.setUser(ANONYMOUS_USER);
+        userStore.setUser(PUBLIC_USER);
       }
     },
     onError: (error) => {
       console.log('MUTATION Error: ', error);
       noticesStore.setNotice({notice: '' + error});
-      userStore.setUser(ANONYMOUS_USER);
+      userStore.setUser(PUBLIC_USER);
     },
   });
 

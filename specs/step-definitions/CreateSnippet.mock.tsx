@@ -12,7 +12,7 @@ const mockCreateInputVariables = [
       'title': 'Before the Dawn',
       'body': 'He awoke before the dawn',
       'private': 'true',
-      'owner': 'john.smith'
+      'user': 2
     }
   },
   {
@@ -20,7 +20,7 @@ const mockCreateInputVariables = [
       'title': 'Watch the sun rise',
       'body': 'At the bottom of the sea',
       'private': 'false',
-      'owner': 'john.smith'
+      'user': 2
     }
   }
 ];
@@ -34,7 +34,12 @@ const newDataCreateSnippet = [
           'title': 'Before the Dawn',
           'body': 'He awoke before the dawn',
           'private': 'true',
-          'owner': 'john.smith'
+          'owner': 'john.smith',
+          'user': {
+            'id': 2,
+            'username': 'john.smith',
+            'email': 'admin@admin.com'
+          }
         },
         'ok': true
       }
@@ -48,7 +53,12 @@ const newDataCreateSnippet = [
           'title': 'Watch the sun rise',
           'body': 'At the bottom of the sea',
           'private': 'false',
-          'owner': 'john.smith'
+          'owner': 'john.smith',
+          'user': {
+            'id': 2,
+            'username': 'john.smith',
+            'email': 'admin@admin.com'
+          }
         },
         'ok': true
       }

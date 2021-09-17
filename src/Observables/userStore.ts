@@ -1,6 +1,6 @@
 import {Dispatch, SetStateAction} from 'react';
 import {BehaviorSubject} from 'rxjs';
-import {ANONYMOUS_USER} from '../constants';
+import {PUBLIC_USER} from '../constants';
 
 /*
  * This observable is used to update the username in the NavBar when the
@@ -9,11 +9,12 @@ import {ANONYMOUS_USER} from '../constants';
 
 // Any message to the user, or "username," is simply a string
 export interface IUserState {
+  id: number,
   username: string
 }
 
 // Blank username to start
-const initialState: IUserState = ANONYMOUS_USER as IUserState;
+const initialState: IUserState = Object.assign({}, PUBLIC_USER) as IUserState;
 const userState: IUserState = initialState;
 
 const userSubject = new BehaviorSubject(userState);
@@ -26,20 +27,28 @@ const userStore = {
           ...prevState,
           username: userState.username
         }));
+        setState((prevState: IUserState) => ({
+          ...prevState,
+          id: userState.id
+        }));
       }
     };
     userSubject.subscribe(observer);
   },
   initialState: initialState,
   // Setter
-  setUser: (username: IUserState): void => {
-    console.log('userStore.setUser() . . . ', username);
-    userState.username = username.username;
+  setUser: (newUserDetails: IUserState): void => {
+    console.log('userStore.setUser() . . . ', newUserDetails);
+    userState.id = newUserDetails.id;
+    userState.username = newUserDetails.username;
     userSubject.next(userState);
   },
-  // Getter
-  getUser: (): string => {
+  // Getters
+  getUsername: (): string => {
     return userState.username;
+  },
+  getUserId: (): number => {
+    return userState.id;
   }
 };
 

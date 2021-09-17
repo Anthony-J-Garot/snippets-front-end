@@ -2,7 +2,7 @@ import {gql} from '@apollo/client';
 import client from '../../ApolloClient';
 import userStore from '../../Observables/userStore';
 import {clearAuthToken} from '../../authentication';
-import {ANONYMOUS_USER} from '../../constants';
+import {PUBLIC_USER} from '../../constants';
 
 const LOGOUT_MUTATION = gql`
 mutation mutLogout {
@@ -15,13 +15,14 @@ mutation mutLogout {
 // Logs off the a user on the front-end and back-end
 export const signOffUser = (): void => {
   clearAuthToken(); // Always clear localStorage first
-  userStore.setUser(ANONYMOUS_USER);  // Clear the username (set to AnonymousUser)
+  userStore.setUser(PUBLIC_USER);  // Clear the username (set to AnonymousUser)
   // Not sure why both of these are necessary
   client.cache.reset(); // Clear cache but doesn't fetch all active queries
   client.clearStore(); // Reset the InMemoryCache and re-poll
 
-  client.mutate({
-    mutation: LOGOUT_MUTATION,
-    variables: {}
-  });
+  // TODO Must create API code for this
+  // client.mutate({
+  //   mutation: LOGOUT_MUTATION,
+  //   variables: {}
+  // });
 };

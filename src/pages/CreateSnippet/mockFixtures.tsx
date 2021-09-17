@@ -4,7 +4,7 @@ export const mockCreateInputVariables = {
     'title': 'Godzilla',
     'body': 'With a purposeful grimace and a terrible sound\nHe pulls the spitting high tension wires down',
     'private': false,
-    'owner': 'AnonymousUser'
+    'user': 3
   }
 };
 
@@ -17,7 +17,12 @@ export const newDataCreateSnippet = () => (
           'title': 'Rodan',
           'body': 'This does not actually have to match the inputs above.',
           'private': true,
-          'owner': 'admin'
+          'owner': null,
+          'user': {
+            'id': 3,
+            'username': 'Noop',
+            'email': 'noop@noop.com'
+          }
         },
         'ok': true
       }

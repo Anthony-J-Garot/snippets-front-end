@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import {getAuthToken} from '../../authentication';
 import userStore from '../../Observables/userStore';
 import {signOffUser} from './signoff';
-import {ANONYMOUS_USER} from '../../constants';
+import {PUBLIC_USER} from '../../constants';
 
 
 /*
@@ -12,8 +12,8 @@ import {ANONYMOUS_USER} from '../../constants';
 
 
 // Show the username in the Navbar
-const Username = (username: string): ReactElement => (
-  <p><span className='username-label'>User: </span><span className='username'>{username}</span></p>
+const Username = (username: string, userID: number): ReactElement => (
+  <p><span className='username-label'>User: </span><span className='username'>{username}({userID})</span></p>
 );
 
 /*
@@ -22,14 +22,14 @@ const Username = (username: string): ReactElement => (
 const SignOnOff = (): ReactElement => {
 
   // Set-up the authToken state
-  const [authToken, setAuthToken] = useState(ANONYMOUS_USER.username);
+  const [authToken, setAuthToken] = useState(PUBLIC_USER.username);
 
-  // Set-up the username state
-  const [username, setUsername] = useState(ANONYMOUS_USER);
+  // Set-up the user state for the subscription
+  const [user, setUserDetails] = useState(PUBLIC_USER);
 
   useEffect(() => {
     // Subscribe to the username because that will be the dependency for the next effect
-    userStore.subscribe(setUsername);
+    userStore.subscribe(setUserDetails);
   }, []);
 
   // Next cycle, this gets run. (After the component is rendered.)
@@ -43,20 +43,20 @@ const SignOnOff = (): ReactElement => {
     if (tempToken !== authToken) {
       setAuthToken(tempToken);
     }
-  }, [username]);
+  }, [user]);
 
   // Shows up the second time-through.
   if (authToken !== '') {
     return (
       <div>
-        {Username(username.username)}
+        {Username(user.username, user.id)}
         <p><a href='#' onClick={signOffUser}>Sign off</a></p>
       </div>
     );
   } else {
     return (
       <div>
-        {Username(username.username)}
+        {Username(user.username, user.id)}
         <p><Link to="/user">Sign on</Link></p>
       </div>
     );

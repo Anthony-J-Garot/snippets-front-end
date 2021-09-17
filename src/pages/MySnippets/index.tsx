@@ -47,7 +47,8 @@ const checkMarkIcon = (isPrivate: boolean) => {
  */
 const MySnippets = (): ReactElement => {
 
-  const username = userStore.getUser();
+  const username = userStore.getUsername();
+  const userID = userStore.getUserId();
 
   const {loading, data, refetch} = useQuery(LIMITED_SNIPPETS_QUERY, {
     // fetchPolicy is necessary for refetchQueries to work after creating a new entry.
@@ -109,32 +110,35 @@ const MySnippets = (): ReactElement => {
   }
 
   // This creates all the snippets as an object
-  const limitedThings: ReactElement =
-    data.limitedSnippets.map(({id, title, bodyPreview, owner, isPrivate}: ISnippetMap): ReactElement => {
-      return (
-        <div key={id} className="row">
-          <div className="col1">
-            {id}
+  let limitedThings: ReactElement = (<div>&nbsp;</div>);
+  if (data) {
+    limitedThings = data.limitedSnippets.map(
+      ({id, title, bodyPreview, owner, isPrivate}: ISnippetMap): ReactElement => {
+        return (
+          <div key={id} className="row">
+            <div className="col1">
+              {id}
+            </div>
+            <div className="col2">
+              {title}
+            </div>
+            <div className="col3">
+              {bodyPreview}
+            </div>
+            <div className="col4">
+              {owner}
+            </div>
+            <div className="col5">
+              {checkMarkIcon(isPrivate)}
+            </div>
           </div>
-          <div className="col2">
-            {title}
-          </div>
-          <div className="col3">
-            {bodyPreview}
-          </div>
-          <div className="col4">
-            {owner}
-          </div>
-          <div className="col5">
-            {checkMarkIcon(isPrivate)}
-          </div>
-        </div>
-      );
-    });
+        );
+      });
+  }
 
   return (
     <div>
-      <p className="App-page-title">My [{username}] + Public Snippets List</p>
+      <p className="App-page-title">My [{username}({userID})] + Public Snippets List</p>
       <div id="snippets-list">
         <Headers />
         {limitedThings}

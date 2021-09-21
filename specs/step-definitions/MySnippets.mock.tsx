@@ -6,6 +6,7 @@ import {
   newDataMySnippetsAnonymousUser,
   newDataMySnippetsAuthenticatedUser
 } from '../../src/pages/MySnippets/mockFixtures';
+import {LOGOUT_MUTATION} from '../../src/pages/User/signoff';
 
 export const authenticatedUsername = 'john.smith';
 export const authenticatedPassword = 'withscores4!';
@@ -34,6 +35,17 @@ const newDataTokenAuthResponse = (
   } as const
 );
 
+const newDataLogout = (
+  {
+    'data': {
+      'logout': {
+        'ok': true,
+        'id': '2'
+      }
+    }
+  } as const
+);
+
 /*
  * The mock object defines:
  * request:
@@ -42,6 +54,7 @@ const newDataTokenAuthResponse = (
  *    newData() supplies the shape of the response that is expected
  */
 export let loginMutationCalled = false;
+export let logoutMutationCalled = false;
 export const mocksAuthenticatedUser: readonly MockedResponse[] = [
   // The mock for the authToken authentication step
   {
@@ -69,6 +82,21 @@ export const mocksAuthenticatedUser: readonly MockedResponse[] = [
       console.log('mock newData 1 fired');
 
       return newDataMySnippetsAuthenticatedUser;
+    },
+  },
+  // The mock for logout.
+  {
+    request: {
+      query: LOGOUT_MUTATION,
+      variables: {},
+    },
+    // newData: totally overrides result:
+    newData: (): TGqlData => {
+      // . . . arbitrary logic . . .
+      console.log('mock newData 2: fired');
+
+      logoutMutationCalled = true;
+      return newDataLogout;
     },
   },
 ];

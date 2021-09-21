@@ -4,10 +4,11 @@ import {ApolloProvider} from '@apollo/client';
 import App from './App';
 import client from './ApolloClient';
 import TestRenderer, {ReactTestInstance} from 'react-test-renderer';
+import {promiseTimeout} from './utils';
 
 // $ ./run_regulartests.sh src/App.test.tsx
 // Need some goop around <App /> because of routes
-test('renders App', () => {
+test('renders App', async () => {
   const testRenderer = TestRenderer.create(
     <StaticRouter>
       <ApolloProvider client={client}>
@@ -18,6 +19,11 @@ test('renders App', () => {
 
   const testInstance = (testRenderer as { root: ReactTestInstance }).root;
   // console.log('testInstance', testInstance);
+
+  // Don't really have to trigger anything. Just give time for the mocked data to come in.
+  await TestRenderer.act(async () => {
+    await new Promise(resolve => promiseTimeout(resolve));
+  });
 
   // Make sure the testRenderer rendered
   const app = testInstance.findByType(App);

@@ -43,7 +43,7 @@ it('renders without error', () => {
   expect(submitButton.props.children).toBe('Login');
 });
 
-it('should create snippet', async () => {
+it('should sign-on user', async () => {
   const testRenderer = TestRenderer.create(
     <StaticRouter>
       <MockedProvider mocks={mocksAuthenticatedUser} addTypename={false}>

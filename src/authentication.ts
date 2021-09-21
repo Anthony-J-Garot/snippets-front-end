@@ -1,4 +1,4 @@
-import {isBrowser} from './utils';
+import {localStorage} from './localStorageMock';
 
 /*
  * These routines are roughly slapped together. I wasn't 100% sure where
@@ -21,7 +21,6 @@ export const getAuthToken = (origin?: string): string => {
   // Could also check:
   //   console.log('process.title', process.title);
   //   console.log('process.env.NODE_ENV', process.env.NODE_ENV);
-  if (!isBrowser()) return '';
 
   const authToken = localStorage.getItem('authToken');
   if (!authToken) {
@@ -34,20 +33,16 @@ export const getAuthToken = (origin?: string): string => {
 };
 
 export const clearAuthToken = (): void => {
-  if (isBrowser()) {
-    localStorage.clear();
-    // setAuthToken('');
-    console.log('localStorage token was cleared');
-  }
+  localStorage.clear();
+  // setAuthToken('');
+  console.log('localStorage token was cleared');
 };
 
 export const setAuthToken = (authToken: string): void => {
-  if (isBrowser()) {
-    // I may want to add stuff to the token
-    // localStorage.setItem('authToken', JSON.stringify(authToken));
+  // I may want to add stuff to the token
+  // localStorage.setItem('authToken', JSON.stringify(authToken));
 
-    localStorage.setItem('authToken', authToken);
-  }
+  localStorage.setItem('authToken', authToken);
 };
 
 // This was sort of a placeholder for functionality. It's likely to be deprecated.
@@ -59,4 +54,26 @@ export const generateLocalAuthToken = (): string => {
   // After generating, store it right away.
   setAuthToken(authToken);
   return authToken;
+};
+
+interface IHeaders {
+  headers: Record<string, unknown>
+}
+
+// I separated this out because the headers weren't being updated after the user
+// logged out. Turns out changing the headers wasn't the problem, at least not
+// in my code.
+export const context = (origin: string): IHeaders => {
+  const authToken = getAuthToken(origin);
+
+  // How to pass headers for JWT authentication
+  // https://stackoverflow.com/questions/58073519/
+  return (
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'JWT ' + authToken
+      }
+    }
+  );
 };

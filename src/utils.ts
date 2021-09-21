@@ -3,6 +3,7 @@
  * A wrapper to console.log() can be handy because I could conceivably
  * turn off all logging right here.
  */
+
 type Noop = (msg?: string) => void;
 export const noop: Noop = (msg = ''): void => {
   if (msg) {
@@ -12,19 +13,7 @@ export const noop: Noop = (msg = ''): void => {
 
 export const isBrowser = (): boolean => {
   // console.log('isBrowser: ', process.title);
-
-  if (process.title === 'browser') {
-    return true;
-  } else if (process.title.substring(process.title.length - 4) === 'node') {
-    // node test runner, e.g.
-    // /home/anthony/.nvm/versions/node/v14.17.5/bin/node
-    return false;
-  } else {
-    // For now, give some sort of error. I don't know how reliable
-    // 'browser' is for all possible environments.
-    console.error('Unknown process title; assuming test runner.');
-    return false;
-  }
+  return (typeof window !== 'undefined');
 };
 
 // Timeout for promise to be fulfilled.

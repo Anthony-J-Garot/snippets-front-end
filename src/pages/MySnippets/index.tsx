@@ -1,7 +1,7 @@
 import React, {ReactElement} from 'react';
 import {gql, useQuery, DocumentNode} from '@apollo/client';
 import './index.css';
-import {getAuthToken} from '../../authentication';
+import {context} from '../../authentication';
 import userStore from '../../Observables/userStore';
 
 /*
@@ -54,7 +54,7 @@ const MySnippets = (): ReactElement => {
     // fetchPolicy is necessary for refetchQueries to work after creating a new entry.
     // Using 'network-only' or Sign off won't update.
     fetchPolicy: 'network-only',
-    context: context(),
+    context: context('My Snippets'),
     onCompleted: () => {
       console.log('onCompleted (LIMITED_SNIPPETS_QUERY) fired');
       console.log('data is', data);
@@ -145,24 +145,6 @@ const MySnippets = (): ReactElement => {
       </div>
       <button onClick={handleClick}>Refetch!</button>
     </div>
-  );
-};
-
-// I separated this out because the headers weren't being updated after the user
-// logged out. Turns out changing the headers wasn't the problem, at least not
-// in my code.
-const context = () => {
-  const authToken = getAuthToken('MySnippets');
-
-  // How to pass headers for JWT authentication
-  // https://stackoverflow.com/questions/58073519/
-  return (
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'JWT ' + authToken
-      }
-    }
   );
 };
 
